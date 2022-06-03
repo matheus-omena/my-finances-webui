@@ -1,8 +1,9 @@
-function App() {  
+import { Circle, DotsThreeVertical } from "phosphor-react"
+import Home from "./pages/Home/Home"
+
+function App() {
   return (
-    <div>
-      My Finances
-    </div>
+    <Home />
   )
 }
 

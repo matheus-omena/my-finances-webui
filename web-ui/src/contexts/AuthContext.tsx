@@ -55,6 +55,7 @@ export default function AuthProvider(props: any) {
     }, [accessToken, _svcAuth]);
 
     const Login = (data: LoginModel) => {
+        console.log(data);
         setLoading(true);
         _svcAuth
             .login(data)

@@ -26,53 +26,49 @@ export default function AuthProvider(props: any) {
     const [loadingToken, setLoadingToken] = useState(true);
     const [accessToken, setAccessToken] = useState(localStorage.getItem('@MyFinances:token'));
     const [isLoggedIn, setIsLoggedIn] = useState(!!accessToken);
-    const [user, setUser] = useState<UserModel>();    
+    const [user, setUser] = useState<UserModel>();
 
     useEffect(() => {
         const storagedUser = localStorage.getItem('@MyFinances:user');
         const storagedToken = localStorage.getItem('@MyFinances:token');
 
-        if (storagedToken) {            
+        if (storagedToken) {
             _ApiBase.defaults.headers.common["Authorization"] = `Bearer ${storagedToken}`;
             setLoadingToken(false);
         }
 
         if (storagedUser) {
-            setUser(JSON.parse(storagedUser));            
+            setUser(JSON.parse(storagedUser));
         }
-    }, []);
+    }, [accessToken]);
 
-    useEffect(() => {
-        if (!!accessToken) {
-            _ApiBase.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-            setIsLoggedIn(true);
-
-            localStorage.setItem('@MyFinances:user', JSON.stringify(user));
-            localStorage.setItem('@MyFinances:token', accessToken);
-        } else {
-            setIsLoggedIn(false);
-        }
-    }, [accessToken, _svcAuth]);
-
-    const Login = (data: LoginModel) => {
-        console.log(data);
+    const Login = (data: LoginModel) => {        
         setLoading(true);
         _svcAuth
             .login(data)
-            .then((r) => {
-                setAccessToken(r.data.token)
-                setUser(r.data.user)
+            .then((r) => {                
+                setAccessToken(r.data.token);                
+                localStorage.setItem('@MyFinances:token', r.data.token);
+                _ApiBase.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;                
+
+                setUser(r.data.user);
+                localStorage.setItem('@MyFinances:user', JSON.stringify(r.data.user));                
+
+                setIsLoggedIn(true);
             })
-            .catch((e) => toast.info("Usuário ou senha inválidos"))
+            .catch((e) => {
+                setIsLoggedIn(false);
+                toast.info("Usuário ou senha inválidos");
+            })
             .finally(() => setLoading(false));
     }
 
-    const Logout = () => {        
+    const Logout = () => {
         localStorage.removeItem('@MyFinances:user');
         localStorage.removeItem('@MyFinances:token');
         setIsLoggedIn(false);
-        window.location.href="/";        
-    }    
+        window.location.href = "/";
+    }
 
     return (
         <AuthContext.Provider value={{
@@ -81,12 +77,12 @@ export default function AuthProvider(props: any) {
             Login,
             Logout
         }}>
-            {loading || (loadingToken && accessToken)?
+            {loading || (loadingToken && accessToken) ?
                 <div className="h-screen flex items-center justify-center">
-                    <Spinner message={"Validando informações"} size={50}/>
+                    <Spinner message={"Validando informações"} size={50} />
                 </div> :
                 props.children
-            }            
+            }
         </AuthContext.Provider>
     );
 }

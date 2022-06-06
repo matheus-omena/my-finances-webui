@@ -1,10 +1,11 @@
 import moment from 'moment';
 import "moment/locale/pt-br";
 import { Suspense } from "react";
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import Spinner from "./components/Spinner";
 import AuthProvider from "./contexts/AuthContext";
-import SignIn from "./pages/Authentication/SignIn"
-import Home from "./pages/Home/Home"
+import Routes from './routes';
 
 moment.locale("pt-br");
 
@@ -18,8 +19,8 @@ function App() {
   return (
     <Suspense fallback={fallback}>
       <AuthProvider>
-        {/* <Home /> */}
-        <SignIn />
+        <ToastContainer autoClose={3000} />
+        <Routes />
       </AuthProvider>
     </Suspense>
   );

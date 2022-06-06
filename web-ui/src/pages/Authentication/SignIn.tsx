@@ -24,10 +24,10 @@ export default function SignIn() {
         <div className="h-screen flex justify-center items-center">
             <div className="bg-[rgb(31,31,31)] p-5 rounded-2xl w-full max-w-xs">
                 <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <DefaultInput type="email" name="email" form={form} label="E-mail" placeholder="usuario@email.com" />
-                    <DefaultInput type="password" name="password" form={form} label="Senha" placeholder="*****" />
+                    <DefaultInput type="email" name="email" form={form} label="E-mail" />
+                    <DefaultInput type="password" name="password" form={form} label="Senha" />
 
-                    <button type="submit">Entrar</button>
+                    <button type="submit" className="bg-emerald-600 w-full p-2 rounded-md mt-4 font-bold">Entrar</button>
                 </form>
             </div>
         </div>

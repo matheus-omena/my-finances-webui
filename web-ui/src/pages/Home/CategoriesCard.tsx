@@ -1,6 +1,23 @@
-import { DotsThreeVertical, Circle } from "phosphor-react";
+import { DotsThreeVertical, Circle, CirclesThreePlus, Folders } from "phosphor-react";
+import { useEffect, useMemo, useState } from "react";
+import { CategoryApi } from "../../apis/CategoryApi";
+import Spinner from "../../components/Spinner";
+import { CategoryModel } from "../../models/CategoryModel";
 
 export function CategoriesCard() {
+    const _api = useMemo(() => new CategoryApi(), []);
+    const [loading, setLoading] = useState(false);
+    const [categories, setCategories] = useState<CategoryModel[]>();
+
+    useEffect(() => {
+        setLoading(true);
+        _api
+            .find()
+            .then((r) => setCategories(r.data))
+            .catch((e) => console.log("Erro ao carregar as categorias", e))
+            .finally(() => setLoading(false));
+    }, [_api]);
+
     return (
         <div className="bg-[rgb(31,31,31)] p-5 rounded-2xl">
             {/* Header */}
@@ -15,27 +32,21 @@ export function CategoriesCard() {
                 </button>
             </div>
             {/* Header */}
-            <div className="grid grid-cols-2 gap-3">
-                <div className="flex flex-row items-center gap-2">
-                    <Circle size={15} weight="fill" color="#ff6f69" />
-                    <span className="text-sm font-medium text-[#535353]">Cartões</span>
-                </div>
-
-                <div className="flex flex-row items-center gap-2">
-                    <Circle size={15} weight="fill" color="#ffcc5c" />
-                    <span className="text-sm font-medium text-[#535353]">Casa</span>
-                </div>
-
-                <div className="flex flex-row items-center gap-2">
-                    <Circle size={15} weight="fill" color="#ffeead" />
-                    <span className="text-sm font-medium text-[#535353]">Estudo</span>
-                </div>
-
-                <div className="flex flex-row items-center gap-2">
-                    <Circle size={15} weight="fill" color="#a8e6cf" />
-                    <span className="text-sm font-medium text-[#535353]">Lazer</span>
-                </div>
-            </div>
+            {
+                loading ? <Spinner /> :
+                    <div className="grid grid-cols-2 gap-3">
+                        {
+                            categories?.map((item, idx) => {
+                                return (
+                                    <div key={idx} className="flex flex-row items-center gap-2">                                        
+                                        <Folders size={20} weight="fill" color="#71717a" />
+                                        <span className="text-sm font-medium text-[#535353]">{item.name}</span>
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
+            }
         </div>
     );
 }

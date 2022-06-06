@@ -1,3 +1,5 @@
+import { SignOut } from "phosphor-react";
+import { useAuth } from "../../contexts/AuthContext";
 import { CategoriesCard } from "./CategoriesCard";
 import { ExpensesByGroup } from "./ExpensesByGroup";
 import Insight1 from "./Insight1";
@@ -7,8 +9,15 @@ import { ResponsiblesCard } from "./ResponsiblesCard";
 
 
 export default function Home() {
+    const auth = useAuth();
+
     return (
         <main className="container mx-auto px-5 py-5">  
+            <div className="flex justify-end mb-3">
+                <button onClick={auth.Logout} className="border border-zinc-100 w-10 h-10 rounded-lg flex items-center justify-center">
+                    <SignOut size={20} weight="bold" />
+                </button>
+            </div>
             <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 sm:gap-0 xl:gap-5">
                 <div className="sm:col-span-1 xl:col-span-2 order-2 sm:order-2 md:order-1 lg:order-1 xl:order-1 mb-5">
                     <h1 className="text-2xl font-bold mb-4">Geral</h1>

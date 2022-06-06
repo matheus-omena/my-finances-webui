@@ -22,8 +22,8 @@ export function DefaultInput(props: InputProps) {
             </label>
             <input
                 {...props.form.register(props.name)}
-                className={`bg-transparent rounded-md w-full p-3 text-gray-700 leading-tight border
-                    ${props.form.formState.errors[props.name] ? "border border-red-500" : "border-gray-700"}`}
+                className={`bg-transparent rounded-md w-full p-3 text-gray-700 leading-tight border focus:ring-0
+                    ${props.form.formState.errors[props.name] ? "border-red-500 focus:border-red-500" : "border-gray-700 focus:border-gray-700"}`}
                 type={defaultType}
                 id={props.name}
                 placeholder={props.placeholder}

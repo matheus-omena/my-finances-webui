@@ -18,8 +18,8 @@ function App() {
   return (
     <Suspense fallback={fallback}>
       <AuthProvider>
-        <Home />
-        {/* <SignIn /> */}
+        {/* <Home /> */}
+        <SignIn />
       </AuthProvider>
     </Suspense>
   );

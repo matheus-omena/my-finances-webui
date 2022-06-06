@@ -82,8 +82,8 @@ export default function AuthProvider(props: any) {
             Logout
         }}>
             {loading || (loadingToken && accessToken)?
-                <div className="vh-100 d-flex align-items-center justify-content-center">
-                    <Spinner message={"Validando informações"} size={100}/>
+                <div className="h-screen flex items-center justify-center">
+                    <Spinner message={"Validando informações"} size={50}/>
                 </div> :
                 props.children
             }            

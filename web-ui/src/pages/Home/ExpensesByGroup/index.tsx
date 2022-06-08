@@ -1,9 +1,10 @@
-import { DotsThreeVertical, Circle } from "phosphor-react";
+import { DotsThreeVertical } from "phosphor-react";
+import BackgroundAreaDefault from "../../../components/General/BackgroundAreaDefault";
 import ExpenseGroup from "./ExpenseGroup";
 
 export function ExpensesByGroup() {
     return (
-        <div className="bg-[rgb(31,31,31)] p-5 rounded-2xl">
+        <BackgroundAreaDefault>
             {/* Header */}
             <div className="flex justify-between align-top mb-4">
                 <div className="flex flex-col gap-1">
@@ -25,6 +26,6 @@ export function ExpensesByGroup() {
                 <ExpenseGroup id={""} name={"Cartão NuBank"} value={350} color={"#9333ea"} paymentPercentage={0} />
                 <ExpenseGroup id={""} name={"Cartão C6"} value={3600} color={"#18181b"} paymentPercentage={100} />
             </div>            
-        </div>
+        </BackgroundAreaDefault>
     );
 }

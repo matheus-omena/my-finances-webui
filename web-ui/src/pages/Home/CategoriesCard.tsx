@@ -1,11 +1,13 @@
-import { DotsThreeVertical, Circle, CirclesThreePlus, Folders } from "phosphor-react";
+import { DotsThreeVertical, Folders } from "phosphor-react";
 import { useEffect, useMemo, useState } from "react";
-import { CategoryApi } from "../../apis/CategoryApi";
-import Spinner from "../../components/Spinner";
+import { Link } from "react-router-dom";
+import { CategoriesApi } from "../../apis/CategoryApi";
+import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
+import Spinner from "../../components/General/Spinner";
 import { CategoryModel } from "../../models/CategoryModel";
 
 export function CategoriesCard() {
-    const _api = useMemo(() => new CategoryApi(), []);
+    const _api = useMemo(() => new CategoriesApi(), []);
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState<CategoryModel[]>();
 
@@ -19,7 +21,7 @@ export function CategoriesCard() {
     }, [_api]);
 
     return (
-        <div className="bg-[rgb(31,31,31)] p-5 rounded-2xl">
+        <BackgroundAreaDefault>
             {/* Header */}
             <div className="flex justify-between align-top mb-4">
                 <div className="flex flex-col gap-1">
@@ -27,9 +29,9 @@ export function CategoriesCard() {
                     <span className="font-medium text-white">Categorias</span>
                 </div>
 
-                <button type="button">
+                <Link to="/categories">
                     <DotsThreeVertical color="#535353" weight="bold" size={30} />
-                </button>
+                </Link>
             </div>
             {/* Header */}
             {
@@ -47,6 +49,6 @@ export function CategoriesCard() {
                         }
                     </div>
             }
-        </div>
+        </BackgroundAreaDefault>
     );
 }

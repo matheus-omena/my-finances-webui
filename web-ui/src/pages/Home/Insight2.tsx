@@ -1,9 +1,10 @@
 import { ChartPieSlice } from "phosphor-react";
+import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
 
 
 export default function Insight2() {
     return (
-        <div className="bg-[rgb(31,31,31)] p-5 rounded-2xl h-[302px]">
+        <BackgroundAreaDefault>
             {/* Header */}
             <div className="flex justify-between align-top mb-4">
                 <div className="flex flex-col gap-1">
@@ -15,6 +16,6 @@ export default function Insight2() {
             <div className="flex justify-center">
                 <ChartPieSlice size={200} weight="duotone" color="#d4d4d8"/>
             </div>
-        </div>
+        </BackgroundAreaDefault>
     )
 }

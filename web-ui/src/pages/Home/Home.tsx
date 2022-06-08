@@ -12,7 +12,7 @@ export default function Home() {
     const auth = useAuth();
 
     return (
-        <main className="container mx-auto px-5 py-5">  
+        <>  
             <div className="flex justify-end mb-3">
                 <button onClick={auth.Logout} className="border border-zinc-100 w-10 h-10 rounded-lg flex items-center justify-center">
                     <SignOut size={20} weight="bold" />
@@ -39,6 +39,6 @@ export default function Home() {
                     <ExpensesByGroup />
                 </div>
             </div>
-        </main>
+        </>
     );
 }

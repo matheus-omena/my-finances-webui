@@ -1,7 +1,7 @@
 import { CreateUpdateCategoryModel } from "../models/CategoryModel";
 import _ApiBase from "./_ApiBase";
 
-export class CategoryApi {
+export class CategoriesApi {
    find(): Promise<any> {
       const r = _ApiBase.get('/categories');      
       return r;

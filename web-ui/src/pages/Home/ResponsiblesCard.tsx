@@ -1,8 +1,9 @@
 import { DotsThreeVertical, UserCircle } from "phosphor-react";
+import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
 
 export function ResponsiblesCard() {
     return (
-        <div className="bg-[rgb(31,31,31)] p-5 rounded-2xl">
+        <BackgroundAreaDefault>
             {/* Header */}
             <div className="flex justify-between align-top mb-4">
                 <div className="flex flex-col gap-1">
@@ -26,6 +27,6 @@ export function ResponsiblesCard() {
                     <span className="text-sm font-medium text-[#535353]">Ingrid</span>
                 </div>
             </div>
-        </div>
+        </BackgroundAreaDefault>
     );
 }

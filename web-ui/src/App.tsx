@@ -3,7 +3,8 @@ import "moment/locale/pt-br";
 import { Suspense } from "react";
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import Spinner from "./components/Spinner";
+import Spinner from './components/General/Spinner';
+
 import AuthProvider from "./contexts/AuthContext";
 import Routes from './routes';
 
@@ -19,8 +20,10 @@ function App() {
   return (
     <Suspense fallback={fallback}>
       <AuthProvider>
-        <ToastContainer autoClose={3000} />
-        <Routes />
+        <main className="container mx-auto px-5 py-5">
+          <ToastContainer autoClose={3000} />
+          <Routes />
+        </main>
       </AuthProvider>
     </Suspense>
   );

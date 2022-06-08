@@ -22,6 +22,7 @@
 
 * [ReactJS](https://pt-br.reactjs.org/) + Typescript + [Vite](https://vitejs.dev/)
 * [TailwindCSS](https://tailwindcss.com/)
+* ContextAPI
 * Biblioteca de ícones [Phospor Icons](https://phosphoricons.com/)
 
 ## Pré-requisitos

@@ -59,19 +59,19 @@ export default function Categories() {
             {loading ?
                 <Spinner /> :
                 <>
-                    <div className="flex justify-between items-center mb-3">
-                        <strong className="fs-normal">Categorias</strong>
+                    <div className="flex justify-between items-center mb-4">
+                        <h1 className="text-2xl font-bold">Categorias</h1>
 
                         <button
                             type="submit"
                             onClick={() => navigate("/categories/new")}
                         >
-                            <Plus size={32} weight="bold" />
+                            <Plus size={25} weight="bold" />
                         </button>
                     </div>
                     <BackgroundAreaDefault>
                         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <table className="w-full text-sm text-left text-gray-500">
                                 <thead className="text-sm text-white">
                                     <tr>
                                         <th scope="col">Nome</th>
@@ -81,7 +81,7 @@ export default function Categories() {
                                 <tbody className="text-base">
                                     {categories?.map((item, idx) => {
                                         return (
-                                            <tr key={idx} className="border-b border-gray-700">
+                                            <tr key={idx} className="border-b border-zinc-700">
                                                 <td className="py-3" onClick={() => navigate(`/categories/${item.id}/edit`)}>
                                                     {item.name}
                                                 </td>

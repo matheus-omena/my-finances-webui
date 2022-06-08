@@ -1,4 +1,4 @@
-import CircularProgress from "../../../components/CircularProgress";
+import CircularProgress from "../../../components/General/CircularProgress";
 
 interface ExpenseGroupData {
     id: string;

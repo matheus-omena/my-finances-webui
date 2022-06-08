@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { AuthApi } from '../apis/AuthApi';
 import _ApiBase from '../apis/_ApiBase';
-import Spinner from '../components/Spinner';
+import Spinner from '../components/General/Spinner';
 import { LoginModel } from '../models/Auth/LoginModel';
 import { UserModel } from '../models/UserModel';
 

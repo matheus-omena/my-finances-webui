@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Categories from "../pages/Categories";
+import NewCategory from "../pages/Categories/NewCategory";
 import Home from "../pages/Home/Home";
 
 export default function WebRoutes() {
@@ -11,6 +12,7 @@ export default function WebRoutes() {
                 {/* <Route path="/categories/new" element={<NewCategory />} />
                 <Route path="/categories/:id/edit" element={<EditCategory />} /> */}
                 <Route path="/categories" element={<Categories />} />
+                <Route path="/categories/new" element={<NewCategory />} />
                 {/* <Route path="/*" element={<NotFound />} /> */}
             </Routes>
         </BrowserRouter>

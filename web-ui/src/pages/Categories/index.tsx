@@ -82,7 +82,7 @@ export default function Categories() {
                                     {categories?.map((item, idx) => {
                                         return (
                                             <tr key={idx} className="border-b border-zinc-700">
-                                                <td className="py-3" onClick={() => navigate(`/categories/${item.id}/edit`)}>
+                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/categories/${item.id}/edit`)}>
                                                     {item.name}
                                                 </td>
                                                 <td className="py-3">

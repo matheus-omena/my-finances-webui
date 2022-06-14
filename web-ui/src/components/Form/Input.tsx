@@ -12,11 +12,11 @@ type InputProps = {
     onChange?: any;
 };
 
-export function DefaultInput(props: InputProps) {
+export function Input(props: InputProps) {
     const defaultType = props.type ? props.type : "text";
 
     return (
-        <div className={`${props.className} mb-5`}>
+        <div className={`${props.className} px-2 mb-5`}>
             <label htmlFor={props.name} className="block text-gray-700 text-sm font-bold mb-2">
                 {props.label}
             </label>

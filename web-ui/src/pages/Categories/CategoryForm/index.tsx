@@ -6,15 +6,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { CategoryModel } from "../../../models/CategoryModel";
 import { CategoriesApi } from "../../../apis/CategoryApi";
-import { DefaultInput } from "../../../components/Form/DefaultInput";
+import { Input } from "../../../components/Form/Input";
 import Button from "../../../components/Form/Button";
 import { Check, X } from "phosphor-react";
+import BackgroundAreaDefault from "../../../components/General/BackgroundAreaDefault";
 
 type Props = {
     obj?: CategoryModel;
 }
 
-export default function CategoryForm(props: Props) {
+export default function CategoryForm(props: Props) {    
     const navigate = useNavigate();
     const [sending, setSending] = useState(false);
     const _api = useMemo(() => new CategoriesApi(), []);
@@ -64,33 +65,35 @@ export default function CategoryForm(props: Props) {
                 </h4>
             </div>
 
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="row flex items-center mb-3">
+            <BackgroundAreaDefault>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
                     <input type="hidden" {...form.register("id")} value={props.obj?.id} />
-                    <DefaultInput
-                        type="text"
-                        name={"name"}
-                        form={form}
-                        label={"Nome"}
-                        className="col-md-10"
-                        defaultValue={props.obj?.name}
-                    />
-                </div>
+                    <div className="flex flex-wrap -mx-2">                        
+                        <Input
+                            type="text"
+                            name={"name"}
+                            form={form}
+                            label={"Nome"}   
+                            className="w-full sm:w-1/1 md:w-1/1 lg:w-1/1 xl:w-1/1"
+                            defaultValue={props.obj?.name}
+                        />
+                    </div>
 
-                <hr className="text-grey my-3" />
+                    <hr className="text-grey my-3" />
 
-                <div className="flex justify-end gap-6">
-                    <button className="flex items-center justify-center" onClick={() => navigate("/categories")}>
-                        <X className="mr-1" weight="bold" />
-                        <strong>Cancelar</strong>
-                    </button>
-                    <Button
-                        type="submit"
-                        title={<><Check className="mr-1" weight="bold" /><span>Salvar</span></>}
-                        loading={sending}
-                    />
-                </div>
-            </form>
+                    <div className="flex justify-end gap-6">
+                        <button className="flex items-center justify-center text-sm" onClick={() => navigate("/categories")}>
+                            <X className="mr-1" weight="bold" />
+                            <strong>Cancelar</strong>
+                        </button>
+                        <Button
+                            type="submit"
+                            title={<><Check className="mr-1" weight="bold" /><span>Salvar</span></>}
+                            loading={sending}
+                        />
+                    </div>
+                </form>
+            </BackgroundAreaDefault>
         </>
     );
 }

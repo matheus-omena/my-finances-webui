@@ -1,16 +1,16 @@
+import moment from "moment";
 import { Plus, Trash } from "phosphor-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-
 import 'sweetalert2/src/sweetalert2.scss'
 import { CategoriesApi } from "../../apis/CategoryApi";
 import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
 import Spinner from "../../components/General/Spinner";
 import { CategoryModel } from "../../models/CategoryModel";
 
-export default function Categories() {
+export default function Categories() {    
     const navigate = useNavigate();
     const _api = useMemo(() => new CategoriesApi(), []);
     const [loading, setLoading] = useState(false);
@@ -71,19 +71,23 @@ export default function Categories() {
                     </div>
                     <BackgroundAreaDefault>
                         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table className="w-full text-sm text-left text-gray-500">
-                                <thead className="text-sm text-white">
-                                    <tr>
+                            <table className="w-full text-sm text-left text-white">
+                                <thead className="text-sm text-gray-500">
+                                    <tr>                                        
                                         <th scope="col">Nome</th>
+                                        <th scope="col">Criado em</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
-                                <tbody className="text-base">
+                                <tbody className="text-sm">
                                     {categories?.map((item, idx) => {
                                         return (
                                             <tr key={idx} className="border-b border-zinc-700">
                                                 <td className="cursor-pointer py-3" onClick={() => navigate(`/categories/${item.id}/edit`)}>
                                                     {item.name}
+                                                </td>
+                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/categories/${item.id}/edit`)}>
+                                                    {moment(item.createdAt).format('ll')}
                                                 </td>
                                                 <td className="py-3">
                                                     <button className="w-full flex justify-end" onClick={() => onDelete(item.id.toString())}>

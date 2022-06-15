@@ -4,11 +4,11 @@ import { Suspense } from "react";
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Spinner from './components/General/Spinner';
-
 import AuthProvider from "./contexts/AuthContext";
 import Routes from './routes';
 
 moment.locale("pt-br");
+moment.updateLocale;
 
 function App() {
   const fallback = (

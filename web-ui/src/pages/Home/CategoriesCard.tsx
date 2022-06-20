@@ -1,7 +1,7 @@
 import { DotsThreeVertical, Folders } from "phosphor-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { CategoriesApi } from "../../apis/CategoryApi";
+import { CategoriesApi } from "../../apis/CategoriesApi";
 import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
 import Spinner from "../../components/General/Spinner";
 import { CategoryModel } from "../../models/CategoryModel";
@@ -40,7 +40,7 @@ export function CategoriesCard() {
                         {
                             categories?.map((item, idx) => {
                                 return (
-                                    <div key={idx} className="flex flex-row items-center gap-2">                                        
+                                    <div key={idx} className="flex flex-row items-center gap-2">
                                         <Folders size={20} weight="fill" color="#71717a" />
                                         <span className="text-sm font-medium text-[#535353]">{item.name}</span>
                                     </div>

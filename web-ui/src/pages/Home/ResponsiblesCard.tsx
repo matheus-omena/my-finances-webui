@@ -1,7 +1,25 @@
 import { DotsThreeVertical, UserCircle } from "phosphor-react";
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { ResponsiblesApi } from "../../apis/ResponsiblesApi";
 import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
+import Spinner from "../../components/General/Spinner";
+import { ResponsibleModel } from "../../models/ResponsibleModel";
 
 export function ResponsiblesCard() {
+    const _api = useMemo(() => new ResponsiblesApi(), []);
+    const [loading, setLoading] = useState(false);
+    const [responsibles, setResponsibles] = useState<ResponsibleModel[]>();
+
+    useEffect(() => {
+        setLoading(true);
+        _api
+            .find()
+            .then((r) => setResponsibles(r.data))
+            .catch((e) => console.log("Erro ao carregar os responsáveis", e))
+            .finally(() => setLoading(false));
+    }, [_api]);
+
     return (
         <BackgroundAreaDefault>
             {/* Header */}
@@ -11,22 +29,26 @@ export function ResponsiblesCard() {
                     <span className="font-medium text-white">Responsáveis</span>
                 </div>
 
-                <button type="button">
+                <Link to="/responsibles">
                     <DotsThreeVertical color="#535353" weight="bold" size={30} />
-                </button>
+                </Link>
             </div>
             {/* Header */}
-            <div className="grid grid-cols-2 gap-3">
-                <div className="flex flex-row items-center gap-2">                    
-                    <UserCircle size={30} weight="fill" color="#71717a" />
-                    <span className="text-sm font-medium text-[#535353]">Matheus</span>
-                </div>
-
-                <div className="flex flex-row items-center gap-2">
-                    <UserCircle size={30} weight="fill" color="#71717a" />
-                    <span className="text-sm font-medium text-[#535353]">Ingrid</span>
-                </div>
-            </div>
+            {
+                loading ? <Spinner /> :
+                    <div className="grid grid-cols-2 gap-3">
+                        {
+                            responsibles?.map((item, idx) => {
+                                return (
+                                    <div key={idx} className="flex flex-row items-center gap-2">
+                                        <UserCircle size={20} weight="fill" color={item.color} opacity={0.5}/>
+                                        <span className="text-sm font-medium text-[#535353]">{item.name}</span>
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
+            }
         </BackgroundAreaDefault>
     );
 }

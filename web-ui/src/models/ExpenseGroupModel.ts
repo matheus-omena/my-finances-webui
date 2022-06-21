@@ -5,11 +5,13 @@ export interface ExpenseGroupModel {
    type: number;
    paymentDay?: number;
    category: {
+      id: string;
       name: string;
    };   
 };
 
-export interface CreateUpdateExpenseGroupModel {   
+export interface CreateUpdateExpenseGroupModel { 
+   id?: string;
    name: string;  
    color: string; 
    type: number;

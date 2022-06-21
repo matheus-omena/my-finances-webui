@@ -1,23 +1,23 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ResponsiblesApi } from "../../../apis/ResponsiblesApi";
+import { ExpenseGroupsApi } from "../../../apis/ExpenseGroupsApi";
 import Spinner from "../../../components/General/Spinner";
-import { ResponsibleModel } from "../../../models/ResponsibleModel";
-import ResponsibleForm from "../ResponsibleForm";
+import { ExpenseGroupModel } from "../../../models/ExpenseGroupModel";
+import ExpenseGroupForm from "../ExpenseGroupForm";
 
-export default function EditResponsible() {
+export default function EditExpenseGroup() {
     const [loading, setLoading] = useState(false);
-    const { id } = useParams();    
-    const _api = useMemo(() => new ResponsiblesApi(), []);
-    const [responsible, setResponsible] = useState<ResponsibleModel>();
+    const { id } = useParams();
+    const _api = useMemo(() => new ExpenseGroupsApi(), []);
+    const [expenseGroup, setExpenseGroup] = useState<ExpenseGroupModel>();
 
     useEffect(() => {
         setLoading(true);
 
         if (id)
             _api.findById(id)
-                .then(r => {                    
-                    setResponsible(r.data.data);
+                .then(r => {
+                    setExpenseGroup(r.data);                    
                 })
                 .catch(() => console.log("Erro ao carregar cadastro ", id))
                 .finally(() => setLoading(false));
@@ -27,8 +27,7 @@ export default function EditResponsible() {
         <>
             {
                 loading ? <Spinner /> :
-                    <ResponsibleForm obj={responsible} />
-
+                    <ExpenseGroupForm obj={expenseGroup} />
             }
         </>
     );

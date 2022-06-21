@@ -1,4 +1,4 @@
-import { CreateUpdateResponsibleModel } from "../models/ResponsibleModel";
+import { CreateUpdateExpenseGroupModel } from "../models/ExpenseGroupModel";
 import _ApiBase from "./_ApiBase";
 
 export class ExpenseGroupsApi {
@@ -12,12 +12,12 @@ export class ExpenseGroupsApi {
       return r;
    }
 
-   async create(data: CreateUpdateResponsibleModel): Promise<any> {
+   async create(data: CreateUpdateExpenseGroupModel): Promise<any> {
       const r = await _ApiBase.post('/expense-groups', data);      
       return r;
    }
 
-   async update(id: string, data: CreateUpdateResponsibleModel): Promise<any> {      
+   async update(id: string, data: CreateUpdateExpenseGroupModel): Promise<any> {      
       const r = await _ApiBase.put(`/expense-groups/${id}`, data);      
       return r;
    }

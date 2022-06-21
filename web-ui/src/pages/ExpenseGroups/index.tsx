@@ -1,4 +1,3 @@
-import moment from "moment";
 import { Plus, Trash } from "phosphor-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +20,7 @@ export default function ExpenseGroups() {
         _api
             .find()
             .then((r) => {
-                setGroups(r.data);
+                setGroups(r.data);                
             })
             .catch((e) => console.log("Erro ao carregar os grupos de despesas"))
             .finally(() => setLoading(false));
@@ -86,19 +85,19 @@ export default function ExpenseGroups() {
                                     {groups?.map((item, idx) => {
                                         return (
                                             <tr key={idx} className="border-b border-zinc-700">
-                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/responsibles/${item.id}/edit`)}>
+                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/expense-groups/${item.id}/edit`)}>
                                                     {item.name}
                                                 </td>
-                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/responsibles/${item.id}/edit`)}>
+                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/expense-groups/${item.id}/edit`)}>
                                                     <div className={`w-10 h-6 rounded-md`} style={{backgroundColor: `${item.color}`}}></div>
                                                 </td>     
-                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/responsibles/${item.id}/edit`)}>
+                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/expense-groups/${item.id}/edit`)}>
                                                     {item.type === 0 ? "Pagamento individual" : item.type === 1 && "Pagamento total"}
                                                 </td>    
-                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/responsibles/${item.id}/edit`)}>
+                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/expense-groups/${item.id}/edit`)}>
                                                     {item.paymentDay ? item.paymentDay : "-"}
                                                 </td> 
-                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/responsibles/${item.id}/edit`)}>
+                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/expense-groups/${item.id}/edit`)}>
                                                     {item.category.name}
                                                 </td>                                              
                                                 <td className="py-3">

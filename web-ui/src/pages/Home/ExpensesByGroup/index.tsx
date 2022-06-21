@@ -1,4 +1,5 @@
 import { DotsThreeVertical } from "phosphor-react";
+import { Link } from "react-router-dom";
 import BackgroundAreaDefault from "../../../components/General/BackgroundAreaDefault";
 import ExpenseGroup from "./ExpenseGroup";
 
@@ -12,9 +13,9 @@ export function ExpensesByGroup() {
                     <span className="font-medium text-white">Grupos de despesas</span>
                 </div>
 
-                <button type="button">
+                <Link to="/expense-groups">
                     <DotsThreeVertical color="#535353" weight="bold" size={30} />
-                </button>
+                </Link>
             </div>
             {/* Header */}
             <div className="flex flex-col gap-4">

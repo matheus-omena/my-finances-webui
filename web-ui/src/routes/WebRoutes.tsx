@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import Categories from "../pages/Categories";
 import EditCategory from "../pages/Categories/EditCategory";
 import NewCategory from "../pages/Categories/NewCategory";
+import ExpenseGroups from "../pages/ExpenseGroups";
 import Home from "../pages/Home/Home";
 import Responsibles from "../pages/Responsibles";
 import EditResponsible from "../pages/Responsibles/EditResponsible";
@@ -26,9 +27,14 @@ export default function WebRoutes() {
                 <Route path="/categories/new" element={<NewCategory />} />
                 <Route path="/categories/:id/edit" element={<EditCategory />} />
                 <Route path="/categories" element={<Categories />} />
+
                 <Route path="/responsibles/new" element={<NewResponsible />} />
                 <Route path="/responsibles/:id/edit" element={<EditResponsible />} />
                 <Route path="/responsibles" element={<Responsibles />} />
+
+                <Route path="/expense-groups/new" element={<NewResponsible />} />
+                <Route path="/expense-groups/:id/edit" element={<EditResponsible />} />
+                <Route path="/expense-groups" element={<ExpenseGroups />} />
                 {/* <Route path="/*" element={<NotFound />} /> */}
             </Routes>
         </BrowserRouter>

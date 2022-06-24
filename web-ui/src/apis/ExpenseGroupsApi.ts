@@ -7,6 +7,11 @@ export class ExpenseGroupsApi {
       return r;
    }
 
+   findWithGroupedExpenses(month: number): Promise<any> {
+      const r = _ApiBase.get(`/expense-groups/with-grouped-expenses/month/${month}`);
+      return r;
+   }
+
    findById(id: string): Promise<any> {
       const r = _ApiBase.get(`/expense-groups/${id}`);      
       return r;

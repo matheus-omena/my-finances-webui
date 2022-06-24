@@ -9,7 +9,6 @@ export interface ExpenseGroupModel {
       name: string;
    };   
 };
-
 export interface CreateUpdateExpenseGroupModel { 
    id?: string;
    name: string;  
@@ -17,4 +16,12 @@ export interface CreateUpdateExpenseGroupModel {
    type: number;
    paymentDay?: number;
    categoryId: string;  
+};
+
+export interface ExpenseGroupWithGroupedExpensesModel { 
+   id: string;
+   name: string;  
+   color: string; 
+   totalValue: number;
+   paymentPercentual: number;   
 };

@@ -36,6 +36,7 @@ export default function WebRoutes() {
 
                 <Route path="/expense-groups/new" element={<NewExpenseGroup />} />
                 <Route path="/expense-groups/:id/edit" element={<EditExpenseGroup />} />
+                <Route path="/expense-groups/:id/expenses" element={<EditExpenseGroup />} />                
                 <Route path="/expense-groups" element={<ExpenseGroups />} />
                 {/* <Route path="/*" element={<NotFound />} /> */}
             </Routes>

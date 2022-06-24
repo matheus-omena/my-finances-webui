@@ -3,10 +3,12 @@ import 'react-circular-progressbar/dist/styles.css';
 
 type Props = {
     value: number,
-    text: string
+    text: string,
+    textColor?: string;
 }
 
 export default function CircularProgress(props: Props) {
+    let txtColor = props.textColor ? props.textColor : '#f4f4f5';
     let pathColor = "#EB5656";
     if (props.value >= 75) pathColor = "#94CC00"
     else if (props.value >= 25 && props.value < 75) pathColor = "#FFD325";
@@ -23,7 +25,7 @@ export default function CircularProgress(props: Props) {
                     strokeLinecap: 50,
                     // Colors                                
                     pathColor: pathColor,
-                    textColor: '#fff',
+                    textColor: txtColor,
                     backgroundColor: '#535353',
                 })
             }

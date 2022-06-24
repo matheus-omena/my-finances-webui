@@ -52,6 +52,9 @@ export default function ExpenseGroupForm(props: Props) {
             form.setValue("type", props.obj?.type);
             form.setValue("categoryId", props.obj?.category.id);
         }
+        else {
+            form.setValue("type", typeOptions[0].value);
+        }
     }, [])
 
     useEffect(() => {
@@ -65,8 +68,8 @@ export default function ExpenseGroupForm(props: Props) {
                     };
                 });
                 setCategoryOptions(option);
-
-                if (r.data.length === 1) form.setValue("categoryId", r.data[0].id); 
+                
+                if (r.data.length > 0) form.setValue("categoryId", r.data[0].id);                
             })
             .catch((e) => toast.info("Sem categorias disponíveis"))
             .finally(() => setIsLoadingCategories(false));

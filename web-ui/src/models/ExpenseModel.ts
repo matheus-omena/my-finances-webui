@@ -8,7 +8,10 @@ export interface ExpenseModel {
    currentInstallment: number;
    isPaid: boolean;
    dateItWasPaid: Date;
-   responsibleId: string;
+   responsible: {
+      id: string;
+      name: string;
+   };
    groupId: string;
    fixedExpenseId: string;
 };

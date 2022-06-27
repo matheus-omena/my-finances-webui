@@ -8,7 +8,7 @@ import Spinner from "../../../components/General/Spinner";
 import { ExpenseGroupWithGroupedExpensesModel } from "../../../models/ExpenseGroupModel";
 import ExpenseGroup from "./ExpenseGroup";
 
-export function ExpensesByGroup() {
+export function ExpensesByGroupCard() {
     const _api = useMemo(() => new ExpenseGroupsApi(), []);
     const [loading, setLoading] = useState(false);
     const [expenseGroups, setExpenseGroups] = useState<ExpenseGroupWithGroupedExpensesModel[]>();

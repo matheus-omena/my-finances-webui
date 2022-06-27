@@ -12,6 +12,11 @@ export class ExpensesApi {
       return r;
    }
 
+   findByGroup(groupId: string, month: number): Promise<any> {
+      const r = _ApiBase.get(`/expenses/bygroup/${groupId}/month/${month}`);
+      return r;
+   }
+
    async create(data: CreateUpdateExpenseModel): Promise<any> {
       const r = await _ApiBase.post('/expenses', data);      
       return r;

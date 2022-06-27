@@ -1,6 +1,5 @@
-import { useAuth } from "../../contexts/AuthContext";
 import { CategoriesCard } from "./CategoriesCard";
-import { ExpensesByGroup } from "./ExpensesByGroup";
+import { ExpensesByGroupCard } from "./ExpensesByGroupCard";
 import Insight1 from "./Insight1";
 import Insight2 from "./Insight2";
 import Insight3 from "./Insight3";
@@ -28,7 +27,7 @@ export default function Home() {
 
                 <div className="col-span-1 order-1 sm:order-1 md:order-2 lg:order-2 xl:order-2 mb-5">
                     <h1 className="text-2xl font-bold mb-4">Despesas</h1>
-                    <ExpensesByGroup />
+                    <ExpensesByGroupCard />
                 </div>
             </div>
         </>

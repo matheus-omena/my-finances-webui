@@ -8,6 +8,7 @@ import ExpenseGroups from "../pages/ExpenseGroups";
 import EditExpenseGroup from "../pages/ExpenseGroups/EditExpenseGroup";
 import NewExpenseGroup from "../pages/ExpenseGroups/NewExpenseGroup";
 import ExpensesByGroup from "../pages/Expenses/ExpensesByGroup";
+import NewExpenseByGroup from "../pages/Expenses/ExpensesByGroup/NewExpenseByGroup";
 import Home from "../pages/Home/Home";
 import Responsibles from "../pages/Responsibles";
 import EditResponsible from "../pages/Responsibles/EditResponsible";
@@ -40,6 +41,7 @@ export default function WebRoutes() {
                 <Route path="/expense-groups" element={<ExpenseGroups />} />
 
                 <Route path="/expenses/bygroup/:groupId" element={<ExpensesByGroup />} /> 
+                <Route path="/expenses/new/bygroup/:groupId" element={<NewExpenseByGroup />} />
                 {/* <Route path="/*" element={<NotFound />} /> */}
             </Routes>
         </BrowserRouter>

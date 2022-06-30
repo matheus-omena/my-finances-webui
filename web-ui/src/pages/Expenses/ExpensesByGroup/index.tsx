@@ -1,3 +1,4 @@
+import { Plus } from "phosphor-react";
 import { useMemo, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ExpenseGroupsApi } from "../../../apis/ExpenseGroupsApi";
@@ -42,7 +43,16 @@ export default function ExpensesByGroup() {
             {
                 loadingGroup ?
                     <Spinner /> :
-                    <h1 className="text-2xl font-bold mb-4">{expenseGroup?.name}</h1>
+                    <div className="flex justify-between items-center mb-4">
+                        <h1 className="text-2xl font-bold mb-4">{expenseGroup?.name}</h1>
+
+                        <button
+                            type="submit"
+                            onClick={() => navigate(`/expenses/new/bygroup/${groupId}`)}
+                        >
+                            <Plus size={25} weight="bold" />
+                        </button>
+                    </div>                    
             }
             {
                 loadingExpenses ?

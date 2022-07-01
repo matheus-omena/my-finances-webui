@@ -1,4 +1,4 @@
-import { Plus } from "phosphor-react";
+import { ArrowCircleLeft, Plus } from "phosphor-react";
 import { useMemo, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ExpenseGroupsApi } from "../../../apis/ExpenseGroupsApi";
@@ -8,8 +8,13 @@ import { ExpenseGroupModel } from "../../../models/ExpenseGroupModel";
 import { ExpenseModel } from "../../../models/ExpenseModel";
 import Expense from "./Expense";
 
-export default function ExpensesByGroup() {
-    const { groupId } = useParams();
+type ExpensesByGroupProps = {
+    groupId: string;
+    month: number;
+    setExpenseGroupId: any;
+}
+
+export default function ExpensesByGroup(props: ExpensesByGroupProps) {    
     const navigate = useNavigate();
     const _api = useMemo(() => new ExpensesApi(), []);
     const _apiExpenseGroup = useMemo(() => new ExpenseGroupsApi(), []);
@@ -21,7 +26,7 @@ export default function ExpensesByGroup() {
     useEffect(() => {
         setLoadingExpenses(true);
         _api
-            .findByGroup(groupId!, 6)
+            .findByGroup(props.groupId, props.month)
             .then((r) => {
                 setExpenses(r.data);
             })
@@ -30,7 +35,7 @@ export default function ExpensesByGroup() {
 
         setLoadingGroup(true);
         _apiExpenseGroup
-            .findById(groupId!)
+            .findById(props.groupId)
             .then((r) => {
                 setExpenseGroup(r.data);
             })
@@ -40,17 +45,23 @@ export default function ExpensesByGroup() {
 
     return (
         <>
+            <button className="flex items-center text-xs text-red-400 gap-2 mb-4" onClick={() => props.setExpenseGroupId("")}>
+                <ArrowCircleLeft size={20} weight="fill" />
+                Voltar
+            </button>
             {
                 loadingGroup ?
                     <Spinner /> :
                     <div className="flex justify-between items-center mb-4">
-                        <h1 className="text-2xl font-bold mb-4">{expenseGroup?.name}</h1>
+                        <h5 className={"text-lg font-bold"} style={{ color: expenseGroup?.color }}>{expenseGroup?.name}</h5>
 
                         <button
                             type="submit"
-                            onClick={() => navigate(`/expenses/new/bygroup/${groupId}`)}
+                            onClick={() => navigate(`/expenses/new/bygroup/${props.groupId}`)}
+                            className="flex text-xs gap-2"
                         >
-                            <Plus size={25} weight="bold" />
+                            Adicionar despesa
+                            <Plus size={15} weight="bold" />
                         </button>
                     </div>                    
             }
@@ -59,11 +70,15 @@ export default function ExpensesByGroup() {
                     <Spinner /> :
                     expenses?.length === 0 ?
                     <span>Esse grupo não possui despesas</span> : 
-                    expenses?.map((item, idx) => {
-                        return (
-                            <Expense key={idx} expense={item}/>                            
-                        )
-                    })
+                    <div className="flex flex-col gap-4">
+                        {
+                            expenses?.map((item, idx) => {
+                                return (
+                                    <Expense key={idx} expense={item}/>                            
+                                )
+                            })
+                        }                        
+                    </div>
             }
         </>
     );

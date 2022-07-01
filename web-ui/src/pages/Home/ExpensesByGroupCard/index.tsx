@@ -1,26 +1,17 @@
-import moment from "moment";
 import { DotsThreeVertical } from "phosphor-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ExpenseGroupsApi } from "../../../apis/ExpenseGroupsApi";
 import BackgroundAreaDefault from "../../../components/General/BackgroundAreaDefault";
-import Spinner from "../../../components/General/Spinner";
-import { ExpenseGroupWithGroupedExpensesModel } from "../../../models/ExpenseGroupModel";
-import ExpenseGroup from "./ExpenseGroup";
+import ExpensesByGroup from "../../Expenses/ExpensesByGroup";
+import GroupExpensesList from "./GroupExpensesList";
 
-export function ExpensesByGroupCard() {
-    const _api = useMemo(() => new ExpenseGroupsApi(), []);
-    const [loading, setLoading] = useState(false);
-    const [expenseGroups, setExpenseGroups] = useState<ExpenseGroupWithGroupedExpensesModel[]>();
+export function ExpensesByGroupCard() {    
+    const [showDetailedExpenses, setShowDetailedExpenses] = useState(false);
+    const [groupId, setGroupId] = useState("");
 
     useEffect(() => {
-        setLoading(true);
-        _api
-            .findWithGroupedExpenses(Number(moment().format("MM")))
-            .then((r) => setExpenseGroups(r.data))
-            .catch((e) => console.log("Erro ao carregar os grupos de despesa", e))
-            .finally(() => setLoading(false));
-    }, [_api]);
+        setShowDetailedExpenses(groupId !== "");
+    }, [groupId])
 
     return (
         <BackgroundAreaDefault>
@@ -36,25 +27,19 @@ export function ExpensesByGroupCard() {
                 </Link>
             </div>
             {/* Header */}
-            <div className="flex flex-col gap-4">
-                {
-                    loading ? <Spinner /> :
-
-
-                        expenseGroups?.map((item, idx) => {
-                            return (
-                                <ExpenseGroup key={idx} group={item} />
-                            );
-                        })
-                }
-                {/* <ExpenseGroup id={""} name={"Despesas gerais"} value={2050} color={"#059669"} paymentPercentage={40} />
-                <ExpenseGroup id={""} name={"Contas da empresa"} value={1540} color={"#1f2937"} paymentPercentage={75} />
-                <ExpenseGroup id={""} name={"Renner"} value={600} color={"#f43f5e"} paymentPercentage={0} />
-                <ExpenseGroup id={""} name={"Cartão Porto"} value={1700} color={"#0284c7"} paymentPercentage={100} />
-                <ExpenseGroup id={""} name={"Cartão Itaú"} value={799} color={"#ea580c"} paymentPercentage={0} />
-                <ExpenseGroup id={""} name={"Cartão NuBank"} value={350} color={"#9333ea"} paymentPercentage={0} />
-                <ExpenseGroup id={""} name={"Cartão C6"} value={3600} color={"#18181b"} paymentPercentage={100} /> */}
-            </div>
+            {
+                showDetailedExpenses ? 
+                <ExpensesByGroup groupId={groupId} month={7} setExpenseGroupId={setGroupId}/> :
+                <GroupExpensesList setExpenseGroupId={setGroupId}/>
+            }                  
         </BackgroundAreaDefault>
     );
 }
+
+{/* <ExpenseGroup id={""} name={"Despesas gerais"} value={2050} color={"#059669"} paymentPercentage={40} />
+    <ExpenseGroup id={""} name={"Contas da empresa"} value={1540} color={"#1f2937"} paymentPercentage={75} />
+    <ExpenseGroup id={""} name={"Renner"} value={600} color={"#f43f5e"} paymentPercentage={0} />
+    <ExpenseGroup id={""} name={"Cartão Porto"} value={1700} color={"#0284c7"} paymentPercentage={100} />
+    <ExpenseGroup id={""} name={"Cartão Itaú"} value={799} color={"#ea580c"} paymentPercentage={0} />
+    <ExpenseGroup id={""} name={"Cartão NuBank"} value={350} color={"#9333ea"} paymentPercentage={0} />
+    <ExpenseGroup id={""} name={"Cartão C6"} value={3600} color={"#18181b"} paymentPercentage={100} /> */}

@@ -1,9 +1,9 @@
-import { CategoriesCard } from "./CategoriesCard";
+import { CategoriesPreview } from "../Categories/CategoriesPreview";
 import { ExpensesByGroupCard } from "./ExpensesByGroupCard";
 import Insight1 from "./Insight1";
 import Insight2 from "./Insight2";
 import Insight3 from "./Insight3";
-import { ResponsiblesCard } from "./ResponsiblesCard";
+import { ResponsiblesPreview } from "../Responsibles/ResponsiblesPreview";
 
 
 export default function Home() {
@@ -14,8 +14,8 @@ export default function Home() {
                     <h1 className="text-2xl font-bold mb-4">Geral</h1>
                     <div className="grid sm:col-span-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5">
                         <div className="grid grid-cols-1 gap-5">
-                            <CategoriesCard />
-                            <ResponsiblesCard />
+                            <CategoriesPreview />
+                            <ResponsiblesPreview />
                             <Insight1 />
                         </div>
                         <div className="flex flex-col gap-5">

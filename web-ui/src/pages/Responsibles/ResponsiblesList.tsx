@@ -10,7 +10,7 @@ import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefaul
 import Spinner from "../../components/General/Spinner";
 import { ResponsibleModel } from "../../models/ResponsibleModel";
 
-export default function Responsibles() {    
+export default function ResponsiblesList() {    
     const navigate = useNavigate();
     const _api = useMemo(() => new ResponsiblesApi(), []);
     const [loading, setLoading] = useState(false);

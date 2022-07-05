@@ -6,7 +6,7 @@ import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefaul
 import Spinner from "../../components/General/Spinner";
 import { CategoryModel } from "../../models/CategoryModel";
 
-export function CategoriesCard() {
+export function CategoriesPreview() {
     const _api = useMemo(() => new CategoriesApi(), []);
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState<CategoryModel[]>();

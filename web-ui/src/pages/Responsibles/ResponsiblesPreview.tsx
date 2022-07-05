@@ -6,7 +6,7 @@ import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefaul
 import Spinner from "../../components/General/Spinner";
 import { ResponsibleModel } from "../../models/ResponsibleModel";
 
-export function ResponsiblesCard() {
+export function ResponsiblesPreview() {
     const _api = useMemo(() => new ResponsiblesApi(), []);
     const [loading, setLoading] = useState(false);
     const [responsibles, setResponsibles] = useState<ResponsibleModel[]>();

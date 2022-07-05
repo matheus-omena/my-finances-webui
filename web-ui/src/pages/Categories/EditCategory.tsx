@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ResponsiblesApi } from "../../../apis/ResponsiblesApi";
-import Spinner from "../../../components/General/Spinner";
-import { ResponsibleModel } from "../../../models/ResponsibleModel";
-import ResponsibleForm from "../ResponsibleForm";
+import { CategoriesApi } from "../../apis/CategoriesApi";
+import Spinner from "../../components/General/Spinner";
+import { CategoryModel } from "../../models/CategoryModel";
+import CategoryForm from "./CategoryForm";
 
-export default function EditResponsible() {
+export default function EditCategory() {
     const [loading, setLoading] = useState(false);
     const { id } = useParams();    
-    const _api = useMemo(() => new ResponsiblesApi(), []);
-    const [responsible, setResponsible] = useState<ResponsibleModel>();
+    const _api = useMemo(() => new CategoriesApi(), []);
+    const [category, setCategory] = useState<CategoryModel>();
 
     useEffect(() => {
         setLoading(true);
@@ -17,7 +17,7 @@ export default function EditResponsible() {
         if (id)
             _api.findById(id)
                 .then(r => {                    
-                    setResponsible(r.data.data);
+                    setCategory(r.data.data);
                 })
                 .catch(() => console.log("Erro ao carregar cadastro ", id))
                 .finally(() => setLoading(false));
@@ -27,7 +27,7 @@ export default function EditResponsible() {
         <>
             {
                 loading ? <Spinner /> :
-                    <ResponsibleForm obj={responsible} />
+                    <CategoryForm obj={category} />
 
             }
         </>

@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ExpenseGroupsApi } from "../../../apis/ExpenseGroupsApi";
-import Spinner from "../../../components/General/Spinner";
-import { ExpenseGroupModel } from "../../../models/ExpenseGroupModel";
-import ExpenseGroupForm from "../ExpenseGroupForm";
+import { ExpenseGroupsApi } from "../../apis/ExpenseGroupsApi";
+import Spinner from "../../components/General/Spinner";
+import { ExpenseGroupModel } from "../../models/ExpenseGroupModel";
+import ExpenseGroupForm from "./ExpenseGroupForm";
 
 export default function EditExpenseGroup() {
     const [loading, setLoading] = useState(false);

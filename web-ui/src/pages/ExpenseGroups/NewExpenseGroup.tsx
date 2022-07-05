@@ -1,4 +1,4 @@
-import ExpenseGroupForm from "../ExpenseGroupForm";
+import ExpenseGroupForm from "./ExpenseGroupForm";
 
 export default function NewExpenseGroup() {
     return (

@@ -4,17 +4,17 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { Input } from "../../../components/Form/Input";
-import Button from "../../../components/Form/Button";
+import { Input } from "../../components/Form/Input";
+import Button from "../../components/Form/Button";
 import { Check, X } from "phosphor-react";
-import BackgroundAreaDefault from "../../../components/General/BackgroundAreaDefault";
-import { InputColor } from "../../../components/Form/InputColor/InputColor";
-import { CreateUpdateExpenseGroupModel, ExpenseGroupModel } from "../../../models/ExpenseGroupModel";
-import { ExpenseGroupsApi } from "../../../apis/ExpenseGroupsApi";
-import { Select } from "../../../components/Form/Select";
-import { CategoriesApi } from "../../../apis/CategoriesApi";
-import { CategoryModel } from "../../../models/CategoryModel";
-import Spinner from "../../../components/General/Spinner";
+import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
+import { InputColor } from "../../components/Form/InputColor/InputColor";
+import { CreateUpdateExpenseGroupModel, ExpenseGroupModel } from "../../models/ExpenseGroupModel";
+import { ExpenseGroupsApi } from "../../apis/ExpenseGroupsApi";
+import { Select } from "../../components/Form/Select";
+import { CategoriesApi } from "../../apis/CategoriesApi";
+import { CategoryModel } from "../../models/CategoryModel";
+import Spinner from "../../components/General/Spinner";
 
 type Props = {
     obj?: ExpenseGroupModel;

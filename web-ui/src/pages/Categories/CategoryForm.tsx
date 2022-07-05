@@ -4,28 +4,27 @@ import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { ResponsibleModel } from "../../../models/ResponsibleModel";
-import { Input } from "../../../components/Form/Input";
-import Button from "../../../components/Form/Button";
+import { CategoryModel } from "../../models/CategoryModel";
+import { CategoriesApi } from "../../apis/CategoriesApi";
+import { Input } from "../../components/Form/Input";
+import Button from "../../components/Form/Button";
 import { Check, X } from "phosphor-react";
-import BackgroundAreaDefault from "../../../components/General/BackgroundAreaDefault";
-import { ResponsiblesApi } from "../../../apis/ResponsiblesApi";
-import { InputColor } from "../../../components/Form/InputColor/InputColor";
+import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
 
 type Props = {
-    obj?: ResponsibleModel;
+    obj?: CategoryModel;
 }
 
-export default function ResponsibleForm(props: Props) {    
+export default function CategoryForm(props: Props) {    
     const navigate = useNavigate();
     const [sending, setSending] = useState(false);
-    const _api = useMemo(() => new ResponsiblesApi(), []);
+    const _api = useMemo(() => new CategoriesApi(), []);
 
     const schema = yup.object({
         name: yup.string().required("O nome é obrigatório"),
     }).required();
 
-    const form = useForm<ResponsibleModel>({
+    const form = useForm<CategoryModel>({
         resolver: yupResolver(schema)
     });
 
@@ -35,7 +34,7 @@ export default function ResponsibleForm(props: Props) {
             _api.update(data.id, data)
                 .then(r => {
                     toast.success("Cadastro atualizado com sucesso");
-                    navigate("/responsibles");
+                    navigate("/categories");
                 })
                 .catch((e) => {
                     toast.error(e.message);
@@ -47,7 +46,7 @@ export default function ResponsibleForm(props: Props) {
             _api.create(data)
                 .then(r => {
                     toast.success("Cadastro criado com sucesso");
-                    navigate("/responsibles");
+                    navigate("/categories");
                 })
                 .catch((e) => {
                     toast.error(e.message);
@@ -61,8 +60,8 @@ export default function ResponsibleForm(props: Props) {
         <>
             <div className="d-flex justify-content-between mb-3">
                 <h4 className="fw-bold text-dark-green">
-                    {props.obj ? "" : <span>Novo </span>}
-                    Responsável
+                    {props.obj ? "" : <span>Nova </span>}
+                    Categoria
                 </h4>
             </div>
 
@@ -75,22 +74,15 @@ export default function ResponsibleForm(props: Props) {
                             name={"name"}
                             form={form}
                             label={"Nome"}   
-                            className="w-full sm:w-1/1 md:w-5/6 lg:w-5/6 xl:w-5/6"
+                            className="w-full sm:w-1/1 md:w-1/1 lg:w-1/1 xl:w-1/1"
                             defaultValue={props.obj?.name}
-                        />
-                        <InputColor                            
-                            name={"color"}
-                            form={form}
-                            label={"Cor"}   
-                            className="w-full sm:w-1/1 md:w-1/6 lg:w-1/6 xl:w-1/6"
-                            defaultValue={props.obj?.color}                            
                         />
                     </div>
 
                     <hr className="text-grey my-3" />
 
                     <div className="flex justify-end gap-6">
-                        <button className="flex items-center justify-center text-sm" onClick={() => navigate("/responsibles")}>
+                        <button className="flex items-center justify-center text-sm" onClick={() => navigate("/categories")}>
                             <X className="mr-1" weight="bold" />
                             <strong>Cancelar</strong>
                         </button>

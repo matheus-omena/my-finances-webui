@@ -1,4 +1,4 @@
-import ResponsibleForm from "../ResponsibleForm";
+import ResponsibleForm from "./ResponsibleForm";
 
 export default function NewResponsible() {
     return (

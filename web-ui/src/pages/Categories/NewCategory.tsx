@@ -1,7 +1,13 @@
 import CategoryForm from "./CategoryForm";
 
-export default function NewCategory() {
+type NewCategoryProps = {
+    onFinish: () => void;
+}
+
+export default function NewCategory(props: NewCategoryProps) {
+    const { onFinish } = props;
+
     return (
-        <CategoryForm />
+        <CategoryForm onFinish={onFinish}/>
     );
 }

@@ -29,7 +29,7 @@ export default function WebRoutes() {
                 
                 <Route path="/categories/new" element={<NewCategory />} />
                 <Route path="/categories/:id/edit" element={<EditCategory />} />
-                <Route path="/categories" element={<CategoriesList />} />
+                {/* <Route path="/categories" element={<CategoriesList />} /> */}
 
                 <Route path="/responsibles/new" element={<NewResponsible />} />
                 <Route path="/responsibles/:id/edit" element={<EditResponsible />} />

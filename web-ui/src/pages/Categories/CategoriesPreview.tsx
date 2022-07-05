@@ -1,24 +1,39 @@
+import { Breadcrumb } from "flowbite-react";
 import { DotsThreeVertical, Folders } from "phosphor-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { CategoriesApi } from "../../apis/CategoriesApi";
 import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
 import Spinner from "../../components/General/Spinner";
 import { CategoryModel } from "../../models/CategoryModel";
+import CategoriesList from "./CategoriesList";
+
+enum ViewMode {
+    PREVIEW = "preview",
+    LIST = "list"
+}
 
 export function CategoriesPreview() {
     const _api = useMemo(() => new CategoriesApi(), []);
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState<CategoryModel[]>();
+    const [viewMode, setViewMode] = useState<ViewMode>(ViewMode.PREVIEW);
 
-    useEffect(() => {
+    const loadRegisters = useCallback(() => {
+        setViewMode(ViewMode.PREVIEW);
         setLoading(true);
         _api
             .find()
-            .then((r) => setCategories(r.data))
-            .catch((e) => console.log("Erro ao carregar as categorias", e))
+            .then((r) => {
+                setCategories(r.data);
+            })
+            .catch((e) => console.log("Erro ao carregar as categorias"))
             .finally(() => setLoading(false));
     }, [_api]);
+
+    useEffect(() => {
+        loadRegisters();
+    }, [loadRegisters]);
 
     return (
         <BackgroundAreaDefault>
@@ -29,25 +44,29 @@ export function CategoriesPreview() {
                     <span className="font-medium text-white">Categorias</span>
                 </div>
 
-                <Link to="/categories">
+                <button onClick={() => setViewMode(ViewMode.LIST)}>
                     <DotsThreeVertical color="#535353" weight="bold" size={30} />
-                </Link>
+                </button>
             </div>
+
             {/* Header */}
+
             {
                 loading ? <Spinner /> :
-                    <div className="grid grid-cols-2 gap-3">
-                        {
-                            categories?.map((item, idx) => {
-                                return (
-                                    <div key={idx} className="flex flex-row items-center gap-2">
-                                        <Folders size={20} weight="fill" color="#71717a" />
-                                        <span className="text-sm font-medium text-[#535353]">{item.name}</span>
-                                    </div>
-                                );
-                            })
-                        }
-                    </div>
+                    viewMode === ViewMode.PREVIEW ?
+                        <div className="grid grid-cols-2 gap-3">
+                            {
+                                categories?.map((item, idx) => {
+                                    return (
+                                        <div key={idx} className="flex flex-row items-center gap-2">
+                                            <Folders size={20} weight="fill" color="#71717a" />
+                                            <span className="text-sm font-medium text-[#535353]">{item.name}</span>
+                                        </div>
+                                    );
+                                })
+                            }
+                        </div> :
+                        <CategoriesList categories={categories} onReload={loadRegisters} />
             }
         </BackgroundAreaDefault>
     );

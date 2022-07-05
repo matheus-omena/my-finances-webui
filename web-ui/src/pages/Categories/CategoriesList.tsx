@@ -1,35 +1,46 @@
+import { Modal } from "flowbite-react";
 import moment from "moment";
-import { Plus, Trash } from "phosphor-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { ArrowCircleLeft, ArrowSquareOut, CalendarBlank, Plus, Trash } from "phosphor-react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import 'sweetalert2/src/sweetalert2.scss'
 import { CategoriesApi } from "../../apis/CategoriesApi";
-import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
-import Spinner from "../../components/General/Spinner";
+import GoBackButton from "../../components/Form/GoBackButton";
 import { CategoryModel } from "../../models/CategoryModel";
+import EditCategory from "./EditCategory";
+import NewCategory from "./NewCategory";
 
-export default function CategoriesList() {    
+type CategoriesListProps = {
+    categories?: CategoryModel[];
+    onReload: () => void;
+}
+
+enum OperationType {
+    CREATE = "create",
+    EDIT = "edit"
+}
+
+export default function CategoriesList(props: CategoriesListProps) {
+    const { categories, onReload } = props;
     const navigate = useNavigate();
     const _api = useMemo(() => new CategoriesApi(), []);
-    const [loading, setLoading] = useState(false);
-    const [categories, setCategories] = useState<CategoryModel[]>();
+    const [showModalForm, setShowModalForm] = useState(false);
+    const [operationType, setOperationType] = useState<OperationType>(OperationType.CREATE);
+    const [actualCategoryId, setActualCategoryId] = useState("");
 
-    const loadRegisters = useCallback(() => {
-        setLoading(true);
-        _api
-            .find()
-            .then((r) => {
-                setCategories(r.data);
-            })
-            .catch((e) => console.log("Erro ao carregar as categorias"))
-            .finally(() => setLoading(false));
-    }, [_api]);
+    const handleCreate = () => {
+        setOperationType(OperationType.CREATE);
+        setActualCategoryId("");
+        setShowModalForm(true);
+    }
 
-    useEffect(() => {
-        loadRegisters();
-    }, [loadRegisters]);
+    const handleEdit = (id: string) => {
+        setOperationType(OperationType.EDIT);
+        setActualCategoryId(id);
+        setShowModalForm(true);
+    }
 
     const onDelete = (id: string) => {
         Swal.fire({
@@ -46,64 +57,88 @@ export default function CategoriesList() {
                     .then((r) => {
                         toast.success("Registro excluído com sucesso");
 
-                        loadRegisters();
+                        onReload();
                     })
                     .catch((e) => console.log("Erro ao excluir registro", e))
-                    .finally(() => setLoading(false));
+                    .finally();
             }
         })
     }
 
     return (
-        <>
-            {loading ?
-                <Spinner /> :
-                <>
-                    <div className="flex justify-between items-center mb-4">
-                        <h1 className="text-2xl font-bold">Categorias</h1>
 
-                        <button
-                            type="submit"
-                            onClick={() => navigate("/categories/new")}
-                        >
-                            <Plus size={25} weight="bold" />
-                        </button>
-                    </div>
-                    <BackgroundAreaDefault>
-                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table className="w-full text-sm text-left text-white">
-                                <thead className="text-sm text-gray-500">
-                                    <tr>                                        
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Criado em</th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                </thead>
-                                <tbody className="text-sm">
-                                    {categories?.map((item, idx) => {
-                                        return (
-                                            <tr key={idx} className="border-b border-zinc-700">
-                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/categories/${item.id}/edit`)}>
-                                                    {item.name}
-                                                </td>
-                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/categories/${item.id}/edit`)}>
-                                                    {moment(item.createdAt).format('ll')}
-                                                </td>
-                                                <td className="py-3">
-                                                    <button className="w-full flex justify-end" onClick={() => onDelete(item.id.toString())}>
-                                                        <Trash weight="bold" size={20} />
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
-                                    }
-                                </tbody>
-                            </table>
+        <div className="relative overflow-x-auto sm:rounded-lg">
+            <div className="flex justify-between mb-4">
+                <GoBackButton onClick={onReload} />
+                <button
+                    type="button"
+                    onClick={handleCreate}
+                    className="flex text-xs gap-2"
+                >
+                    Adicionar categoria
+                    <Plus size={15} weight="bold" />
+                </button>
+            </div>
+            <div>
+                {
+                    categories?.length === 0 ?
+                        <span>Sem categorias cadastradas</span> :
+                        <div className="flex flex-col gap-4">
+                            {
+                                categories?.map((item) => {
+                                    return (
+                                        <div key={item.id} className="bg-[#181818] p-3 rounded-2xl w-full">
+                                            <div className="flex justify-between items-center">
+                                                <div className="flex flex-col">
+                                                    <div className="group flex items-center gap-1 text-sm mb-1 cursor-pointer hover:font-bold" onClick={() => handleEdit(item.id)}>
+                                                        {item.name}
+                                                        <ArrowSquareOut size={15} weight="bold" className="hidden group-hover:block group-hover:transition" />
+                                                    </div>
+                                                    <div className="flex items-center gap-1 text-zinc-500">
+                                                        <CalendarBlank size={15} />
+                                                        <small>{moment(item.createdAt).format("DD/MM/YYYY")}</small>
+                                                    </div>
+                                                </div>
+                                                <button className="flex justify-end" onClick={() => onDelete(item.id.toString())}>
+                                                    <Trash weight="bold" size={18} />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            }
                         </div>
-                    </BackgroundAreaDefault>
-                </>
-            }
-        </>
+                }
+            </div>
+            <Modal
+                show={showModalForm}
+                size="md"
+                popup={true}
+                onClose={() => setShowModalForm(false)}
+                color="#0f172a"
+            >
+                <div className="bg-zinc-800 rounded-md">
+                    <Modal.Header />
+                    <Modal.Body>
+                        {
+                            operationType === OperationType.CREATE ?
+                                <NewCategory 
+                                    onFinish={() => {
+                                        setShowModalForm(false);
+                                        onReload();
+                                    }} 
+                                /> :
+                                <EditCategory 
+                                    id={actualCategoryId} 
+                                    onFinish={() => {
+                                        setShowModalForm(false);
+                                        onReload();
+                                    }} 
+                                />
+                        }                        
+                    </Modal.Body>
+                </div>
+            </Modal>
+        </div>
     );
 }

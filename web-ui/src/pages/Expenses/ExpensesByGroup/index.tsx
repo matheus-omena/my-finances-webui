@@ -3,6 +3,7 @@ import { useMemo, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ExpenseGroupsApi } from "../../../apis/ExpenseGroupsApi";
 import { ExpensesApi } from "../../../apis/ExpensesApi";
+import GoBackButton from "../../../components/Form/GoBackButton";
 import Spinner from "../../../components/General/Spinner";
 import { ExpenseGroupModel } from "../../../models/ExpenseGroupModel";
 import { ExpenseModel } from "../../../models/ExpenseModel";
@@ -44,11 +45,10 @@ export default function ExpensesByGroup(props: ExpensesByGroupProps) {
     }, [_api, _apiExpenseGroup]);
 
     return (
-        <>
-            <button className="flex items-center text-xs text-red-400 gap-2 mb-4" onClick={() => props.setExpenseGroupId("")}>
-                <ArrowCircleLeft size={20} weight="fill" />
-                Voltar
-            </button>
+        <>            
+            <div className="mb-4">
+                <GoBackButton onClick={() => props.setExpenseGroupId("")}/>
+            </div>
             {
                 loadingGroup ?
                     <Spinner /> :

@@ -3,10 +3,11 @@ type BackgroundAreaDefaultProps = {
     className?: string;
 }
 
-export default function BackgroundAreaDefault(props: any) {
+export default function BackgroundAreaDefault(props: BackgroundAreaDefaultProps) {
+    const { children, className } = props;
     return (
-        <div className={`bg-[rgb(31,31,31)] p-5 rounded-2xl ${props.className}`}>
-            {props.children}
+        <div className={`bg-[rgb(31,31,31)] p-5 rounded-2xl ${className}`}>
+            {children}
         </div>
     )
 }

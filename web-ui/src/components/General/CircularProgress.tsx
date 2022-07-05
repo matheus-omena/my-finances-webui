@@ -19,13 +19,13 @@ export default function CircularProgress(props: Props) {
             text={props.text}
             styles={
                 buildStyles({
-                    textSize: "23px",
+                    textSize: "23px",                    
                     // How long animation takes to go from one percentage to another, in seconds
                     pathTransitionDuration: 0.5,
                     strokeLinecap: 50,
                     // Colors                                
                     pathColor: pathColor,
-                    textColor: txtColor,
+                    textColor: txtColor,                    
                     backgroundColor: '#535353',
                 })
             }

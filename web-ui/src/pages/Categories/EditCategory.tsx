@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
 import { CategoriesApi } from "../../apis/CategoriesApi";
 import Spinner from "../../components/General/Spinner";
 import { CategoryModel } from "../../models/CategoryModel";
 import CategoryForm from "./CategoryForm";
 
-export default function EditCategory() {
-    const [loading, setLoading] = useState(false);
-    const { id } = useParams();    
+type EditCategoryProps = {
+    id: string;
+    onFinish: () => void;
+}
+
+export default function EditCategory(props: EditCategoryProps) {
+    const { id, onFinish } = props;
+    const [loading, setLoading] = useState(false);        
     const _api = useMemo(() => new CategoriesApi(), []);
     const [category, setCategory] = useState<CategoryModel>();
 
@@ -27,7 +31,7 @@ export default function EditCategory() {
         <>
             {
                 loading ? <Spinner /> :
-                    <CategoryForm obj={category} />
+                    <CategoryForm obj={category} onFinish={onFinish} />
 
             }
         </>

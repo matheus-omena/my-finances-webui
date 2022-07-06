@@ -1,17 +1,12 @@
-import { Breadcrumb } from "flowbite-react";
 import { DotsThreeVertical, Folders } from "phosphor-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
 import { CategoriesApi } from "../../apis/CategoriesApi";
 import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
+import DefaultTransition from "../../components/General/DefaultTransition";
 import Spinner from "../../components/General/Spinner";
 import { CategoryModel } from "../../models/CategoryModel";
+import { ViewMode } from "../../models/RegistersEnums";
 import CategoriesList from "./CategoriesList";
-
-enum ViewMode {
-    PREVIEW = "preview",
-    LIST = "list"
-}
 
 export function CategoriesPreview() {
     const _api = useMemo(() => new CategoriesApi(), []);
@@ -54,7 +49,7 @@ export function CategoriesPreview() {
             {
                 loading ? <Spinner /> :
                     viewMode === ViewMode.PREVIEW ?
-                        <div className="grid grid-cols-2 gap-3">
+                        <DefaultTransition className="grid grid-cols-2 gap-3">
                             {
                                 categories?.map((item, idx) => {
                                     return (
@@ -65,7 +60,7 @@ export function CategoriesPreview() {
                                     );
                                 })
                             }
-                        </div> :
+                        </DefaultTransition> :
                         <CategoriesList categories={categories} onReload={loadRegisters} />
             }
         </BackgroundAreaDefault>

@@ -1,14 +1,15 @@
 import { Modal } from "flowbite-react";
 import moment from "moment";
-import { ArrowCircleLeft, ArrowSquareOut, CalendarBlank, Plus, Trash } from "phosphor-react";
+import { ArrowSquareOut, CalendarBlank, Plus, Trash } from "phosphor-react";
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import 'sweetalert2/src/sweetalert2.scss'
 import { CategoriesApi } from "../../apis/CategoriesApi";
 import GoBackButton from "../../components/Form/GoBackButton";
+import DefaultTransition from "../../components/General/DefaultTransition";
 import { CategoryModel } from "../../models/CategoryModel";
+import { OperationType } from "../../models/RegistersEnums";
 import EditCategory from "./EditCategory";
 import NewCategory from "./NewCategory";
 
@@ -17,14 +18,8 @@ type CategoriesListProps = {
     onReload: () => void;
 }
 
-enum OperationType {
-    CREATE = "create",
-    EDIT = "edit"
-}
-
 export default function CategoriesList(props: CategoriesListProps) {
-    const { categories, onReload } = props;
-    const navigate = useNavigate();
+    const { categories, onReload } = props;    
     const _api = useMemo(() => new CategoriesApi(), []);
     const [showModalForm, setShowModalForm] = useState(false);
     const [operationType, setOperationType] = useState<OperationType>(OperationType.CREATE);
@@ -67,7 +62,7 @@ export default function CategoriesList(props: CategoriesListProps) {
 
     return (
 
-        <div className="relative overflow-x-auto sm:rounded-lg">
+        <DefaultTransition className="relative overflow-x-auto sm:rounded-lg">
             <div className="flex justify-between mb-4">
                 <GoBackButton onClick={onReload} />
                 <button
@@ -139,6 +134,6 @@ export default function CategoriesList(props: CategoriesListProps) {
                     </Modal.Body>
                 </div>
             </Modal>
-        </div>
+        </DefaultTransition>
     );
 }

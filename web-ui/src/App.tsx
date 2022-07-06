@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Spinner from './components/General/Spinner';
 import AuthProvider from "./contexts/AuthContext";
 import Routes from './routes';
+import 'animate.css';
 
 moment.locale("pt-br");
 moment.updateLocale;

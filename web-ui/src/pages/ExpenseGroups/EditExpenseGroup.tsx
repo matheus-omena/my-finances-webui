@@ -5,9 +5,14 @@ import Spinner from "../../components/General/Spinner";
 import { ExpenseGroupModel } from "../../models/ExpenseGroupModel";
 import ExpenseGroupForm from "./ExpenseGroupForm";
 
-export default function EditExpenseGroup() {
-    const [loading, setLoading] = useState(false);
-    const { id } = useParams();
+type EditExpenseGroupProps = {
+    id: string;
+    onFinish: () => void;
+}
+
+export default function EditExpenseGroup(props: EditExpenseGroupProps) {
+    const { id, onFinish } = props;
+    const [loading, setLoading] = useState(false);    
     const _api = useMemo(() => new ExpenseGroupsApi(), []);
     const [expenseGroup, setExpenseGroup] = useState<ExpenseGroupModel>();
 
@@ -27,7 +32,7 @@ export default function EditExpenseGroup() {
         <>
             {
                 loading ? <Spinner /> :
-                    <ExpenseGroupForm obj={expenseGroup} />
+                    <ExpenseGroupForm obj={expenseGroup} onFinish={onFinish} />
             }
         </>
     );

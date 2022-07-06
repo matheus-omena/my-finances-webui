@@ -8,17 +8,16 @@ import { ResponsibleModel } from "../../models/ResponsibleModel";
 import { Input } from "../../components/Form/Input";
 import Button from "../../components/Form/Button";
 import { Check, X } from "phosphor-react";
-import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
 import { ResponsiblesApi } from "../../apis/ResponsiblesApi";
 import { InputColor } from "../../components/Form/InputColor/InputColor";
+import DefaultTransition from "../../components/General/DefaultTransition";
 
 type Props = {
     obj?: ResponsibleModel;
     onFinish: () => void;
 }
 
-export default function ResponsibleForm(props: Props) {
-    const navigate = useNavigate();
+export default function ResponsibleForm(props: Props) {    
     const [sending, setSending] = useState(false);
     const _api = useMemo(() => new ResponsiblesApi(), []);
 
@@ -59,7 +58,7 @@ export default function ResponsibleForm(props: Props) {
     }
 
     return (
-        <>
+        <DefaultTransition>
             <div className="mb-4">
                 {
                     props.obj ?
@@ -77,7 +76,6 @@ export default function ResponsibleForm(props: Props) {
                         </>
                 }
             </div>
-
 
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <input type="hidden" {...form.register("id")} value={props.obj?.id} />
@@ -111,6 +109,6 @@ export default function ResponsibleForm(props: Props) {
                     />
                 </div>
             </form>
-        </>
+        </DefaultTransition>
     );
 }

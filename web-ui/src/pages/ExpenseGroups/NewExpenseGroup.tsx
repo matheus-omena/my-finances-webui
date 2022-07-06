@@ -1,7 +1,13 @@
 import ExpenseGroupForm from "./ExpenseGroupForm";
 
-export default function NewExpenseGroup() {
+type NewExpenseGroupProps = {
+    onFinish: () => void;
+}
+
+export default function NewExpenseGroup(props: NewExpenseGroupProps) {
+    const { onFinish } = props;
+
     return (
-        <ExpenseGroupForm />
+        <ExpenseGroupForm onFinish={onFinish} />
     );
 }

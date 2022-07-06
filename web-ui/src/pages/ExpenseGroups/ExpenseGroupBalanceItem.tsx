@@ -1,16 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import CircularProgress from "../../../components/General/CircularProgress";
-import { ExpenseGroupWithGroupedExpensesModel } from "../../../models/ExpenseGroupModel";
-import { getContrastColorName, getContrastColorHex } from "../../../utils";
+import CircularProgress from "../../components/General/CircularProgress";
+import { ExpenseGroupBalanceModel } from "../../models/ExpenseGroupModel";
+
+import { getContrastColorName, getContrastColorHex } from "../../utils";
 
 interface ExpenseGroupData {
-    group: ExpenseGroupWithGroupedExpensesModel;
+    group: ExpenseGroupBalanceModel;
     setExpenseGroupId: any;
 }
 
-export default function ExpenseGroup(data: ExpenseGroupData) {
+export default function ExpenseGroupBalanceItem(data: ExpenseGroupData) {
     const { id, name, color, totalValue, paymentPercentual } = data.group;
-    const navigate = useNavigate();
 
     let textColor = getContrastColorName(color);
 

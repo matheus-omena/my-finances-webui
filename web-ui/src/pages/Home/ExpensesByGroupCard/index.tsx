@@ -2,8 +2,8 @@ import { DotsThreeVertical } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import BackgroundAreaDefault from "../../../components/General/BackgroundAreaDefault";
+import ExpenseGroupsBalance from "../../ExpenseGroups/ExpenseGroupsBalance";
 import ExpensesByGroup from "../../Expenses/ExpensesByGroup";
-import GroupExpensesList from "./GroupExpensesList";
 
 export function ExpensesByGroupCard() {    
     const [showDetailedExpenses, setShowDetailedExpenses] = useState(false);
@@ -30,7 +30,7 @@ export function ExpensesByGroupCard() {
             {
                 showDetailedExpenses ? 
                 <ExpensesByGroup groupId={groupId} month={7} setExpenseGroupId={setGroupId}/> :
-                <GroupExpensesList setExpenseGroupId={setGroupId}/>
+                <ExpenseGroupsBalance setExpenseGroupId={setGroupId}/>
             }                  
         </BackgroundAreaDefault>
     );

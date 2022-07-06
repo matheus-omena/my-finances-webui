@@ -45,7 +45,9 @@ export function Select(props: Props) {
                   </select>
                   {props.form.formState.errors[props.name] && (
                      <small className="text-red-500 text-xs">
-                        *{props.form.formState.errors[props.name].message || "Valor inválido"}
+                        <>
+                           *{props.form.formState.errors[props.name]?.message || "Valor inválido"}
+                        </>
                      </small>
                   )}
                </>

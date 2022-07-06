@@ -27,7 +27,9 @@ export function InputColor(props: InputProps) {
             />
             {props.form.formState.errors[props.name] && (
                 <small className="text-red-500 text-xs">
-                    *{props.form.formState.errors[props.name].message || "Valor inválido"}
+                    <>
+                        *{props.form.formState.errors[props.name]?.message || "Valor inválido"}
+                    </>
                 </small>
             )}
         </div>

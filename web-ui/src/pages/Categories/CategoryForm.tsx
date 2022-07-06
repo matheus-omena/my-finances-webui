@@ -8,6 +8,7 @@ import { CategoriesApi } from "../../apis/CategoriesApi";
 import { Input } from "../../components/Form/Input";
 import Button from "../../components/Form/Button";
 import { Check, X } from "phosphor-react";
+import DefaultTransition from "../../components/General/DefaultTransition";
 
 type Props = {
     obj?: CategoryModel;
@@ -55,7 +56,7 @@ export default function CategoryForm(props: Props) {
     }
 
     return (
-        <>
+        <DefaultTransition>
             <div className="mb-4">
                 {
                     props.obj ?
@@ -99,6 +100,6 @@ export default function CategoryForm(props: Props) {
                     />
                 </div>
             </form>
-        </>
+        </DefaultTransition>
     );
 }

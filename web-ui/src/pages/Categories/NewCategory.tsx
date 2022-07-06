@@ -8,6 +8,6 @@ export default function NewCategory(props: NewCategoryProps) {
     const { onFinish } = props;
 
     return (
-        <CategoryForm onFinish={onFinish}/>
+        <CategoryForm onFinish={onFinish} />
     );
 }

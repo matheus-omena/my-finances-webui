@@ -18,7 +18,7 @@ export interface CreateUpdateExpenseGroupModel {
    categoryId: string;  
 };
 
-export interface ExpenseGroupWithGroupedExpensesModel { 
+export interface ExpenseGroupBalanceModel { 
    id: string;
    name: string;  
    color: string; 

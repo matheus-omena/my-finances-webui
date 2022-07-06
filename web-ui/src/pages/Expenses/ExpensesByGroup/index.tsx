@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ExpenseGroupsApi } from "../../../apis/ExpenseGroupsApi";
 import { ExpensesApi } from "../../../apis/ExpensesApi";
 import GoBackButton from "../../../components/Form/GoBackButton";
+import DefaultTransition from "../../../components/General/DefaultTransition";
 import Spinner from "../../../components/General/Spinner";
 import { ExpenseGroupModel } from "../../../models/ExpenseGroupModel";
 import { ExpenseModel } from "../../../models/ExpenseModel";
@@ -45,7 +46,7 @@ export default function ExpensesByGroup(props: ExpensesByGroupProps) {
     }, [_api, _apiExpenseGroup]);
 
     return (
-        <>            
+        <DefaultTransition>            
             <div className="mb-4">
                 <GoBackButton onClick={() => props.setExpenseGroupId("")}/>
             </div>
@@ -80,6 +81,6 @@ export default function ExpensesByGroup(props: ExpensesByGroupProps) {
                         }                        
                     </div>
             }
-        </>
+        </DefaultTransition>
     );
 }

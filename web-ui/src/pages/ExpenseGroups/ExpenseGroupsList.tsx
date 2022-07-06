@@ -1,26 +1,50 @@
-import { Plus, Trash } from "phosphor-react";
+import { Modal } from "flowbite-react";
+import moment from "moment";
+import { ArrowSquareOut, CalendarBlank, Circle, FolderSimple, FolderSimpleStar, Plus, Trash } from "phosphor-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import 'sweetalert2/src/sweetalert2.scss'
 import { ExpenseGroupsApi } from "../../apis/ExpenseGroupsApi";
-import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
+import GoBackButton from "../../components/Form/GoBackButton";
+import DefaultTransition from "../../components/General/DefaultTransition";
 import Spinner from "../../components/General/Spinner";
 import { ExpenseGroupModel } from "../../models/ExpenseGroupModel";
+import { OperationType } from "../../models/RegistersEnums";
+import EditExpenseGroup from "./EditExpenseGroup";
+import NewExpenseGroup from "./NewExpenseGroup";
 
-export default function ExpenseGroupsList() {    
-    const navigate = useNavigate();
+type ExpenseGroupsListProps = {
+    onReload: () => void;
+}
+
+export default function ExpenseGroupsList(props: ExpenseGroupsListProps) {
+    const { onReload } = props;
     const _api = useMemo(() => new ExpenseGroupsApi(), []);
+    const [showModalForm, setShowModalForm] = useState(false);
     const [loading, setLoading] = useState(false);
     const [groups, setGroups] = useState<ExpenseGroupModel[]>();
+    const [operationType, setOperationType] = useState<OperationType>(OperationType.CREATE);
+    const [actualGroupId, setActualGroupId] = useState("");
+
+    const handleCreate = () => {
+        setOperationType(OperationType.CREATE);
+        setActualGroupId("");
+        setShowModalForm(true);
+    }
+
+    const handleEdit = (id: string) => {
+        setOperationType(OperationType.EDIT);
+        setActualGroupId(id);
+        setShowModalForm(true);
+    }
 
     const loadRegisters = useCallback(() => {
         setLoading(true);
         _api
             .find()
             .then((r) => {
-                setGroups(r.data);                
+                setGroups(r.data);
             })
             .catch((e) => console.log("Erro ao carregar os grupos de despesas"))
             .finally(() => setLoading(false));
@@ -57,63 +81,86 @@ export default function ExpenseGroupsList() {
         <>
             {loading ?
                 <Spinner /> :
-                <>
-                    <div className="flex justify-between items-center mb-4">
-                        <h1 className="text-2xl font-bold">Grupos de despesas</h1>
-
+                <DefaultTransition>
+                    <div className="flex justify-between mb-4">
+                        <GoBackButton onClick={onReload} />
                         <button
-                            type="submit"
-                            onClick={() => navigate("/expense-groups/new")}
+                            type="button"
+                            onClick={handleCreate}
+                            className="flex text-xs gap-2"
                         >
-                            <Plus size={25} weight="bold" />
+                            Adicionar grupo
+                            <Plus size={15} weight="bold" />
                         </button>
                     </div>
-                    <BackgroundAreaDefault>
-                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table className="w-full text-sm text-left text-white">
-                                <thead className="text-sm text-gray-500">
-                                    <tr>                                        
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Cor</th>
-                                        <th scope="col">Tipo</th>
-                                        <th scope="col">Dia de Pagamento</th>
-                                        <th scope="col">Categoria</th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                </thead>
-                                <tbody className="text-sm">
-                                    {groups?.map((item, idx) => {
-                                        return (
-                                            <tr key={idx} className="border-b border-zinc-700">
-                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/expense-groups/${item.id}/edit`)}>
-                                                    {item.name}
-                                                </td>
-                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/expense-groups/${item.id}/edit`)}>
-                                                    <div className={`w-10 h-6 rounded-md`} style={{backgroundColor: `${item.color}`}}></div>
-                                                </td>     
-                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/expense-groups/${item.id}/edit`)}>
-                                                    {item.type === 0 ? "Pagamento individual" : item.type === 1 && "Pagamento total"}
-                                                </td>    
-                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/expense-groups/${item.id}/edit`)}>
-                                                    {item.paymentDay ? item.paymentDay : "-"}
-                                                </td> 
-                                                <td className="cursor-pointer py-3" onClick={() => navigate(`/expense-groups/${item.id}/edit`)}>
-                                                    {item.category.name}
-                                                </td>                                              
-                                                <td className="py-3">
-                                                    <button className="w-full flex justify-end" onClick={() => onDelete(item.id.toString())}>
-                                                        <Trash weight="bold" size={20} />
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
-                                    }
-                                </tbody>
-                            </table>
+
+                    <div className="flex flex-col gap-4">
+                        {
+                            groups?.length === 0 ?
+                                <span>Sem grupos cadastrados</span> :
+
+                                groups?.map((item) => {
+                                    return (
+                                        <div key={item.id} className="bg-[#181818] p-3 rounded-2xl w-full">
+                                            <div className="flex justify-between items-center">
+                                                <div className="flex flex-col">
+                                                    <div className="group flex items-center gap-1 text-sm mb-1 cursor-pointer hover:font-bold" onClick={() => handleEdit(item.id)}>
+                                                        {item.name}
+                                                        <Circle color={item.color} size={15} weight="fill" />
+                                                        <ArrowSquareOut size={15} weight="bold" className="hidden group-hover:block group-hover:transition" />
+                                                    </div>
+                                                    {
+                                                        item.paymentDay ?
+                                                            <div className="flex items-center gap-1 text-zinc-500 mb-1">
+                                                                <CalendarBlank size={12} />
+                                                                <small className="text-xs">Dia de pagamento: <strong>{item.paymentDay}</strong></small>
+                                                            </div> : <></>
+                                                    }
+                                                    <div className="flex items-center gap-1 text-zinc-500">
+                                                        <FolderSimple size={12} />
+                                                        <small className="text-xs">Categoria: <strong>{item.category.name}</strong></small>
+                                                    </div>
+                                                </div>
+                                                <button className="flex justify-end" onClick={() => onDelete(item.id)}>
+                                                    <Trash weight="bold" size={18} />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                        }
+                    </div>
+                    <Modal
+                        show={showModalForm}
+                        size="md"
+                        popup={true}
+                        onClose={() => setShowModalForm(false)}
+                        color="#0f172a"
+                    >
+                        <div className="bg-zinc-800 rounded-md">
+                            <Modal.Header />
+                            <Modal.Body>
+                                {
+                                    operationType === OperationType.CREATE ?
+                                        <NewExpenseGroup
+                                            onFinish={() => {
+                                                setShowModalForm(false);
+                                                onReload();
+                                            }}
+                                        /> :
+                                        <EditExpenseGroup
+                                            id={actualGroupId}
+                                            onFinish={() => {
+                                                setShowModalForm(false);
+                                                onReload();
+                                            }}
+                                        />
+                                }
+                            </Modal.Body>
                         </div>
-                    </BackgroundAreaDefault>
-                </>
+                    </Modal>
+
+                </DefaultTransition>
             }
         </>
     );

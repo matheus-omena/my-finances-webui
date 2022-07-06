@@ -5,9 +5,14 @@ import Spinner from "../../components/General/Spinner";
 import { ResponsibleModel } from "../../models/ResponsibleModel";
 import ResponsibleForm from "./ResponsibleForm";
 
-export default function EditResponsible() {
-    const [loading, setLoading] = useState(false);
-    const { id } = useParams();    
+type EditResponsibleProps = {
+    id: string;
+    onFinish: () => void;
+}
+
+export default function EditResponsible(props: EditResponsibleProps) {
+    const { id, onFinish } = props;
+    const [loading, setLoading] = useState(false);    
     const _api = useMemo(() => new ResponsiblesApi(), []);
     const [responsible, setResponsible] = useState<ResponsibleModel>();
 
@@ -27,7 +32,7 @@ export default function EditResponsible() {
         <>
             {
                 loading ? <Spinner /> :
-                    <ResponsibleForm obj={responsible} />
+                    <ResponsibleForm obj={responsible} onFinish={onFinish} />
 
             }
         </>

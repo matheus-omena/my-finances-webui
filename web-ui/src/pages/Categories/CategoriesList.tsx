@@ -19,7 +19,7 @@ type CategoriesListProps = {
 }
 
 export default function CategoriesList(props: CategoriesListProps) {
-    const { categories, onReload } = props;    
+    const { categories, onReload } = props;
     const _api = useMemo(() => new CategoriesApi(), []);
     const [showModalForm, setShowModalForm] = useState(false);
     const [operationType, setOperationType] = useState<OperationType>(OperationType.CREATE);
@@ -74,35 +74,32 @@ export default function CategoriesList(props: CategoriesListProps) {
                     <Plus size={15} weight="bold" />
                 </button>
             </div>
-            <div>
+            <div className="flex flex-col gap-4">
                 {
                     categories?.length === 0 ?
                         <span>Sem categorias cadastradas</span> :
-                        <div className="flex flex-col gap-4">
-                            {
-                                categories?.map((item) => {
-                                    return (
-                                        <div key={item.id} className="bg-[#181818] p-3 rounded-2xl w-full">
-                                            <div className="flex justify-between items-center">
-                                                <div className="flex flex-col">
-                                                    <div className="group flex items-center gap-1 text-sm mb-1 cursor-pointer hover:font-bold" onClick={() => handleEdit(item.id)}>
-                                                        {item.name}
-                                                        <ArrowSquareOut size={15} weight="bold" className="hidden group-hover:block group-hover:transition" />
-                                                    </div>
-                                                    <div className="flex items-center gap-1 text-zinc-500">
-                                                        <CalendarBlank size={15} />
-                                                        <small>{moment(item.createdAt).format("DD/MM/YYYY")}</small>
-                                                    </div>
-                                                </div>
-                                                <button className="flex justify-end" onClick={() => onDelete(item.id.toString())}>
-                                                    <Trash weight="bold" size={18} />
-                                                </button>
+
+                        categories?.map((item) => {
+                            return (
+                                <div key={item.id} className="bg-[#181818] p-3 rounded-2xl w-full">
+                                    <div className="flex justify-between items-center">
+                                        <div className="flex flex-col">
+                                            <div className="group flex items-center gap-1 text-sm mb-1 cursor-pointer hover:font-bold" onClick={() => handleEdit(item.id)}>
+                                                {item.name}
+                                                <ArrowSquareOut size={15} weight="bold" className="hidden group-hover:block group-hover:transition" />
+                                            </div>
+                                            <div className="flex items-center gap-1 text-zinc-500">
+                                                <CalendarBlank size={12} />
+                                                <small className="text-xs">{moment(item.createdAt).format("DD/MM/YYYY")}</small>
                                             </div>
                                         </div>
-                                    );
-                                })
-                            }
-                        </div>
+                                        <button className="flex justify-end" onClick={() => onDelete(item.id)}>
+                                            <Trash weight="bold" size={18} />
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })
                 }
             </div>
             <Modal
@@ -117,20 +114,20 @@ export default function CategoriesList(props: CategoriesListProps) {
                     <Modal.Body>
                         {
                             operationType === OperationType.CREATE ?
-                                <NewCategory 
+                                <NewCategory
                                     onFinish={() => {
                                         setShowModalForm(false);
                                         onReload();
-                                    }} 
+                                    }}
                                 /> :
-                                <EditCategory 
-                                    id={actualCategoryId} 
+                                <EditCategory
+                                    id={actualCategoryId}
                                     onFinish={() => {
                                         setShowModalForm(false);
                                         onReload();
-                                    }} 
+                                    }}
                                 />
-                        }                        
+                        }
                     </Modal.Body>
                 </div>
             </Modal>

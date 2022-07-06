@@ -14,7 +14,7 @@ type Props = {
     onFinish: () => void;
 }
 
-export default function CategoryForm(props: Props) {    
+export default function CategoryForm(props: Props) {
     const [sending, setSending] = useState(false);
     const _api = useMemo(() => new CategoriesApi(), []);
 
@@ -61,7 +61,7 @@ export default function CategoryForm(props: Props) {
                     props.obj ?
                         <>
                             <h3 className="text-2xl font-bold mb-2">
-                                Edite a categoria
+                                Edição de categoria
                             </h3>
                             <p className="text-xs text-zinc-400">Altere apenas as informações que desejar!</p>
                         </> :
@@ -71,9 +71,8 @@ export default function CategoryForm(props: Props) {
                             </h3>
                             <p className="text-xs text-zinc-400">Preencha as informações para criar um novo registro.</p>
                         </>
-                }                
+                }
             </div>
-
 
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <input type="hidden" {...form.register("id")} value={props.obj?.id} />

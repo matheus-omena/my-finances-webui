@@ -39,11 +39,10 @@ export function CategoriesPreview() {
                     <span className="font-medium text-white">Categorias</span>
                 </div>
 
-                <button onClick={() => setViewMode(ViewMode.LIST)}>
+                <button type="button" onClick={() => setViewMode(ViewMode.LIST)}>
                     <DotsThreeVertical color="#535353" weight="bold" size={30} />
                 </button>
             </div>
-
             {/* Header */}
 
             {
@@ -51,9 +50,9 @@ export function CategoriesPreview() {
                     viewMode === ViewMode.PREVIEW ?
                         <DefaultTransition className="grid grid-cols-2 gap-3">
                             {
-                                categories?.map((item, idx) => {
+                                categories?.map((item) => {
                                     return (
-                                        <div key={idx} className="flex flex-row items-center gap-2">
+                                        <div key={item.id} className="flex flex-row items-center gap-2">
                                             <Folders size={20} weight="fill" color="#71717a" />
                                             <span className="text-sm font-medium text-[#535353]">{item.name}</span>
                                         </div>

@@ -9,7 +9,7 @@ interface ExpenseGroupData {
 }
 
 export default function ExpenseGroupBalanceItem(data: ExpenseGroupData) {
-    const { id, name, color, totalValue, paymentPercentual } = data.group;
+    const { id, name, color, totalValue, totalPaid, paymentPercentual } = data.group;
 
     let textColor = getContrastColorName(color);
 
@@ -21,7 +21,10 @@ export default function ExpenseGroupBalanceItem(data: ExpenseGroupData) {
                         {name}
                     </span>
                     <div className="flex gap-3 items-center">
-                        <span className="font-bold">R${totalValue.toFixed(2)}</span>
+                        <div className="flex flex-col">
+                            <span className="font-bold text-right">R${totalValue.toFixed(2)}</span>
+                            <small className="text-xs text-right">Valor pago: R${totalPaid.toFixed(2)}</small>
+                        </div>
                         <div className="w-12 h-12">
                             <CircularProgress
                                 value={paymentPercentual}

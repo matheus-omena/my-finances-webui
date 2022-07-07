@@ -23,5 +23,6 @@ export interface ExpenseGroupBalanceModel {
    name: string;  
    color: string; 
    totalValue: number;
+   totalPaid: number;
    paymentPercentual: number;   
 };

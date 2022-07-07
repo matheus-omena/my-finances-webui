@@ -23,7 +23,7 @@ export function InputColor(props: InputProps) {
                 type="color"
                 id={props.name}                
                 defaultValue={color}
-                onChange={e => setColor(e.target.value)}
+                onChange={e => setColor(e.target.value)}                
             />
             {props.form.formState.errors[props.name] && (
                 <small className="text-red-500 text-xs">

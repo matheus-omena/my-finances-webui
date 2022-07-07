@@ -1,4 +1,4 @@
-import { ExpenseModel } from "../../../../models/ExpenseModel";
+import { ExpenseModel } from "../../../models/ExpenseModel";
 
 type ExpenseFormProps = {
     expense?: ExpenseModel;

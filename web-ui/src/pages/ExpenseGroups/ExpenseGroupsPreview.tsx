@@ -3,7 +3,7 @@ import { DotsThreeVertical } from "phosphor-react";
 import { useEffect, useState } from "react";
 import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
 import SelectMonth from "../../components/General/SelectMonth";
-import ExpensesByGroup from "../Expenses/ExpensesByGroup";
+import ExpensesByGroupList from "../Expenses/ExpensesByGroup/ExpensesByGroupList";
 import ExpenseGroupsBalance from "./ExpenseGroupsBalance";
 import ExpenseGroupsList from "./ExpenseGroupsList";
 
@@ -13,14 +13,14 @@ enum ViewType {
     EXPENSES = "expenses"
 }
 
-export function ExpenseGroupsPreview() {        
+export function ExpenseGroupsPreview() {
     const [viewType, setViewType] = useState<ViewType>(ViewType.BALANCE);
-    const [groupId, setGroupId] = useState(""); 
+    const [groupId, setGroupId] = useState("");
     const [selectedMonth, setSelectedMonth] = useState<number>(Number(moment().format("MM")));
 
     useEffect(() => {
         setViewType(ViewType.BALANCE);
-    }, [])    
+    }, [])
 
     useEffect(() => {
         setViewType(groupId !== "" ? ViewType.EXPENSES : ViewType.BALANCE);
@@ -43,17 +43,22 @@ export function ExpenseGroupsPreview() {
                     <DotsThreeVertical color="#535353" weight="bold" size={30} />
                 </button>
             </div>
-            {/* Header */}       
-            <SelectMonth setMonth={setSelectedMonth}/>
+            {/* Header */}
             {
-                viewType === ViewType.BALANCE ? 
-                    <ExpenseGroupsBalance month={selectedMonth} setExpenseGroupId={setGroupId}/> :
-                viewType === ViewType.EXPENSES ? 
-                    <ExpensesByGroup groupId={groupId} month={selectedMonth} setExpenseGroupId={setGroupId}/> :
-                viewType === ViewType.GROUP_LIST ? 
-                    <ExpenseGroupsList onReload={() => setViewType(ViewType.BALANCE)}/> :
-                <></>                           
-            }                  
+                viewType === ViewType.BALANCE ?
+                    <>
+                        <SelectMonth setMonth={setSelectedMonth} />
+                        <ExpenseGroupsBalance month={selectedMonth} setExpenseGroupId={setGroupId} />
+                    </> :
+                viewType === ViewType.EXPENSES ?
+                    <>
+                        <SelectMonth setMonth={setSelectedMonth} />
+                        <ExpensesByGroupList groupId={groupId} month={selectedMonth} setExpenseGroupId={setGroupId} />
+                    </> :
+                viewType === ViewType.GROUP_LIST ?
+                    <ExpenseGroupsList onReload={() => setViewType(ViewType.BALANCE)} /> :
+                    <></>
+            }
         </BackgroundAreaDefault>
     );
 }

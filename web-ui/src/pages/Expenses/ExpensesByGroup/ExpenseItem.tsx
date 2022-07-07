@@ -1,11 +1,11 @@
 import moment from "moment";
-import { ExpenseModel } from "../../../../models/ExpenseModel"
+import { ExpenseModel } from "../../../models/ExpenseModel"
 
 type ExpenseProps = {
     expense: ExpenseModel;
 }
 
-export default function Expense(props: ExpenseProps) {
+export default function ExpenseItem(props: ExpenseProps) {
     const { expense } = props;
     return (
         <div className="bg-[#181818] p-3 rounded-2xl w-full cursor-pointer" onClick={() => alert('1')}>

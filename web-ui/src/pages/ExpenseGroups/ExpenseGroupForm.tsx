@@ -1,12 +1,11 @@
 import { useForm } from "react-hook-form";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { Input } from "../../components/Form/Input";
 import Button from "../../components/Form/Button";
-import { Check, X } from "phosphor-react";
-import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
+import { Check, Info, X } from "phosphor-react";
 import { InputColor } from "../../components/Form/InputColor/InputColor";
 import { CreateUpdateExpenseGroupModel, ExpenseGroupModel } from "../../models/ExpenseGroupModel";
 import { ExpenseGroupsApi } from "../../apis/ExpenseGroupsApi";
@@ -16,6 +15,7 @@ import { CategoryModel } from "../../models/CategoryModel";
 import Spinner from "../../components/General/Spinner";
 import DefaultTransition from "../../components/General/DefaultTransition";
 import { RadioButton } from "../../components/Form/RadioButton";
+import { Modal } from "flowbite-react";
 
 type Props = {
     obj?: ExpenseGroupModel;
@@ -30,9 +30,13 @@ type SelectProps = {
 export default function ExpenseGroupForm(props: Props) {
     const [sending, setSending] = useState(false);
     const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+    const [showTypeInfo, setShowTypeInfo] = useState(false);
     const [categoryOptions, setCategoryOptions] = useState<SelectProps[]>();
     const _api = useMemo(() => new ExpenseGroupsApi(), []);
     const _apiCategory = useMemo(() => new CategoriesApi(), []);
+
+    const [selectedType, setSelectedType] = useState(props.obj?.type || 0);
+    const [showPaymentDayInput, setShowPaymentDayInput] = useState(props.obj?.type === 1 || false);
 
     const schema = yup.object({
         name: yup.string().required("O nome é obrigatório"),
@@ -42,16 +46,21 @@ export default function ExpenseGroupForm(props: Props) {
         resolver: yupResolver(schema)
     });
 
+    if (props.obj)
+        form.setValue("categoryId", props.obj?.category.id);
+
     const type = form.watch("type");
 
     useEffect(() => {
-        if (props.obj) {
-            form.setValue("type", props.obj?.type);
-            form.setValue("categoryId", props.obj?.category.id);
-        }
-        else {
+        setSelectedType(type);
+        setShowPaymentDayInput(String(type) === "1");
+    }, [type])
+
+    useEffect(() => {
+        if (props.obj)
+            setShowPaymentDayInput(props.obj?.type === 1);
+        else
             form.setValue("type", 0);
-        }
     }, [])
 
     useEffect(() => {
@@ -163,24 +172,21 @@ export default function ExpenseGroupForm(props: Props) {
                             />
                     }
                 </div>
-                <div className="flex flex-wrap">
-                    {/* <Select
-                        name="type"
-                        form={form}
-                        options={typeOptions}
-                        className="w-full sm:w-1/1 md:w-1/5 lg:w-1/5 xl:w-1/5"
-                        label={"Tipo"}
-                        defaultValue={props.obj?.type}
-                    /> */}
-                    <div className="flex flex-col w-full sm:w-1/1 md:w-1/2 lg:w-1/2 xl:w-1/2">
-                        <span className="text-gray-700 text-sm font-bold mb-2">Tipo de pagamento</span>
+                <div className="flex flex-wrap -mx-2">
+                    <div className="pl-2 flex flex-col w-full sm:w-1/1 md:w-1/2 lg:w-1/2 xl:w-1/2">
+                        <div className="flex items-center text-gray-700 mb-2">
+                            <span className="text-sm font-bold">Tipo de pagamento</span>
+                            <button type="button" className="ml-1 hover:text-sky-400 transition-colors" onClick={() => setShowTypeInfo(true)}>
+                                <Info size={18} />
+                            </button>
+                        </div>
                         <RadioButton
                             form={form}
                             name="type"
                             id="individualPaymentType"
                             label={"Pagamento individual"}
                             value={0}
-                            defaultChecked={props.obj?.type === 0}
+                            defaultChecked={selectedType === 0}
                         />
                         <RadioButton
                             form={form}
@@ -188,11 +194,11 @@ export default function ExpenseGroupForm(props: Props) {
                             id="totalPaymentType"
                             label={"Pagamento total"}
                             value={1}
-                            defaultChecked={props.obj?.type === 1}
+                            defaultChecked={selectedType === 1}
                         />
                     </div>
                     {
-                        type === 1 ?
+                        showPaymentDayInput ?
                             <Input
                                 type="number"
                                 name={"paymentDay"}
@@ -217,6 +223,40 @@ export default function ExpenseGroupForm(props: Props) {
                     />
                 </div>
             </form>
+            <Modal
+                show={showTypeInfo}
+                size="sm"
+                popup={true}
+                onClose={() => setShowTypeInfo(false)}
+                color="#0f172a"
+            >
+                <div className="bg-zinc-800 rounded-md">
+                    <Modal.Header>
+                        <div className="flex items-center gap-2 text-white p-1">
+                            <Info size={20} color="#38bdf8" />
+                            <span className="text-lg font-bold">TIPO DE PAGAMENTO</span>
+                        </div>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="text-sm mb-6">
+                            <div className="mb-1">
+                                <strong>Pagamento individual:</strong>
+                            </div>
+                            <span className="font-thin">As despesas serão pagas separadamente, cada uma em seu dia específico.</span>
+                            <br/>
+                            <small className="text-sky-400"><strong>Exemplo:</strong> Despesas do mês (contas de luz, água, etc.)</small>
+                        </div>
+                        <div className="text-sm">
+                            <div className="mb-1">
+                                <strong>Pagamento total:</strong>
+                            </div>
+                            <span className="font-thin">O grupo será pago de uma só vez em um dia específico.</span>
+                            <br/>
+                            <small className="text-sky-400"><strong>Exemplo:</strong> Cartões de crédito</small>
+                        </div>
+                    </Modal.Body>
+                </div>
+            </Modal>
         </DefaultTransition>
     );
 }

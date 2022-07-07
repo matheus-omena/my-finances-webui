@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Controller, FieldValues, UseFormReturn } from "react-hook-form";
 
 type SelectProps = {
@@ -22,6 +23,7 @@ export function Select(props: Props) {
          <Controller
             name={props.name}
             control={props.form.control}
+            defaultValue={props.defaultValue}
             render={({ field: { onChange, value } }) => (
                <>
                   <label htmlFor={props.name} className="block text-gray-700 text-sm font-bold mb-2">
@@ -33,7 +35,7 @@ export function Select(props: Props) {
                      onChange={onChange}
                      value={value}
                      onBlur={props.onBlur}
-                     disabled={props.disabled}
+                     disabled={props.disabled}                     
                   >                     
                      {props.options?.map((item) => {
                         return (

@@ -110,7 +110,7 @@ export default function ExpenseGroupsList(props: ExpenseGroupsListProps) {
                                                         <ArrowSquareOut size={15} weight="bold" className="hidden group-hover:block group-hover:transition" />
                                                     </div>
                                                     {
-                                                        item.paymentDay ?
+                                                        item.type === 1 ?
                                                             <div className="flex items-center gap-1 text-zinc-500 mb-1">
                                                                 <CalendarBlank size={12} />
                                                                 <small className="text-xs">Dia de pagamento: <strong>{item.paymentDay}</strong></small>

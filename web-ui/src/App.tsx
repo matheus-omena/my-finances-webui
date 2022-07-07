@@ -9,7 +9,6 @@ import Routes from './routes';
 import 'animate.css';
 
 moment.locale("pt-br");
-moment.updateLocale;
 
 function App() {
   const fallback = (

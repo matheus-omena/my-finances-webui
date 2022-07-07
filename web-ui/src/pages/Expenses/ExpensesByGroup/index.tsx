@@ -43,7 +43,7 @@ export default function ExpensesByGroup(props: ExpensesByGroupProps) {
             })
             .catch((e) => console.log("Erro ao carregar grupo de despesas"))
             .finally(() => setLoadingGroup(false));
-    }, [_api, _apiExpenseGroup]);
+    }, [_api, _apiExpenseGroup, props.month]);
 
     return (
         <DefaultTransition>            

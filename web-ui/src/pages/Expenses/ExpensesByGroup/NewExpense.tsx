@@ -1,10 +1,15 @@
-import { useParams } from "react-router-dom";
+import { ExpenseGroupModel } from "../../../models/ExpenseGroupModel";
 import ExpenseForm from "./ExpenseForm";
 
-export default function NewExpenseByGroup() {
-    const { groupId } = useParams();
+type NewExpenseByGroupProps = {
+    expenseGroup: ExpenseGroupModel;
+    onFinish: () => void;
+}
+
+export default function NewExpenseByGroup(props: NewExpenseByGroupProps) {
+    const { expenseGroup, onFinish } = props;
 
     return (
-        <ExpenseForm groupId={groupId!} />
+        <ExpenseForm expenseGroup={expenseGroup} onFinish={onFinish} />
     );
 }

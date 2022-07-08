@@ -8,6 +8,6 @@ export default function NewResponsible(props: NewResponsibleProps) {
     const { onFinish } = props;
 
     return (
-        <ResponsibleForm onFinish={onFinish}/>
+        <ResponsibleForm onFinish={onFinish} />
     );
 }

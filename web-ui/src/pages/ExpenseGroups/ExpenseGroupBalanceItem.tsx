@@ -15,7 +15,7 @@ export default function ExpenseGroupBalanceItem(data: ExpenseGroupData) {
 
     return (
         <button type="button" onClick={() => data.setExpenseGroupId(id)}>
-            <div className={`p-3 rounded-2xl hover:saturate-200 hover:transition-all hover:-translate-y-1 hover:scale-100`} style={{ backgroundColor: color }}>
+            <div className={`p-3 rounded-2xl hover:saturate-150 hover:transition-all hover:-translate-y-1 hover:scale-100`} style={{ backgroundColor: color }}>
                 <div className={`flex items-center justify-between ${textColor}`}>
                     <span className="text-sm">
                         {name}

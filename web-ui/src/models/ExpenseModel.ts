@@ -12,15 +12,22 @@ export interface ExpenseModel {
       id: string;
       name: string;
    };
-   groupId: string;
+   group: {
+      id: string;
+      name: string;
+      color: string;
+      type: number;
+   };
    fixedExpenseId: string;
 };
 
 export interface CreateUpdateExpenseModel {
+   id?: string;
    name: string;
    isFixed: boolean;
    value: number;
    responsibleId: string;
    groupId: string;
    paymentDay?: number;
+   totalInstallments?: number;
 };

@@ -27,17 +27,15 @@ type SelectProps = {
     value: string;
 };
 
-export default function ExpenseForm(props: ExpenseFormProps) {
-    console.log("PROPS", props);
+export default function ExpenseForm(props: ExpenseFormProps) {    
     const [sending, setSending] = useState(false);
     const _api = useMemo(() => new ExpensesApi(), []);
     const _apiResponsible = useMemo(() => new ResponsiblesApi(), []);
     const [loadingResponsibles, setLoadingResponsibles] = useState(false);
     const [responsibleOptions, setResponsibleOptions] = useState<SelectProps[]>();
 
-    const [isFixed, setIsFixed] = useState(false);
-    const [isItInstallments, setIsItInstallments] = useState(false);
-    //const [showPaymentDayInput, setShowPaymentDayInput] = useState(props.obj?.type === 1 || false);
+    const [isFixed, setIsFixed] = useState(props.obj?.fixedExpenseId !== undefined || false);
+    const [isItInstallments, setIsItInstallments] = useState(false);    
 
     const schema = yup.object({
         name: yup.string().required("O nome é obrigatório"),
@@ -55,7 +53,7 @@ export default function ExpenseForm(props: ExpenseFormProps) {
     const isInstallments = form.watch("isItInstallments");
 
     useEffect(() => {
-        setIsFixed(String(fixed) === "true");
+        setIsFixed(fixed === 'true');
     }, [fixed])
 
     useEffect(() => {
@@ -86,9 +84,43 @@ export default function ExpenseForm(props: ExpenseFormProps) {
     }, [_apiResponsible]);
 
     const onSubmit = (data: any) => {
-        console.log("DATA", data);
-        setSending(false);
-        alert("TESTE")
+        const processedData = {
+            isFixed: isFixed,            
+            name: String(data.name),
+            value: Number(data.value),
+            responsibleId: String(data.responsibleId),
+            groupId: String(props.expenseGroup.id),            
+            paymentDay: data.paymentDay !== "" ? Number(data.paymentDay) : undefined,
+            totalInstallments: (data.totalInstallments)
+        }
+
+        console.log("DADOS PROCESSADOS", processedData);
+
+        setSending(true);
+        if (data.id && data.id != undefined) {
+            _api.update(data.id, processedData)
+                .then(r => {
+                    toast.success("Cadastro atualizado com sucesso");
+                    props.onFinish();
+                })
+                .catch((e) => {
+                    toast.error(e.message);
+                    console.log("Erro ao atualizar cadastro", e);
+                })
+                .finally(() => setSending(false));
+        }
+        else {
+            _api.create(processedData)
+                .then(r => {
+                    toast.success("Cadastro criado com sucesso");
+                    props.onFinish();
+                })
+                .catch((e) => {
+                    toast.error(e.message);
+                    console.log("Erro ao criar cadastro", e);
+                })
+                .finally(() => setSending(false));
+        }
     }
 
     return (
@@ -169,7 +201,7 @@ export default function ExpenseForm(props: ExpenseFormProps) {
                                 id="isFixed-1"
                                 label={"Sim"}
                                 value={"true"}
-                                defaultChecked={isFixed}
+                                defaultChecked={isFixed}                                
                             />
                             <RadioButton
                                 form={form}
@@ -177,7 +209,7 @@ export default function ExpenseForm(props: ExpenseFormProps) {
                                 id="isFixed-2"
                                 label={"Não"}
                                 value={"false"}
-                                defaultChecked={!isFixed}
+                                defaultChecked={!isFixed}                                
                             />
                         </div>
                     </div>

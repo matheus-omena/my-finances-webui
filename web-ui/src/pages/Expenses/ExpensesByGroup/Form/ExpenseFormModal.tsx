@@ -19,7 +19,7 @@ export default function ExpenseFormModal(props: ExpenseFormModalProps) {
     return (
         <Modal
             show={showModalForm}
-            size="md"
+            size="lg"
             popup={true}
             onClose={onClose}
             color="#0f172a"

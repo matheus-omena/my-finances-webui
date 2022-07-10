@@ -16,7 +16,9 @@ export default function Button(props: ButtonProps) {
     return (
         <button
             type={defaultType}
-            className={`bg-emerald-600 text-sm flex justify-center items-center px-4 py-2 rounded-full gap-1`}
+            className={
+                `border border-emerald-600 ${props.outline ? 'bg-transparent text-emerald-600' : 'bg-emerald-600'}  text-sm flex justify-center items-center px-4 py-2 rounded-full gap-1`
+            }
             onClick={props.onClick}
             disabled={props.loading || props.disabled}
         >

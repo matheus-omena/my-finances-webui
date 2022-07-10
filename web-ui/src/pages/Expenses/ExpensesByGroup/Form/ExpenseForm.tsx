@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { ExpenseModel } from "../../../../models/ExpenseModel";
 import DefaultTransition from "../../../../components/General/DefaultTransition";
-import { Check, Info, X } from "phosphor-react";
+import { Check, Info, Trash, X } from "phosphor-react";
 import Button from "../../../../components/Form/Button";
 import { ExpenseGroupModel } from "../../../../models/ExpenseGroupModel";
 import { Input } from "../../../../components/Form/Input";
@@ -27,7 +27,7 @@ type SelectProps = {
     value: string;
 };
 
-export default function ExpenseForm(props: ExpenseFormProps) {    
+export default function ExpenseForm(props: ExpenseFormProps) {
     const [sending, setSending] = useState(false);
     const _api = useMemo(() => new ExpensesApi(), []);
     const _apiResponsible = useMemo(() => new ResponsiblesApi(), []);
@@ -35,19 +35,24 @@ export default function ExpenseForm(props: ExpenseFormProps) {
     const [responsibleOptions, setResponsibleOptions] = useState<SelectProps[]>();
 
     const [isFixed, setIsFixed] = useState(props.obj?.fixedExpenseId !== undefined || false);
-    const [isItInstallments, setIsItInstallments] = useState(false);    
+    const [isItInstallments, setIsItInstallments] = useState(false);
 
     const schema = yup.object({
         name: yup.string().required("O nome é obrigatório"),
         value: yup.string().required("O valor é obrigatório"),
+        paymentDay: yup.string().required("O dia de pagamento é obrigatório"),
     }).required();
 
     const form = useForm<any>({
         resolver: yupResolver(schema)
     });
 
-    if (props.obj)
+    if (props.obj) {
         form.setValue("responsibleId", props.obj?.responsible.id);
+        form.setValue("paymentDay", props.obj.paymentDay);
+    } else
+        form.setValue("paymentDay", props.expenseGroup.paymentDay);
+
 
     const fixed = form.watch("isFixed");
     const isInstallments = form.watch("isItInstallments");
@@ -85,16 +90,14 @@ export default function ExpenseForm(props: ExpenseFormProps) {
 
     const onSubmit = (data: any) => {
         const processedData = {
-            isFixed: isFixed,            
+            isFixed: isFixed,
             name: String(data.name),
             value: Number(data.value),
             responsibleId: String(data.responsibleId),
-            groupId: String(props.expenseGroup.id),            
+            groupId: String(props.expenseGroup.id),
             paymentDay: data.paymentDay !== "" ? Number(data.paymentDay) : undefined,
             totalInstallments: (data.totalInstallments)
         }
-
-        console.log("DADOS PROCESSADOS", processedData);
 
         setSending(true);
         if (data.id && data.id != undefined) {
@@ -201,7 +204,7 @@ export default function ExpenseForm(props: ExpenseFormProps) {
                                 id="isFixed-1"
                                 label={"Sim"}
                                 value={"true"}
-                                defaultChecked={isFixed}                                
+                                defaultChecked={isFixed}
                             />
                             <RadioButton
                                 form={form}
@@ -209,30 +212,24 @@ export default function ExpenseForm(props: ExpenseFormProps) {
                                 id="isFixed-2"
                                 label={"Não"}
                                 value={"false"}
-                                defaultChecked={!isFixed}                                
+                                defaultChecked={!isFixed}
                             />
                         </div>
                     </div>
-                    {
-                        props.expenseGroup?.type === 0 ?
-                            <Input
-                                type="number"
-                                name="paymentDay"
-                                form={form}
-                                label={"Dia de pagamento"}
-                                className="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2"
-                                defaultValue={props.obj?.paymentDay}
-                            /> :
-                            <Input
-                                type="number"
-                                name="paymentDay"
-                                form={form}
-                                label={"Dia de pagamento"}
-                                className="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2"
-                                defaultValue={Number(props.expenseGroup?.paymentDay!)}
-                                readonly
-                            />
-                    }
+
+                    <Input
+                        type="number"
+                        name="paymentDay"
+                        form={form}
+                        label={"Dia de pagamento"}
+                        className="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2"
+                        defaultValue={
+                            props.expenseGroup?.type === 0 ?
+                                props.obj?.paymentDay :
+                                props.expenseGroup?.paymentDay
+                        }
+                        readonly={props.expenseGroup?.type === 1}
+                    />
                 </div>
                 {
                     isFixed &&
@@ -275,17 +272,24 @@ export default function ExpenseForm(props: ExpenseFormProps) {
                         }
                     </div>
                 }
-
-                <div className="flex justify-end gap-6">
-                    <button className="flex items-center justify-center text-sm" onClick={props.onFinish}>
-                        <X className="mr-1" weight="bold" />
-                        <strong>Cancelar</strong>
-                    </button>
+                <div className="flex justify-between">
                     <Button
-                        type="submit"
-                        title={<><Check className="mr-1" weight="bold" /><span>Salvar</span></>}
+                        type="button"
+                        title={<><Trash className="mr-1" weight="bold" /><span>Excluir</span></>}
                         loading={sending}
+                        outline
                     />
+                    <div className="flex gap-6">
+                        <button className="flex items-center justify-center text-sm" onClick={props.onFinish}>
+                            <X className="mr-1" weight="bold" />
+                            <strong>Cancelar</strong>
+                        </button>
+                        <Button
+                            type="submit"
+                            title={<><Check className="mr-1" weight="bold" /><span>Salvar</span></>}
+                            loading={sending}
+                        />
+                    </div>
                 </div>
             </form>
         </DefaultTransition>

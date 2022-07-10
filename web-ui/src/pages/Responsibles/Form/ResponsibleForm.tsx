@@ -4,13 +4,13 @@ import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { ResponsibleModel } from "../../models/ResponsibleModel";
-import { Input } from "../../components/Form/Input";
-import Button from "../../components/Form/Button";
+import { ResponsibleModel } from "../../../models/ResponsibleModel";
+import { Input } from "../../../components/Form/Input";
+import Button from "../../../components/Form/Button";
 import { Check, X } from "phosphor-react";
-import { ResponsiblesApi } from "../../apis/ResponsiblesApi";
-import { InputColor } from "../../components/Form/InputColor/InputColor";
-import DefaultTransition from "../../components/General/DefaultTransition";
+import { ResponsiblesApi } from "../../../apis/ResponsiblesApi";
+import { InputColor } from "../../../components/Form/InputColor/InputColor";
+import DefaultTransition from "../../../components/General/DefaultTransition";
 
 type Props = {
     obj?: ResponsibleModel;

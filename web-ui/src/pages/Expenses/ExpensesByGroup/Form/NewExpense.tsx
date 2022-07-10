@@ -1,12 +1,12 @@
-import { ExpenseGroupModel } from "../../../models/ExpenseGroupModel";
+import { ExpenseGroupModel } from "../../../../models/ExpenseGroupModel";
 import ExpenseForm from "./ExpenseForm";
 
-type NewExpenseByGroupProps = {
+type NewExpenseProps = {
     expenseGroup: ExpenseGroupModel;
     onFinish: () => void;
 }
 
-export default function NewExpenseByGroup(props: NewExpenseByGroupProps) {
+export default function NewExpense(props: NewExpenseProps) {
     const { expenseGroup, onFinish } = props;
 
     return (

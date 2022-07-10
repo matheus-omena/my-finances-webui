@@ -55,7 +55,7 @@ export default function SelectMonth(props: SelectMonthProps) {
                 disabled={monthsExpenses?.findIndex(x => x.value === selectedMonth?.value)! === 0}
                 onClick={lastMonth}
             >
-                <CaretLeft size={20} weight="bold" />
+                <CaretLeft size={15} weight="bold" />
             </button>
             <strong>{selectedMonth?.name}</strong>
             <button
@@ -64,7 +64,7 @@ export default function SelectMonth(props: SelectMonthProps) {
                 disabled={monthsExpenses?.findIndex(x => x.value === selectedMonth?.value)! === 2}
                 onClick={nextMonth}
             >
-                <CaretRight size={20} weight="bold" />
+                <CaretRight size={15} weight="bold" />
             </button>
         </div>
     );

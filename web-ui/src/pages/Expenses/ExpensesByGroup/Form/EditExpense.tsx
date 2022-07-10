@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { ExpensesApi } from "../../../apis/ExpensesApi";
-import Spinner from "../../../components/General/Spinner";
-import { ExpenseGroupModel } from "../../../models/ExpenseGroupModel";
-import { ExpenseModel } from "../../../models/ExpenseModel";
+import { ExpensesApi } from "../../../../apis/ExpensesApi";
+import Spinner from "../../../../components/General/Spinner";
+import { ExpenseGroupModel } from "../../../../models/ExpenseGroupModel";
+import { ExpenseModel } from "../../../../models/ExpenseModel";
 import ExpenseForm from "./ExpenseForm";
 
 type EditExpenseByGroupProps = {    
@@ -11,7 +11,7 @@ type EditExpenseByGroupProps = {
     onFinish: () => void;
 }
 
-export default function EditExpenseByGroup(props: EditExpenseByGroupProps) {    
+export default function EditExpense(props: EditExpenseByGroupProps) {    
     const { id, expenseGroup, onFinish } = props;    
     const [loading, setLoading] = useState(false);    
     const _api = useMemo(() => new ExpensesApi(), []);
@@ -22,8 +22,7 @@ export default function EditExpenseByGroup(props: EditExpenseByGroupProps) {
 
         if (id)
             _api.findById(id)
-                .then(r => {       
-                    console.log("retorno", r.data.data);
+                .then(r => {                    
                     setExpense(r.data.data);
                 })
                 .catch(() => console.log("Erro ao carregar cadastro ", id))
@@ -35,7 +34,6 @@ export default function EditExpenseByGroup(props: EditExpenseByGroupProps) {
             {
                 loading ? <Spinner /> :
                     <ExpenseForm obj={expense} expenseGroup={expenseGroup} onFinish={onFinish} />
-
             }
         </>        
     );

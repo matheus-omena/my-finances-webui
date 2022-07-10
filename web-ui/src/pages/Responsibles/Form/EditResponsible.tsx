@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
-import { ResponsiblesApi } from "../../apis/ResponsiblesApi";
-import Spinner from "../../components/General/Spinner";
-import { ResponsibleModel } from "../../models/ResponsibleModel";
+import { ResponsiblesApi } from "../../../apis/ResponsiblesApi";
+import Spinner from "../../../components/General/Spinner";
+import { ResponsibleModel } from "../../../models/ResponsibleModel";
 import ResponsibleForm from "./ResponsibleForm";
 
 type EditResponsibleProps = {

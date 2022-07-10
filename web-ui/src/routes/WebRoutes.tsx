@@ -1,17 +1,7 @@
 import { SignOut } from "phosphor-react";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import CategoriesList from "../pages/Categories/CategoriesList";
-import EditCategory from "../pages/Categories/EditCategory";
-import NewCategory from "../pages/Categories/NewCategory";
-import ExpenseGroups from "../pages/ExpenseGroups/ExpenseGroupsList";
-import EditExpenseGroup from "../pages/ExpenseGroups/EditExpenseGroup";
-import NewExpenseGroup from "../pages/ExpenseGroups/NewExpenseGroup";
-import NewExpenseByGroup from "../pages/Expenses/ExpensesByGroup/NewExpense";
 import Home from "../pages/Home/Home";
-import Responsibles from "../pages/Responsibles/ResponsiblesList";
-import EditResponsible from "../pages/Responsibles/EditResponsible";
-import NewResponsible from "../pages/Responsibles/NewResponsible";
 
 export default function WebRoutes() {
     const auth = useAuth();

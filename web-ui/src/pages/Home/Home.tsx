@@ -1,11 +1,10 @@
-import { CategoriesPreview } from "../Categories/CategoriesPreview";
-import { ExpensesByGroupCard } from "./ExpensesByGroupCard";
 import Insight1 from "./Insight1";
 import Insight2 from "./Insight2";
 import Insight3 from "./Insight3";
+import { CategoriesPreview } from "../Categories/CategoriesPreview";
 import { ResponsiblesPreview } from "../Responsibles/ResponsiblesPreview";
-import DefaultTransition from "../../components/General/DefaultTransition";
 import { ExpenseGroupsPreview } from "../ExpenseGroups/ExpenseGroupsPreview";
+import DefaultTransition from "../../components/General/DefaultTransition";
 
 
 export default function Home() {

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { CategoriesApi } from "../../apis/CategoriesApi";
-import Spinner from "../../components/General/Spinner";
-import { CategoryModel } from "../../models/CategoryModel";
+import { CategoriesApi } from "../../../apis/CategoriesApi";
+import Spinner from "../../../components/General/Spinner";
+import { CategoryModel } from "../../../models/CategoryModel";
 import CategoryForm from "./CategoryForm";
 
 type EditCategoryProps = {

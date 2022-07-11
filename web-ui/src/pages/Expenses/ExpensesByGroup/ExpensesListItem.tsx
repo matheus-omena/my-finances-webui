@@ -1,21 +1,22 @@
 import moment from "moment";
-import { ArrowSquareOut, CalendarBlank, PushPin, Trash, UserCircle } from "phosphor-react";
+import { ArrowSquareOut, CalendarBlank, Repeat, UserCircle } from "phosphor-react";
 import { ExpenseModel } from "../../../models/ExpenseModel";
 
 type ExpensesListItemProps = {
     item: ExpenseModel;
-    onEdit: (id: string) => void;    
+    showPaymentButton: boolean;
+    onEdit: (id: string) => void;
 }
 
 export default function ExpensesListItem(props: ExpensesListItemProps) {
-    const { item, onEdit } = props;
+    const { item, showPaymentButton, onEdit } = props;
 
     return (
         <div key={item.id} className="bg-[#181818] p-3 rounded-2xl w-full relative">
             {
                 item.fixedExpenseId &&
-                <div className="absolute -right-2 -top-2">
-                    <PushPin size={18} weight="fill" color="#ef4444" />
+                <div className="text-zinc-500 absolute -right-1 -top-1">
+                    <Repeat size={18} weight="bold" />
                 </div>
             }
             <div className="flex justify-between items-center">
@@ -39,14 +40,16 @@ export default function ExpensesListItem(props: ExpensesListItemProps) {
                     </div>
                 </div>
                 {
-                    item.isPaid ?
-                        <div className="flex flex-col items-end">
-                            <small className="text-zinc-500">PAGO EM</small>
-                            <strong className="text-xs">{moment(item.dateItWasPaid).format("DD/MM/YYYY")}</strong>
-                        </div> :
-                        <button className="bg-zinc-100 text-zinc-700 text-sm font-bold rounded-lg p-2" onClick={() => alert('2')}>
-                            PAGAR
-                        </button>
+                    showPaymentButton ?
+                        item.isPaid ?
+                            <div className="flex flex-col items-end">
+                                <small className="text-zinc-500">PAGO EM</small>
+                                <strong className="text-xs">{moment(item.dateItWasPaid).format("DD/MM/YYYY")}</strong>
+                            </div> :
+                            <button className="bg-zinc-100 text-zinc-700 text-sm font-bold rounded-lg p-2" onClick={() => alert('2')}>
+                                PAGAR
+                            </button> :
+                        <></>
                 }
             </div>
         </div>

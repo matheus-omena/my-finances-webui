@@ -23,7 +23,7 @@ export default function ExpenseGroupsListItem(props: ExpenseGroupsListItemProps)
                         item.type === 1 ?
                             <div className="flex items-center gap-1 text-zinc-500 mb-1">
                                 <CalendarBlank size={12} />
-                                <small className="text-xs">Dia de pagamento: <strong>{item.paymentDay}</strong></small>
+                                <small className="text-xs">Dia de pagamento: <strong>{item?.paymentDay}</strong></small>
                             </div> : <></>
                     }
                     <div className="flex items-center gap-1 text-zinc-500">

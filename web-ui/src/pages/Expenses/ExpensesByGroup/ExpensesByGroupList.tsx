@@ -1,6 +1,5 @@
-import { Modal } from "flowbite-react";
 import moment from "moment";
-import { Plus } from "phosphor-react";
+import { Plus, Repeat } from "phosphor-react";
 import { useMemo, useState, useEffect, useCallback } from "react";
 import { ExpenseGroupsApi } from "../../../apis/ExpenseGroupsApi";
 import { ExpensesApi } from "../../../apis/ExpensesApi";
@@ -11,7 +10,6 @@ import { ExpenseGroupModel } from "../../../models/ExpenseGroupModel";
 import { ExpenseModel } from "../../../models/ExpenseModel";
 import { OperationType } from "../../../models/RegistersEnums";
 import ExpensesListItem from "./ExpensesListItem";
-import EditExpense from "./Form/EditExpense";
 import ExpenseFormModal from "./Form/ExpenseFormModal";
 
 type ExpensesByGroupProps = {
@@ -79,7 +77,6 @@ export default function ExpensesByGroupList(props: ExpensesByGroupProps) {
                     <Spinner /> :
                     <div className="flex justify-between items-center mb-4">
                         <h5 className={"text-lg font-bold"} style={{ color: expenseGroup?.color }}>{expenseGroup?.name}</h5>
-
                         {
                             props.month === actualMonth &&
                             <button type="button" className="flex text-xs gap-2" onClick={handleCreate}>
@@ -96,15 +93,30 @@ export default function ExpensesByGroupList(props: ExpensesByGroupProps) {
                         <Spinner /> :
                         expenses?.length === 0 ?
                             <span>Esse grupo não possui despesas</span> :
-                            expenses?.map((item) => {
-                                return (
-                                    <ExpensesListItem
-                                        key={item.id}
-                                        item={item}
-                                        onEdit={handleEdit}
-                                    />
-                                )
-                            })
+                            <>
+                                {
+                                    expenseGroup?.type === 1 &&
+                                    <button className="bg-zinc-100 text-zinc-700 text-sm font-bold rounded-lg p-2" onClick={() => alert('2')}>
+                                        PAGAR GRUPO
+                                    </button>
+                                }
+                                {
+                                    expenses?.map((item) => {
+                                        return (
+                                            <ExpensesListItem
+                                                key={item.id}
+                                                item={item}                                                
+                                                onEdit={handleEdit}
+                                                showPaymentButton={expenseGroup?.type === 0}
+                                            />
+                                        )
+                                    })
+                                }
+                                <div className="flex items-center gap-2 text-zinc-500">
+                                    <Repeat size={18} weight="bold" />
+                                    <span className="text-xs">Despesas recorrentes</span>
+                                </div>
+                            </>
                 }
             </div>
             <ExpenseFormModal

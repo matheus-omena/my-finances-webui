@@ -27,8 +27,13 @@ export class ExpensesApi {
       return r;
    }
 
-   async delete(id: string): Promise<any> {      
-      const r = await _ApiBase.delete(`/expenses/${id}`);      
+   async delete(id: string, deleteLinkedFixedExpense: boolean): Promise<any> {   
+      const r = await _ApiBase.delete(`/expenses/${id}/deleteLinkedFixedExpense/${deleteLinkedFixedExpense}`);      
+      return r;
+   }
+   
+   async processNextMonthExpenses(): Promise<any> {      
+      const r = await _ApiBase.put(`/expenses/processNextMonthExpenses`);      
       return r;
    }
 }

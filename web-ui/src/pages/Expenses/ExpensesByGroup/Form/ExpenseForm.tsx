@@ -15,6 +15,7 @@ import { ResponsibleModel } from "../../../../models/ResponsibleModel";
 import { Select } from "../../../../components/Form/Select";
 import Spinner from "../../../../components/General/Spinner";
 import { RadioButton } from "../../../../components/Form/RadioButton";
+import Swal from "sweetalert2";
 
 type ExpenseFormProps = {
     expenseGroup: ExpenseGroupModel;
@@ -27,7 +28,7 @@ type SelectProps = {
     value: string;
 };
 
-export default function ExpenseForm(props: ExpenseFormProps) {
+export default function ExpenseForm(props: ExpenseFormProps) {    
     const [sending, setSending] = useState(false);
     const _api = useMemo(() => new ExpensesApi(), []);
     const _apiResponsible = useMemo(() => new ResponsiblesApi(), []);
@@ -40,7 +41,7 @@ export default function ExpenseForm(props: ExpenseFormProps) {
     const schema = yup.object({
         name: yup.string().required("O nome é obrigatório"),
         value: yup.string().required("O valor é obrigatório"),
-        paymentDay: yup.string().required("O dia de pagamento é obrigatório"),
+        paymentDay: yup.number().required("O dia de pagamento é obrigatório").max(31),
     }).required();
 
     const form = useForm<any>({
@@ -48,10 +49,10 @@ export default function ExpenseForm(props: ExpenseFormProps) {
     });
 
     if (props.obj) {
-        form.setValue("responsibleId", props.obj?.responsible.id);
+        form.setValue("responsibleId", props.obj.responsible.id);
         form.setValue("paymentDay", props.obj.paymentDay);
-    } else
-        form.setValue("paymentDay", props.expenseGroup.paymentDay);
+    } else (props.expenseGroup)
+        form.setValue("paymentDay", props.expenseGroup?.paymentDay);
 
 
     const fixed = form.watch("isFixed");
@@ -95,8 +96,8 @@ export default function ExpenseForm(props: ExpenseFormProps) {
             value: Number(data.value),
             responsibleId: String(data.responsibleId),
             groupId: String(props.expenseGroup.id),
-            paymentDay: data.paymentDay !== "" ? Number(data.paymentDay) : undefined,
-            totalInstallments: (data.totalInstallments)
+            paymentDay: form.getValues("paymentDay") !== "" ? Number(form.getValues("paymentDay")) : undefined,
+            totalInstallments: isFixed ? Number(data.totalInstallments) : undefined
         }
 
         setSending(true);
@@ -124,6 +125,60 @@ export default function ExpenseForm(props: ExpenseFormProps) {
                 })
                 .finally(() => setSending(false));
         }
+    }
+
+    const onDelete = () => {
+        Swal.fire({
+            title: "Deseja excluir esse registro?",
+            text: "Essa ação não poderá ser revertida.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                props.obj?.fixedExpenseId ?
+                    Swal.fire({
+                        title: props.obj.name,
+                        text: 'Essa é uma despesa recorrente. Deseja excluir apenas essa ou todas as futuras?',
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: 'Apenas essa',
+                        denyButtonText: `Todas as futuras`,
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            _api
+                                .delete(props.obj?.id!, false)
+                                .then((r) => {
+                                    toast.success("Registro excluído com sucesso");
+                                    props.onFinish();
+                                })
+                                .catch((e) => console.log("Erro ao excluir registro", e))
+                                .finally();
+                        } else if (result.isDenied) {
+                            _api
+                                .delete(props.obj?.id!, true)
+                                .then((r) => {
+                                    toast.success("Registro excluído com sucesso");
+                                    props.onFinish();
+                                })
+                                .catch((e) => console.log("Erro ao excluir registro", e))
+                                .finally();
+                        }
+                    }) :
+                    _api
+                        .delete(props.obj?.id!, false)
+                        .then((r) => {
+                            toast.success("Registro excluído com sucesso");
+                            props.onFinish();
+                        })
+                        .catch((e) => console.log("Erro ao excluir registro", e))
+                        .finally();
+            }
+        }).finally(() => {
+
+        })
     }
 
     return (
@@ -192,29 +247,35 @@ export default function ExpenseForm(props: ExpenseFormProps) {
                 <div className="flex flex-wrap -mx-2">
                     <div className="pl-2 flex flex-col w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2 mb-2">
                         <div className="flex items-center text-gray-700 mb-2">
-                            <span className="text-sm font-bold">É fixa?</span>
+                            <span className="text-sm font-bold">É recorrente?</span>
                             <button type="button" className="ml-1 hover:text-sky-400 transition-colors">
                                 <Info size={18} />
                             </button>
                         </div>
-                        <div className="flex gap-10">
-                            <RadioButton
-                                form={form}
-                                name="isFixed"
-                                id="isFixed-1"
-                                label={"Sim"}
-                                value={"true"}
-                                defaultChecked={isFixed}
-                            />
-                            <RadioButton
-                                form={form}
-                                name="isFixed"
-                                id="isFixed-2"
-                                label={"Não"}
-                                value={"false"}
-                                defaultChecked={!isFixed}
-                            />
-                        </div>
+                        {
+                            props.obj ?
+                                <div className="flex items-center h-10">
+                                    <span className="text-sm">{isFixed ? 'Sim' : 'Não'}</span>
+                                </div> :
+                                <div className="flex gap-10">
+                                    <RadioButton
+                                        form={form}
+                                        name="isFixed"
+                                        id="isFixed-1"
+                                        label={"Sim"}
+                                        value={"true"}
+                                        defaultChecked={isFixed}
+                                    />
+                                    <RadioButton
+                                        form={form}
+                                        name="isFixed"
+                                        id="isFixed-2"
+                                        label={"Não"}
+                                        value={"false"}
+                                        defaultChecked={!isFixed}
+                                    />
+                                </div>
+                        }
                     </div>
 
                     <Input
@@ -238,24 +299,30 @@ export default function ExpenseForm(props: ExpenseFormProps) {
                             <div className="flex items-center text-gray-700 mb-2">
                                 <span className="text-sm font-bold">É parcelada?</span>
                             </div>
-                            <div className="flex gap-10">
-                                <RadioButton
-                                    form={form}
-                                    name="isItInstallments"
-                                    id="isItInstallments-1"
-                                    label={"Sim"}
-                                    value={"true"}
-                                    defaultChecked={isItInstallments}
-                                />
-                                <RadioButton
-                                    form={form}
-                                    name="isItInstallments"
-                                    id="isItInstallments-2"
-                                    label={"Não"}
-                                    value={"false"}
-                                    defaultChecked={!isItInstallments}
-                                />
-                            </div>
+                            {
+                                props.obj ?
+                                    <div className="flex items-center h-10">
+                                        <span className="text-sm">{isItInstallments ? 'Sim' : 'Não'}</span>
+                                    </div> :
+                                    <div className="flex gap-10">
+                                        <RadioButton
+                                            form={form}
+                                            name="isItInstallments"
+                                            id="isItInstallments-1"
+                                            label={"Sim"}
+                                            value={"true"}
+                                            defaultChecked={isItInstallments}
+                                        />
+                                        <RadioButton
+                                            form={form}
+                                            name="isItInstallments"
+                                            id="isItInstallments-2"
+                                            label={"Não"}
+                                            value={"false"}
+                                            defaultChecked={!isItInstallments}
+                                        />
+                                    </div>
+                            }
                         </div>
 
                         {
@@ -273,12 +340,17 @@ export default function ExpenseForm(props: ExpenseFormProps) {
                     </div>
                 }
                 <div className="flex justify-between">
-                    <Button
-                        type="button"
-                        title={<><Trash className="mr-1" weight="bold" /><span>Excluir</span></>}
-                        loading={sending}
-                        outline
-                    />
+                    {
+                        props.obj ?
+                            <Button
+                                type="button"
+                                title={<><Trash className="mr-1" weight="bold" /><span>Excluir</span></>}
+                                loading={sending}
+                                onClick={() => onDelete()}
+                                outline
+                            /> :
+                            <div></div>
+                    }
                     <div className="flex gap-6">
                         <button className="flex items-center justify-center text-sm" onClick={props.onFinish}>
                             <X className="mr-1" weight="bold" />

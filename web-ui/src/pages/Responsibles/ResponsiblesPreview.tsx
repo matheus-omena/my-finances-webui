@@ -40,8 +40,8 @@ export function ResponsiblesPreview() {
                     <span className="font-medium text-white">Responsáveis</span>
                 </div>
 
-                <button type="button" onClick={() => setViewMode(ViewMode.LIST)}>
-                    <DotsThreeVertical color="#535353" weight="bold" size={30} />
+                <button type="button" className="text-[#535353] hover:text-white transition-colors" onClick={() => setViewMode(ViewMode.LIST)}>
+                    <DotsThreeVertical weight="bold" size={30} />
                 </button>
             </div>
             {/* Header */}

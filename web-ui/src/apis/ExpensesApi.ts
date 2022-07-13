@@ -22,8 +22,8 @@ export class ExpensesApi {
       return r;
    }
 
-   async update(id: string, data: CreateUpdateExpenseModel): Promise<any> {      
-      const r = await _ApiBase.put(`/expenses/${id}`, data);      
+   async update(id: string, data: CreateUpdateExpenseModel, updateLinkedFixedExpense: boolean): Promise<any> {      
+      const r = await _ApiBase.put(`/expenses/${id}/updateLinkedFixedExpense/${updateLinkedFixedExpense}`, data);
       return r;
    }
 

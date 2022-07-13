@@ -28,7 +28,8 @@ type SelectProps = {
     value: string;
 };
 
-export default function ExpenseForm(props: ExpenseFormProps) {    
+export default function ExpenseForm(props: ExpenseFormProps) {
+    console.log("OBJ", props.obj);
     const [sending, setSending] = useState(false);
     const _api = useMemo(() => new ExpensesApi(), []);
     const _apiResponsible = useMemo(() => new ResponsiblesApi(), []);
@@ -102,16 +103,53 @@ export default function ExpenseForm(props: ExpenseFormProps) {
 
         setSending(true);
         if (data.id && data.id != undefined) {
-            _api.update(data.id, processedData)
-                .then(r => {
-                    toast.success("Cadastro atualizado com sucesso");
-                    props.onFinish();
+            if (props.obj?.fixedExpenseId) {
+                Swal.fire({
+                    title: props.obj.name,
+                    text: 'Essa é uma despesa recorrente. Deseja atualizar apenas essa ou todas as futuras?',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Apenas essa',
+                    denyButtonText: `Todas as futuras`,
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        _api.update(data.id, processedData, false)
+                            .then(r => {
+                                toast.success("Cadastro atualizado com sucesso");
+                                props.onFinish();
+                            })
+                            .catch((e) => {
+                                toast.error(e.message);
+                                console.log("Erro ao atualizar cadastro", e);
+                            })
+                            .finally(() => setSending(false));
+                    } else if (result.isDenied) {
+                        _api.update(data.id, processedData, true)
+                            .then(r => {
+                                toast.success("Cadastro atualizado com sucesso");
+                                props.onFinish();
+                            })
+                            .catch((e) => {
+                                toast.error(e.message);
+                                console.log("Erro ao atualizar cadastro", e);
+                            })
+                            .finally(() => setSending(false));
+                    }
                 })
-                .catch((e) => {
-                    toast.error(e.message);
-                    console.log("Erro ao atualizar cadastro", e);
-                })
-                .finally(() => setSending(false));
+            }
+            else {
+                _api.update(data.id, processedData, false)
+                    .then(r => {
+                        toast.success("Cadastro atualizado com sucesso");
+                        props.onFinish();
+                    })
+                    .catch((e) => {
+                        toast.error(e.message);
+                        console.log("Erro ao atualizar cadastro", e);
+                    })
+                    .finally(() => setSending(false));
+            }
         }
         else {
             _api.create(processedData)
@@ -176,9 +214,7 @@ export default function ExpenseForm(props: ExpenseFormProps) {
                         .catch((e) => console.log("Erro ao excluir registro", e))
                         .finally();
             }
-        }).finally(() => {
-
-        })
+        }).finally();
     }
 
     return (

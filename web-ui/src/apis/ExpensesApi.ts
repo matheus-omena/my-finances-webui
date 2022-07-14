@@ -46,4 +46,9 @@ export class ExpensesApi {
       const r = await _ApiBase.put(`/expenses/paygroup/${id}/month/${month}`);      
       return r;
    }
+
+   async balanceByResponsible(month: number): Promise<any> {
+      const r = _ApiBase.get(`/expenses/balancebyresponsibles/month/${month}`);
+      return r;
+   }
 }

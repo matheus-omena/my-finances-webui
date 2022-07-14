@@ -63,40 +63,42 @@ export function ExpenseGroupsPreview() {
                 </button>
             </div>
             {/* Header */}
-            {
-                viewType === ViewType.BALANCE ?
-                    <>
-                        <SelectMonth setMonth={setSelectedMonth} />
-                        {
-                            selectedMonth === (actualMonth + 1) &&
-                            <div className="flex justify-end mb-4">
-                                <button
-                                    type="button"
-                                    onClick={() => processRecurringExpenses()}
-                                    className="flex text-xs gap-2 hover:font-bold transition-all"
-                                >
-                                    Processar despesas recorrentes
-                                    <Repeat size={18} weight="bold" />
-                                </button>
-                            </div>
-                        }
-                        {
-                            processingRecurringExpenses ?
-                                <div className="flex justify-center">
-                                    <Spinner />
-                                </div> :
-                                <ExpenseGroupsBalance month={selectedMonth} setExpenseGroupId={setGroupId} />       
-                        }                        
-                    </> :
-                    viewType === ViewType.EXPENSES ?
+            <div /*className="max-h-[700px] overflow-auto"*/>
+                {
+                    viewType === ViewType.BALANCE ?
                         <>
                             <SelectMonth setMonth={setSelectedMonth} />
-                            <ExpensesByGroupList groupId={groupId} month={selectedMonth} setExpenseGroupId={setGroupId} />
+                            {
+                                selectedMonth === (actualMonth + 1) &&
+                                <div className="flex justify-end mb-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => processRecurringExpenses()}
+                                        className="flex text-xs gap-2 hover:font-bold transition-all"
+                                    >
+                                        Processar despesas recorrentes
+                                        <Repeat size={18} weight="bold" />
+                                    </button>
+                                </div>
+                            }
+                            {
+                                processingRecurringExpenses ?
+                                    <div className="flex justify-center">
+                                        <Spinner />
+                                    </div> :
+                                    <ExpenseGroupsBalance month={selectedMonth} setExpenseGroupId={setGroupId} />
+                            }
                         </> :
-                        viewType === ViewType.GROUP_LIST ?
-                            <ExpenseGroupsList onReload={() => setViewType(ViewType.BALANCE)} /> :
-                            <></>
-            }
+                        viewType === ViewType.EXPENSES ?
+                            <>
+                                <SelectMonth setMonth={setSelectedMonth} />
+                                <ExpensesByGroupList groupId={groupId} month={selectedMonth} setExpenseGroupId={setGroupId} />
+                            </> :
+                            viewType === ViewType.GROUP_LIST ?
+                                <ExpenseGroupsList onReload={() => setViewType(ViewType.BALANCE)} /> :
+                                <></>
+                }
+            </div>
         </BackgroundAreaDefault>
     );
 }

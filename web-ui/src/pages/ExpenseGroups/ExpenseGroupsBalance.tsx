@@ -1,3 +1,4 @@
+import { Receipt } from "phosphor-react";
 import { useMemo, useState, useEffect } from "react";
 import { ExpenseGroupsApi } from "../../apis/ExpenseGroupsApi";
 import DefaultTransition from "../../components/General/DefaultTransition";
@@ -23,16 +24,36 @@ export default function ExpenseGroupsBalance(props: ExpenseGroupsBalanceProps) {
             .catch((e) => console.log("Erro ao carregar o balanço dos grupos de despesa", e))
             .finally(() => setLoading(false));
     }, [_api, props.month]);
-    
+
+    function sumBalance() {
+        let sum: number = 0;
+        expenseGroups?.map((item) => {
+            sum = sum + item.totalValue
+        })
+        return (
+            <div className="flex justify-center items-center gap-1 text-zinc-500">
+                <Receipt size={18} weight="bold" />
+                <span className="text-sm">Total: <strong>R${sum.toFixed(2)}</strong></span>
+            </div>
+        )
+    }
+
     return (
         <DefaultTransition className="flex flex-col gap-4">
             {
                 loading ? <Spinner /> :
-                    expenseGroups?.map((item, idx) => {
-                        return (
-                            <ExpenseGroupBalanceItem key={idx} group={item} setExpenseGroupId={props.setExpenseGroupId}/>
-                        );
-                    })
+                    expenseGroups?.length === 0 ?
+                        <span>Sem grupos cadastrados</span> :
+                        <>
+                            {
+                                expenseGroups?.map((item, idx) => {
+                                    return (
+                                        <ExpenseGroupBalanceItem key={idx} group={item} setExpenseGroupId={props.setExpenseGroupId} />
+                                    );
+                                })
+                            }
+                            {sumBalance()}
+                        </>
             }
         </DefaultTransition>
     )

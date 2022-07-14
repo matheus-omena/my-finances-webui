@@ -28,8 +28,7 @@ type SelectProps = {
     value: string;
 };
 
-export default function ExpenseForm(props: ExpenseFormProps) {
-    console.log("OBJ", props.obj);
+export default function ExpenseForm(props: ExpenseFormProps) {    
     const [sending, setSending] = useState(false);
     const _api = useMemo(() => new ExpensesApi(), []);
     const _apiResponsible = useMemo(() => new ResponsiblesApi(), []);

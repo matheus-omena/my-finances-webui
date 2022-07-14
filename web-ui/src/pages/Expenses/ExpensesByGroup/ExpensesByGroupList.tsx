@@ -1,6 +1,7 @@
 import moment from "moment";
 import { Plus, Repeat } from "phosphor-react";
 import { useMemo, useState, useEffect, useCallback } from "react";
+import { toast } from "react-toastify";
 import { ExpenseGroupsApi } from "../../../apis/ExpenseGroupsApi";
 import { ExpensesApi } from "../../../apis/ExpensesApi";
 import GoBackButton from "../../../components/Form/GoBackButton";
@@ -41,6 +42,34 @@ export default function ExpensesByGroupList(props: ExpensesByGroupProps) {
         setOperationType(OperationType.EDIT);
         setActualExpenseId(id);
         setShowModalForm(true);
+    }
+
+    const handlePayExpense = (id: string) => {
+        _api
+            .pay(id)
+            .then((r) => {
+                toast.success('Despesa paga com sucesso!');
+                loadRegisters();
+            })
+            .catch((e) => {
+                toast.error('Problemas ao pagar despesa');
+                console.log("Erro ao pagar despesas", e);
+            })
+            .finally()
+    }
+
+    const handlePayExpenseGroup = (groupId: string) => {
+        _api
+            .payGroup(groupId, props.month)
+            .then((r) => {
+                toast.success('Despesa paga com sucesso!');
+                loadRegisters();
+            })
+            .catch((e) => {
+                toast.error('Problemas ao pagar despesa');
+                console.log("Erro ao pagar despesas", e);
+            })
+            .finally()
     }
 
     const loadRegisters = useCallback(() => {
@@ -96,7 +125,7 @@ export default function ExpensesByGroupList(props: ExpensesByGroupProps) {
                             <>
                                 {
                                     expenseGroup?.type === 1 &&
-                                    <button className="bg-zinc-100 text-zinc-700 text-sm font-bold rounded-lg p-2" onClick={() => alert('2')}>
+                                    <button className="bg-zinc-100 text-zinc-700 text-sm font-bold rounded-lg p-2" onClick={() => handlePayExpenseGroup(expenseGroup.id)}>
                                         PAGAR GRUPO
                                     </button>
                                 }
@@ -107,6 +136,7 @@ export default function ExpensesByGroupList(props: ExpensesByGroupProps) {
                                                 key={item.id}
                                                 item={item}                                                
                                                 onEdit={handleEdit}
+                                                onPay={handlePayExpense}
                                                 showPaymentButton={expenseGroup?.type === 0}
                                             />
                                         )

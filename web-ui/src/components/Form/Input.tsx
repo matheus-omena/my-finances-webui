@@ -30,6 +30,7 @@ export function Input(props: InputProps) {
                 defaultValue={props.defaultValue ?? ""}
                 readOnly={props.readonly}
                 onChange={props.onChange}
+                step="any"
             />
             {props.form.formState.errors[props.name] && (
                 <small className="text-red-500 text-xs">

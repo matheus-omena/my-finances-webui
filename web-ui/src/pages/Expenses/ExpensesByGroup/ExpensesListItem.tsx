@@ -6,10 +6,11 @@ type ExpensesListItemProps = {
     item: ExpenseModel;
     showPaymentButton: boolean;
     onEdit: (id: string) => void;
+    onPay: (id: string) => void;
 }
 
 export default function ExpensesListItem(props: ExpensesListItemProps) {
-    const { item, showPaymentButton, onEdit } = props;
+    const { item, showPaymentButton, onEdit, onPay } = props;
 
     return (
         <div key={item.id} className="bg-[#181818] p-3 rounded-2xl w-full relative">
@@ -25,7 +26,7 @@ export default function ExpensesListItem(props: ExpensesListItemProps) {
                         <div className="flex gap-1 text-sm" onClick={() => onEdit(item.id)}>
                             <span>
                                 {`${item.name} ${item.totalInstallments ? `(${item.currentInstallment}/${item.totalInstallments}) ` : ' '}`}
-                                <strong>R${item.value}</strong>
+                                <strong>R${Number(item.value).toFixed(2)}</strong>
                             </span>
                         </div>
                         <ArrowSquareOut size={15} weight="bold" className="hidden group-hover:block group-hover:transition" />
@@ -40,16 +41,15 @@ export default function ExpensesListItem(props: ExpensesListItemProps) {
                     </div>
                 </div>
                 {
-                    showPaymentButton ?
-                        item.isPaid ?
-                            <div className="flex flex-col items-end">
-                                <small className="text-zinc-500">PAGO EM</small>
-                                <strong className="text-xs">{moment(item.dateItWasPaid).format("DD/MM/YYYY")}</strong>
-                            </div> :
-                            <button className="bg-zinc-100 text-zinc-700 text-sm font-bold rounded-lg p-2" onClick={() => alert('2')}>
-                                PAGAR
-                            </button> :
-                        <></>
+                    item.isPaid ?
+                        <div className="flex flex-col items-end">
+                            <small className="text-zinc-500">PAGO EM</small>
+                            <strong className="text-xs">{moment(item.dateItWasPaid).format("DD/MM/YYYY")}</strong>
+                        </div> :
+                        showPaymentButton &&
+                        <button className="bg-zinc-100 text-zinc-700 text-sm font-bold rounded-lg p-2" onClick={() => onPay(item.id)}>
+                            PAGAR
+                        </button>
                 }
             </div>
         </div>

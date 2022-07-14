@@ -36,4 +36,14 @@ export class ExpensesApi {
       const r = await _ApiBase.put(`/expenses/processNextMonthExpenses`);      
       return r;
    }
+
+   async pay(id: string): Promise<any> {      
+      const r = await _ApiBase.put(`/expenses/pay/${id}`);      
+      return r;
+   }
+
+   async payGroup(id: string, month: number): Promise<any> {      
+      const r = await _ApiBase.put(`/expenses/paygroup/${id}/month/${month}`);      
+      return r;
+   }
 }

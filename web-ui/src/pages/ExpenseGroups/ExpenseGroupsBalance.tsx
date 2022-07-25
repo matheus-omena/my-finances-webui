@@ -1,5 +1,6 @@
 import { Receipt } from "phosphor-react";
 import { useMemo, useState, useEffect } from "react";
+import Scrollbars from "react-custom-scrollbars-2";
 import { ExpenseGroupsApi } from "../../apis/ExpenseGroupsApi";
 import DefaultTransition from "../../components/General/DefaultTransition";
 import Spinner from "../../components/General/Spinner";
@@ -39,22 +40,28 @@ export default function ExpenseGroupsBalance(props: ExpenseGroupsBalanceProps) {
     }
 
     return (
-        <DefaultTransition className="flex flex-col gap-4">
-            {
-                loading ? <Spinner /> :
-                    expenseGroups?.length === 0 ?
-                        <span>Sem grupos cadastrados</span> :
-                        <>
-                            {
-                                expenseGroups?.map((item, idx) => {
-                                    return (
-                                        <ExpenseGroupBalanceItem key={idx} group={item} setExpenseGroupId={props.setExpenseGroupId} />
-                                    );
-                                })
-                            }
-                            {sumBalance()}
-                        </>
-            }
+        <DefaultTransition>
+            <Scrollbars style={{ height: 520 }}>
+                <div className="flex flex-col gap-4">
+                    {
+                        loading ? <Spinner /> :
+                            expenseGroups?.length === 0 ?
+                                <span>Sem grupos cadastrados</span> :
+                                <>
+                                    {
+                                        expenseGroups?.map((item, idx) => {
+                                            return (
+                                                <ExpenseGroupBalanceItem key={idx} group={item} setExpenseGroupId={props.setExpenseGroupId} />
+                                            );
+                                        })
+                                    }
+                                </>
+                    }
+                </div>
+            </Scrollbars>
+            <div className="mt-3">
+                {sumBalance()}
+            </div>
         </DefaultTransition>
     )
 }

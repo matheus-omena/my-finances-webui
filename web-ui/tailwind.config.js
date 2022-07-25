@@ -11,9 +11,9 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/forms'),
-    require('flowbite/plugin'),
+    require('flowbite/plugin'),    
     function ({ addComponents }) {
-      addComponents({       
+      addComponents({
         '.container': {
           maxWidth: '100%',
           '@screen sm': {
@@ -34,5 +34,5 @@ module.exports = {
         }
       })
     }
-  ],
+  ]
 }

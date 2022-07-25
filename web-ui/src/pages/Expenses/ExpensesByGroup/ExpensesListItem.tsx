@@ -16,7 +16,7 @@ export default function ExpensesListItem(props: ExpensesListItemProps) {
         <div key={item.id} className="bg-[#181818] p-3 rounded-2xl w-full relative">
             {
                 item.fixedExpenseId &&
-                <div className="text-zinc-500 absolute -right-1 -top-1">
+                <div className="text-zinc-500 absolute -right-0 -top-1">
                     <Repeat size={18} weight="bold" />
                 </div>
             }

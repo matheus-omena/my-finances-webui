@@ -6,6 +6,7 @@ export default function SignRoutes() {
         <BrowserRouter>            
             <Routes>
                 <Route path="/" element={<SignIn />} />  
+                <Route path="/register" element={<SignIn />} />
                 {/* <Route path="/register" element={<Register />} />
                 <Route path="/*" element={<NotAuthenticated />} />   */}
             </Routes>            

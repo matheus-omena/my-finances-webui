@@ -1,6 +1,7 @@
 import moment from "moment";
 import { Plus, Repeat } from "phosphor-react";
 import { useMemo, useState, useEffect, useCallback } from "react";
+import Scrollbars from "react-custom-scrollbars-2";
 import { toast } from "react-toastify";
 import { ExpenseGroupsApi } from "../../../apis/ExpenseGroupsApi";
 import { ExpensesApi } from "../../../apis/ExpensesApi";
@@ -115,39 +116,40 @@ export default function ExpensesByGroupList(props: ExpensesByGroupProps) {
                         }
                     </div>
             }
-
-            <div className="flex flex-col gap-4">
-                {
-                    loadingExpenses ?
-                        <Spinner /> :
-                        expenses?.length === 0 ?
-                            <span>Esse grupo não possui despesas</span> :
-                            <>
-                                {
-                                    expenseGroup?.type === 1 &&
-                                    <button className="bg-zinc-100 text-zinc-700 text-sm font-bold rounded-lg p-2" onClick={() => handlePayExpenseGroup(expenseGroup.id)}>
-                                        PAGAR GRUPO
-                                    </button>
-                                }
-                                {
-                                    expenses?.map((item) => {
-                                        return (
-                                            <ExpensesListItem
-                                                key={item.id}
-                                                item={item}                                                
-                                                onEdit={handleEdit}
-                                                onPay={handlePayExpense}
-                                                showPaymentButton={expenseGroup?.type === 0}
-                                            />
-                                        )
-                                    })
-                                }
-                                <div className="flex items-center gap-2 text-zinc-500">
-                                    <Repeat size={18} weight="bold" />
-                                    <span className="text-xs">Despesas recorrentes</span>
-                                </div>
-                            </>
-                }
+            <Scrollbars style={{ height: 440 }}>
+                <div className="flex flex-col gap-4">
+                    {
+                        loadingExpenses ?
+                            <Spinner /> :
+                            expenses?.length === 0 ?
+                                <span>Esse grupo não possui despesas</span> :
+                                <>
+                                    {
+                                        expenseGroup?.type === 1 &&
+                                        <button className="bg-zinc-100 text-zinc-700 text-sm font-bold rounded-lg p-2" onClick={() => handlePayExpenseGroup(expenseGroup.id)}>
+                                            PAGAR GRUPO
+                                        </button>
+                                    }
+                                    {
+                                        expenses?.map((item) => {
+                                            return (
+                                                <ExpensesListItem
+                                                    key={item.id}
+                                                    item={item}
+                                                    onEdit={handleEdit}
+                                                    onPay={handlePayExpense}
+                                                    showPaymentButton={expenseGroup?.type === 0}
+                                                />
+                                            )
+                                        })
+                                    }
+                                </>
+                    }
+                </div>
+            </Scrollbars>
+            <div className="flex items-center gap-2 text-zinc-500 mt-3">
+                <Repeat size={18} weight="bold" />
+                <span className="text-xs">Despesas recorrentes</span>
             </div>
             <ExpenseFormModal
                 id={actualExpenseId}

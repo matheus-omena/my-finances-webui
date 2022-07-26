@@ -1,12 +1,30 @@
 import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SelectMonth from "../../components/General/SelectMonth";
 import { useEffect, useMemo, useState } from "react";
 import moment from "moment";
 import { ExpensesApi } from "../../apis/ExpensesApi";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+// ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    ChartDataLabels
+);
 
 type Balance = {
     name: string;
@@ -22,21 +40,21 @@ export default function Insight2() {
     const [values, setValues] = useState<number[]>([0]);
     const [balance, setBalance] = useState<Balance[] | undefined>();
 
-    useEffect(() => {        
+    useEffect(() => {
         _api
             .balanceByResponsible(selectedMonth)
             .then((r) => setBalance(r.data))
             .catch((e) => console.log('Erro ao carregar balanço por responsáveis', e))
             .finally();
     }, [selectedMonth])
-    
+
     useEffect(() => {
         if (balance && balance?.length > 0) {
             let tempLabels: string[] = [];
             let tempColors: string[] = [];
             let tempValues: number[] = [];
             balance.map((item) => {
-                tempLabels.push(`${item.name} (${item.totalValue.toFixed(2)})`);
+                tempLabels.push(item.name);
                 tempColors.push(item.color);
                 tempValues.push(item.totalValue);
             })
@@ -51,9 +69,9 @@ export default function Insight2() {
         labels: labels,
         datasets: [
             {
-                label: '# of Votes',
                 data: values,
                 backgroundColor: colors,
+                borderRadius: 10,
                 borderWidth: 0,
             },
         ]
@@ -72,17 +90,30 @@ export default function Insight2() {
             <>
                 <SelectMonth setMonth={setSelectedMonth} />
                 <div>
-                    <Pie
+                    <Bar
                         data={data}
-                        height={230}
+                        height={170}
                         options={{
                             maintainAspectRatio: false,
                             plugins: {
                                 legend: {
-                                    display: true,
-                                    position: 'bottom'
+                                    display: false
+                                },
+                                datalabels: {
+                                    anchor: 'end',
+                                    align: 'start',
                                 }
-                            }
+                            },
+                            scales: {
+                                yAxes: {
+                                    ticks: {
+                                        display: false,
+                                    },
+                                },
+                                gridLines: {
+                                    display: false,
+                                },
+                            },
                         }}
                     />
                 </div>

@@ -41,7 +41,7 @@ export default function ExpenseGroupsBalance(props: ExpenseGroupsBalanceProps) {
 
     return (
         <DefaultTransition>
-            <Scrollbars style={{ height: 520 }}>
+            <Scrollbars style={{ height: 560 }}>
                 <div className="flex flex-col gap-4">
                     {
                         loading ? <Spinner /> :

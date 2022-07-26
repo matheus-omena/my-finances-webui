@@ -51,4 +51,9 @@ export class ExpensesApi {
       const r = _ApiBase.get(`/expenses/balancebyresponsibles/month/${month}`);
       return r;
    }
+
+   async balanceByGroup(month: number): Promise<any> {
+      const r = _ApiBase.get(`/expenses/balancebygroups/month/${month}`);
+      return r;
+   }
 }

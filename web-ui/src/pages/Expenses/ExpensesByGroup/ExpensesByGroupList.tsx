@@ -116,7 +116,7 @@ export default function ExpensesByGroupList(props: ExpensesByGroupProps) {
                         }
                     </div>
             }
-            <Scrollbars style={{ height: 440 }}>
+            <Scrollbars style={{ height: 483 }}>
                 <div className="flex flex-col gap-4">
                     {
                         loadingExpenses ?

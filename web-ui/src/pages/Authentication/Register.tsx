@@ -3,35 +3,33 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from "react-hook-form";
 import { Input } from "../../components/Form/Input";
 import { useAuth } from "../../contexts/AuthContext";
-import { LoginModel } from "../../models/Auth/LoginModel";
-import { Link } from "react-router-dom";
+import { RegisterModel } from "../../models/Auth/RegisterModel";
 
-export default function SignIn() {
+export default function Register() {
     const schema = yup.object({
-        email: yup.string().email().required("O e-mail é obrigatório"),
+        name: yup.string().required("O nome é obrigatório"),
+        email: yup.string().email().required("O e-mail é obrigatório"),        
         password: yup.string().required("A senha é obrigatória"),
     }).required();
 
-    const form = useForm<LoginModel>({
+    const form = useForm<RegisterModel>({
         resolver: yupResolver(schema)
     });
     const auth = useAuth();
 
-    const onSubmit = (data: LoginModel) => {
-        auth.Login(data);
+    const onSubmit = (data: RegisterModel) => {
+        auth.Register(data);
     };
 
     return (
         <div className="h-screen flex justify-center items-center">
             <div className="bg-[rgb(31,31,31)] p-5 rounded-2xl w-full max-w-xs">
                 <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <Input type="text" name="name" form={form} label="Nome" />
                     <Input type="email" name="email" form={form} label="E-mail" />
                     <Input type="password" name="password" form={form} label="Senha" />
 
-                    <button type="submit" className="bg-emerald-600 w-full p-2 rounded-md mt-4 font-bold">Entrar</button>
-                    <div className="text-center mt-3 text-xs">
-                        <span>Não tem uma conta? <Link to="/register"><strong>Registre-se</strong></Link></span>
-                    </div>
+                    <button type="submit" className="bg-emerald-600 w-full p-2 rounded-md mt-4 font-bold">Cadastrar</button>
                 </form>
             </div>
         </div>

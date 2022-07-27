@@ -1,4 +1,4 @@
-import { Receipt } from "phosphor-react";
+import { Receipt, Wallet } from "phosphor-react";
 import { useMemo, useState, useEffect } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { ExpenseGroupsApi } from "../../apis/ExpenseGroupsApi";
@@ -16,6 +16,24 @@ export default function ExpenseGroupsBalance(props: ExpenseGroupsBalanceProps) {
     const _api = useMemo(() => new ExpenseGroupsApi(), []);
     const [loading, setLoading] = useState(false);
     const [expenseGroups, setExpenseGroups] = useState<ExpenseGroupBalanceModel[]>();
+    const [windowSize, setWindowSize] = useState(getWindowSize());
+
+    function getWindowSize() {
+        const { innerWidth } = window;
+        return { innerWidth };
+    }
+
+    useEffect(() => {
+        function handleWindowResize() {
+            setWindowSize(getWindowSize());
+        }
+
+        window.addEventListener('resize', handleWindowResize);
+
+        return () => {
+            window.removeEventListener('resize', handleWindowResize);
+        };
+    }, []);
 
     useEffect(() => {
         setLoading(true);
@@ -39,26 +57,37 @@ export default function ExpenseGroupsBalance(props: ExpenseGroupsBalanceProps) {
         )
     }
 
+    const Balance = () => {
+        return (
+            <div className="flex flex-col gap-4">
+                {
+                    loading ? <Spinner /> :
+                        expenseGroups?.length === 0 ?
+                            <div className="flex flex-col items-center">
+                                <Wallet size={25} weight="fill" color="#71717a" />
+                                <span className="font-medium text-[#71717a] text-sm mt-2">Sem grupos cadastrados</span>
+                            </div> :
+                            <>
+                                {
+                                    expenseGroups?.map((item, idx) => {
+                                        return (
+                                            <ExpenseGroupBalanceItem key={idx} group={item} setExpenseGroupId={props.setExpenseGroupId} />
+                                        );
+                                    })
+                                }
+                            </>
+                }
+            </div>
+        )
+    }
+
     return (
         <DefaultTransition>
-            <Scrollbars style={{ height: 560 }}>
-                <div className="flex flex-col gap-4">
-                    {
-                        loading ? <Spinner /> :
-                            expenseGroups?.length === 0 ?
-                                <span>Sem grupos cadastrados</span> :
-                                <>
-                                    {
-                                        expenseGroups?.map((item, idx) => {
-                                            return (
-                                                <ExpenseGroupBalanceItem key={idx} group={item} setExpenseGroupId={props.setExpenseGroupId} />
-                                            );
-                                        })
-                                    }
-                                </>
-                    }
-                </div>
-            </Scrollbars>
+            {
+                windowSize.innerWidth > 1280 ?
+                    <Scrollbars style={{ height: 560 }}>{Balance()}</Scrollbars> :
+                    Balance()
+            }            
             <div className="mt-3">
                 {sumBalance()}
             </div>

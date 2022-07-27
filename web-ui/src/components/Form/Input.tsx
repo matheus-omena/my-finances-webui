@@ -30,6 +30,7 @@ export function Input(props: InputProps) {
                 defaultValue={props.defaultValue ?? ""}
                 readOnly={props.readonly}
                 onChange={props.onChange}
+                autoComplete={""}
                 step="any"
             />
             {props.form.formState.errors[props.name] && (

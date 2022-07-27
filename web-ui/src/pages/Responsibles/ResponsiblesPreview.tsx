@@ -49,16 +49,25 @@ export function ResponsiblesPreview() {
             {
                 loading ? <Spinner /> :
                     viewMode === ViewMode.PREVIEW ?
-                        <DefaultTransition className="grid grid-cols-2 gap-3">
+                        <DefaultTransition>
                             {
-                                responsibles?.map((item) => {
-                                    return (
-                                        <div key={item.id} className="flex flex-row items-center gap-2">
-                                            <UserCircle size={20} weight="fill" /*color={item.color} opacity={0.5}*/ color="#71717a" />
-                                            <span className="text-sm font-medium text-[#535353]">{item.name}</span>
-                                        </div>
-                                    );
-                                })
+                                responsibles && responsibles.length > 0 ?
+                                    <div className="grid grid-cols-2 gap-3">
+                                        {
+                                            responsibles?.map((item) => {
+                                                return (
+                                                    <div key={item.id} className="flex flex-row items-center gap-2">
+                                                        <UserCircle size={20} weight="fill" /*color={item.color} opacity={0.5}*/ color="#71717a" />
+                                                        <span className="text-sm font-medium text-[#535353]">{item.name}</span>
+                                                    </div>
+                                                );
+                                            })
+                                        }
+                                    </div> :
+                                    <div className="flex flex-col items-center">
+                                        <UserCircle size={25} weight="fill" color="#71717a" />
+                                        <span className="font-medium text-[#71717a] text-sm mt-2">Sem responsáveis cadastrados</span>
+                                    </div>
                             }
                         </DefaultTransition> :
                         <ResponsiblesList responsibles={responsibles} onReload={loadRegisters} />

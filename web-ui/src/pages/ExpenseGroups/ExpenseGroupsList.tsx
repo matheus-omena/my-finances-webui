@@ -1,5 +1,5 @@
 import { Modal } from "flowbite-react";
-import { Plus } from "phosphor-react";
+import { Plus, Wallet } from "phosphor-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
@@ -97,8 +97,10 @@ export default function ExpenseGroupsList(props: ExpenseGroupsListProps) {
                     <div className="flex flex-col gap-4">
                         {
                             groups?.length === 0 ?
-                                <span>Sem grupos cadastrados</span> :
-
+                                <div className="flex flex-col items-center">
+                                    <Wallet size={25} weight="fill" color="#71717a" />
+                                    <span className="font-medium text-[#71717a] text-sm mt-2">Sem grupos cadastrados</span>
+                                </div> :
                                 groups?.map((item) => {
                                     return (
                                         <ExpenseGroupsListItem

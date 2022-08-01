@@ -41,7 +41,7 @@ export default function ExpensesListItem(props: ExpensesListItemProps) {
                     </div>
                     <div className="flex items-center gap-1 text-zinc-500">
                         <FolderSimple size={12} />
-                        <small className="text-xs">Categoria: <strong>{item.category.name}</strong></small>
+                        <small className="text-xs">Categoria: <strong>{item.category?.name}</strong></small>
                     </div>
                 </div>
                 {

@@ -19,9 +19,9 @@ type Props = {
 }
 
 export default function ExpenseGroupForm(props: Props) {
-    const [sending, setSending] = useState(false);    
-    const [showTypeInfo, setShowTypeInfo] = useState(false);    
-    const _api = useMemo(() => new ExpenseGroupsApi(), []);    
+    const [sending, setSending] = useState(false);
+    const [showTypeInfo, setShowTypeInfo] = useState(false);
+    const _api = useMemo(() => new ExpenseGroupsApi(), []);
 
     const [selectedType, setSelectedType] = useState(props.obj?.type || 0);
     const [showPaymentDayInput, setShowPaymentDayInput] = useState(props.obj?.type === 1 || false);
@@ -32,10 +32,17 @@ export default function ExpenseGroupForm(props: Props) {
 
     const form = useForm<CreateUpdateExpenseGroupModel>({
         resolver: yupResolver(schema)
-    });    
+    });
+
+    function suggestColorByName(name: String) {
+        if (name.toUpperCase().includes('ITAÚ') || name.toUpperCase().includes('ITAU')) form.setValue("color", "#ff7b00");
+        if (name.toUpperCase().includes('NUBANK')) form.setValue("color", "#9333ea");
+        if (name.toUpperCase().includes('C6')) form.setValue("color", "#18181b");
+        if (name.toUpperCase().includes('PORTO')) form.setValue("color", "#0284c7");
+        if (name.toUpperCase().includes('RENNER') || name.toUpperCase().includes('BRADESCO') || name.toUpperCase().includes('SANTANDER')) form.setValue("color", "#bd0000");
+    }
 
     const type = form.watch("type");
-
     useEffect(() => {
         setSelectedType(type);
         setShowPaymentDayInput(String(type) === "1");
@@ -46,14 +53,14 @@ export default function ExpenseGroupForm(props: Props) {
             setShowPaymentDayInput(props.obj?.type === 1);
         else
             form.setValue("type", 0);
-    }, [])    
+    }, [])
 
     const onSubmit = (data: any) => {
         const processedData = {
             name: String(data.name),
             color: String(data.color),
             type: Number(form.watch("type")),
-            paymentDay: data.paymentDay !== "" ? Number(data.paymentDay) : undefined            
+            paymentDay: data.paymentDay !== "" ? Number(data.paymentDay) : undefined
         }
 
         setSending(true);
@@ -113,6 +120,7 @@ export default function ExpenseGroupForm(props: Props) {
                         label={"Nome"}
                         className="w-full sm:w-1/1 md:w-4/5 lg:w-4/5 xl:w-4/5"
                         defaultValue={props.obj?.name}
+                        onChange={(e: any) => suggestColorByName(e.target.value)}
                     />
                     <InputColor
                         name={"color"}
@@ -121,7 +129,7 @@ export default function ExpenseGroupForm(props: Props) {
                         className="w-full sm:w-1/1 md:w-1/5 lg:w-1/5 xl:w-1/5"
                         defaultValue={props.obj?.color}
                     />
-                </div>                
+                </div>
                 <div className="flex flex-wrap -mx-2">
                     <div className="pl-2 flex flex-col w-full sm:w-1/1 md:w-1/2 lg:w-1/2 xl:w-1/2">
                         <div className="flex items-center text-gray-700 mb-2">
@@ -193,7 +201,7 @@ export default function ExpenseGroupForm(props: Props) {
                                 <strong>Pagamento individual:</strong>
                             </div>
                             <span className="font-thin">As despesas serão pagas separadamente, cada uma em seu dia específico.</span>
-                            <br/>
+                            <br />
                             <small className="text-sky-400"><strong>Exemplo:</strong> Despesas do mês (contas de luz, água, etc.)</small>
                         </div>
                         <div className="text-sm">
@@ -201,7 +209,7 @@ export default function ExpenseGroupForm(props: Props) {
                                 <strong>Pagamento total:</strong>
                             </div>
                             <span className="font-thin">O grupo será pago de uma só vez em um dia específico.</span>
-                            <br/>
+                            <br />
                             <small className="text-sky-400"><strong>Exemplo:</strong> Cartões de crédito</small>
                         </div>
                     </Modal.Body>

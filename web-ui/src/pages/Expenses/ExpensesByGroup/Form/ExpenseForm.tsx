@@ -315,7 +315,7 @@ export default function ExpenseForm(props: ExpenseFormProps) {
                                 options={categoryOptions}
                                 className="w-full"
                                 label={"Categoria (opcional)"}
-                                defaultValue={props.obj?.category.id}
+                                defaultValue={props.obj?.category?.id}
                             />
                     }
                 </div>

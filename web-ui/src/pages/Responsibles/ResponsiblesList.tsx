@@ -62,15 +62,14 @@ export default function ResponsiblesList(props: ResponsiblesListProps) {
 
     return (
         <DefaultTransition className="relative overflow-x-auto sm:rounded-lg">
-            <div className="flex justify-between mb-4">
-                <GoBackButton onClick={onReload} />
+            <div className="flex justify-end mb-4">                
                 <button
                     type="button"
                     onClick={handleCreate}
-                    className="flex text-xs gap-2"
+                    className="flex items-center text-xs gap-2"
                 >
                     Adicionar responsável
-                    <Plus size={15} weight="bold" />
+                    <Plus size={12} weight="bold" />
                 </button>
             </div>
             <div className="flex flex-col gap-4">

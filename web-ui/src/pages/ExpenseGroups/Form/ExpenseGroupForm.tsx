@@ -9,10 +9,6 @@ import { Check, Info, X } from "phosphor-react";
 import { InputColor } from "../../../components/Form/InputColor/InputColor";
 import { CreateUpdateExpenseGroupModel, ExpenseGroupModel } from "../../../models/ExpenseGroupModel";
 import { ExpenseGroupsApi } from "../../../apis/ExpenseGroupsApi";
-import { Select } from "../../../components/Form/Select";
-import { CategoriesApi } from "../../../apis/CategoriesApi";
-import { CategoryModel } from "../../../models/CategoryModel";
-import Spinner from "../../../components/General/Spinner";
 import DefaultTransition from "../../../components/General/DefaultTransition";
 import { RadioButton } from "../../../components/Form/RadioButton";
 import { Modal } from "flowbite-react";
@@ -22,18 +18,10 @@ type Props = {
     onFinish: () => void;
 }
 
-type SelectProps = {
-    label: string;
-    value: string;
-};
-
 export default function ExpenseGroupForm(props: Props) {
-    const [sending, setSending] = useState(false);
-    const [isLoadingCategories, setIsLoadingCategories] = useState(false);
-    const [showTypeInfo, setShowTypeInfo] = useState(false);
-    const [categoryOptions, setCategoryOptions] = useState<SelectProps[]>();
-    const _api = useMemo(() => new ExpenseGroupsApi(), []);
-    const _apiCategory = useMemo(() => new CategoriesApi(), []);
+    const [sending, setSending] = useState(false);    
+    const [showTypeInfo, setShowTypeInfo] = useState(false);    
+    const _api = useMemo(() => new ExpenseGroupsApi(), []);    
 
     const [selectedType, setSelectedType] = useState(props.obj?.type || 0);
     const [showPaymentDayInput, setShowPaymentDayInput] = useState(props.obj?.type === 1 || false);
@@ -44,10 +32,7 @@ export default function ExpenseGroupForm(props: Props) {
 
     const form = useForm<CreateUpdateExpenseGroupModel>({
         resolver: yupResolver(schema)
-    });
-
-    if (props.obj)
-        form.setValue("categoryId", props.obj?.category.id);
+    });    
 
     const type = form.watch("type");
 
@@ -61,33 +46,14 @@ export default function ExpenseGroupForm(props: Props) {
             setShowPaymentDayInput(props.obj?.type === 1);
         else
             form.setValue("type", 0);
-    }, [])
-
-    useEffect(() => {
-        setIsLoadingCategories(true);
-        _apiCategory.find()
-            .then((r) => {
-                const option = r.data.map((item: CategoryModel) => {
-                    return {
-                        label: item.name,
-                        value: item.id,
-                    };
-                });
-                setCategoryOptions(option);
-
-                if (r.data.length > 0) form.setValue("categoryId", r.data[0].id);
-            })
-            .catch((e) => toast.info("Sem categorias disponíveis"))
-            .finally(() => setIsLoadingCategories(false));
-    }, [_apiCategory]);
+    }, [])    
 
     const onSubmit = (data: any) => {
         const processedData = {
             name: String(data.name),
             color: String(data.color),
             type: Number(form.watch("type")),
-            paymentDay: data.paymentDay !== "" ? Number(data.paymentDay) : undefined,
-            categoryId: String(data.categoryId)
+            paymentDay: data.paymentDay !== "" ? Number(data.paymentDay) : undefined            
         }
 
         setSending(true);
@@ -155,23 +121,7 @@ export default function ExpenseGroupForm(props: Props) {
                         className="w-full sm:w-1/1 md:w-1/5 lg:w-1/5 xl:w-1/5"
                         defaultValue={props.obj?.color}
                     />
-                </div>
-                <div className="flex flex-wrap -mx-2">
-                    {
-                        isLoadingCategories ?
-                            <div className="w-full flex justify-center items-center">
-                                <Spinner />
-                            </div> :
-                            <Select
-                                name="categoryId"
-                                form={form}
-                                options={categoryOptions}
-                                className="w-full"
-                                label={"Categoria"}
-                                defaultValue={props.obj?.category.id}
-                            />
-                    }
-                </div>
+                </div>                
                 <div className="flex flex-wrap -mx-2">
                     <div className="pl-2 flex flex-col w-full sm:w-1/1 md:w-1/2 lg:w-1/2 xl:w-1/2">
                         <div className="flex items-center text-gray-700 mb-2">

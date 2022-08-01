@@ -16,6 +16,8 @@ import { Select } from "../../../../components/Form/Select";
 import Spinner from "../../../../components/General/Spinner";
 import { RadioButton } from "../../../../components/Form/RadioButton";
 import Swal from "sweetalert2";
+import { CategoriesApi } from "../../../../apis/CategoriesApi";
+import { CategoryModel } from "../../../../models/CategoryModel";
 
 type ExpenseFormProps = {
     expenseGroup: ExpenseGroupModel;
@@ -30,6 +32,9 @@ type SelectProps = {
 
 export default function ExpenseForm(props: ExpenseFormProps) {    
     const [sending, setSending] = useState(false);
+    const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+    const [categoryOptions, setCategoryOptions] = useState<SelectProps[]>();
+    const _apiCategory = useMemo(() => new CategoriesApi(), []);
     const _api = useMemo(() => new ExpensesApi(), []);
     const _apiResponsible = useMemo(() => new ResponsiblesApi(), []);
     const [loadingResponsibles, setLoadingResponsibles] = useState(false);
@@ -50,6 +55,7 @@ export default function ExpenseForm(props: ExpenseFormProps) {
 
     if (props.obj) {
         form.setValue("responsibleId", props.obj.responsible.id);
+        form.setValue("categoryId", props.obj.category.id);
         form.setValue("paymentDay", props.obj.paymentDay);
     } else (props.expenseGroup)
         form.setValue("paymentDay", props.expenseGroup?.paymentDay);
@@ -61,6 +67,24 @@ export default function ExpenseForm(props: ExpenseFormProps) {
     useEffect(() => {
         setIsFixed(fixed === 'true');
     }, [fixed])
+
+    useEffect(() => {
+        setIsLoadingCategories(true);
+        _apiCategory.find()
+            .then((r) => {
+                const option = r.data.map((item: CategoryModel) => {
+                    return {
+                        label: item.name,
+                        value: item.id,
+                    };
+                });
+                setCategoryOptions(option);
+
+                if (r.data.length > 0) form.setValue("categoryId", r.data[0].id);
+            })
+            .catch((e) => toast.info("Sem categorias disponíveis"))
+            .finally(() => setIsLoadingCategories(false));
+    }, [_apiCategory]);
 
     useEffect(() => {
         setIsItInstallments(String(isInstallments) === "true");
@@ -96,6 +120,7 @@ export default function ExpenseForm(props: ExpenseFormProps) {
             value: Number(data.value),
             responsibleId: String(data.responsibleId),
             groupId: String(props.expenseGroup.id),
+            categoryId: String(data.categoryId),
             paymentDay: form.getValues("paymentDay") !== "" ? Number(form.getValues("paymentDay")) : undefined,
             totalInstallments: isFixed ? Number(data.totalInstallments) : undefined
         }
@@ -275,6 +300,22 @@ export default function ExpenseForm(props: ExpenseFormProps) {
                                 className="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 xl:w-1/2"
                                 label={"Responsável"}
                                 defaultValue={props.obj?.responsible.id}
+                            />
+                    }
+                </div>
+                <div className="flex flex-wrap -mx-2">
+                    {
+                        isLoadingCategories ?
+                            <div className="w-full flex justify-center items-center">
+                                <Spinner />
+                            </div> :
+                            <Select
+                                name="categoryId"
+                                form={form}
+                                options={categoryOptions}
+                                className="w-full"
+                                label={"Categoria (opcional)"}
+                                defaultValue={props.obj?.category.id}
                             />
                     }
                 </div>

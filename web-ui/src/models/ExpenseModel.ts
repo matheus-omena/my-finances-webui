@@ -18,6 +18,10 @@ export interface ExpenseModel {
       color: string;
       type: number;
    };
+   category: {
+      id: string;
+      name: string;
+   };
    fixedExpenseId: string;
 };
 
@@ -28,6 +32,7 @@ export interface CreateUpdateExpenseModel {
    value: number;
    responsibleId: string;
    groupId: string;
+   categoryId?: string;
    paymentDay?: number;
    totalInstallments?: number;
 };

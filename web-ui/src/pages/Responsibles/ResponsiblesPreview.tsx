@@ -1,4 +1,4 @@
-import { DotsThreeVertical, UserCircle } from "phosphor-react";
+import { ArrowLeft, ArrowRight, DotsThreeVertical, UserCircle } from "phosphor-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ResponsiblesApi } from "../../apis/ResponsiblesApi";
@@ -36,13 +36,19 @@ export function ResponsiblesPreview() {
             {/* Header */}
             <div className="flex justify-between align-top mb-4">
                 <div className="flex flex-col gap-1">
-                    <span className="text-xs text-emerald-600">Cadastros</span>
+                    <span className="text-xs text-emerald-600">Premissas</span>
                     <span className="font-medium text-white">Responsáveis</span>
                 </div>
 
-                <button type="button" className="text-[#535353] hover:text-white transition-colors" onClick={() => setViewMode(ViewMode.LIST)}>
-                    <DotsThreeVertical weight="bold" size={30} />
-                </button>
+                {
+                    viewMode === ViewMode.PREVIEW ?
+                        <button type="button" className="flex items-center gap-1 text-xs text-[#535353] hover:text-white transition-colors" onClick={() => setViewMode(ViewMode.LIST)}>
+                            Ir para o cadastro <ArrowRight weight="bold" size={12} />
+                        </button> :
+                        <button type="button" className="flex items-center gap-1 text-xs text-[#535353] hover:text-white transition-colors" onClick={() => setViewMode(ViewMode.PREVIEW)}>
+                            <ArrowLeft weight="bold" size={12} /> Voltar para visualização
+                        </button>
+                }
             </div>
             {/* Header */}
 

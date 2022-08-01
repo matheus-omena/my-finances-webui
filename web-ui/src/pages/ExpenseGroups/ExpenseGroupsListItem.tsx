@@ -1,4 +1,4 @@
-import { ArrowSquareOut, CalendarBlank, Circle, FolderSimple, Trash } from "phosphor-react";
+import { ArrowSquareOut, CalendarBlank, Circle, FolderSimple, Strategy, Tag, Trash } from "phosphor-react";
 import { ExpenseGroupModel } from "../../models/ExpenseGroupModel";
 
 type ExpenseGroupsListItemProps = {
@@ -19,17 +19,17 @@ export default function ExpenseGroupsListItem(props: ExpenseGroupsListItemProps)
                         <Circle color={item.color} size={15} weight="fill" />
                         <ArrowSquareOut size={15} weight="bold" className="hidden group-hover:block group-hover:transition" />
                     </div>
+                    <div className="flex items-center gap-1 text-zinc-500 mb-1">
+                        <Tag size={12} />
+                        <small className="text-xs">Tipo de pagamento: <strong>{item.type === 1 ? "Total" : "Individual"}</strong></small>
+                    </div>                    
                     {
                         item.type === 1 ?
                             <div className="flex items-center gap-1 text-zinc-500 mb-1">
                                 <CalendarBlank size={12} />
                                 <small className="text-xs">Dia de pagamento: <strong>{item?.paymentDay}</strong></small>
                             </div> : <></>
-                    }
-                    <div className="flex items-center gap-1 text-zinc-500">
-                        <FolderSimple size={12} />
-                        <small className="text-xs">Categoria: <strong>{item.category.name}</strong></small>
-                    </div>
+                    }                    
                 </div>
                 <button className="flex justify-end" onClick={() => onDelete(item.id)}>
                     <Trash weight="bold" size={18} />

@@ -1,5 +1,5 @@
 import moment from "moment";
-import { ArrowSquareOut, CalendarBlank, Repeat, UserCircle } from "phosphor-react";
+import { ArrowSquareOut, CalendarBlank, FolderSimple, Repeat, UserCircle } from "phosphor-react";
 import { ExpenseModel } from "../../../models/ExpenseModel";
 
 type ExpensesListItemProps = {
@@ -35,9 +35,13 @@ export default function ExpensesListItem(props: ExpensesListItemProps) {
                         <CalendarBlank size={12} />
                         <small className="text-xs">Data para pagamento: <strong>{item.paymentDay}/{item.paymentMonth}</strong></small>
                     </div>
-                    <div className="flex items-center gap-1 text-zinc-500">
+                    <div className="flex items-center gap-1 text-zinc-500 mb-1">
                         <UserCircle size={12} weight="fill" />
                         <small className="text-xs">Responsável: <strong>{item.responsible.name}</strong></small>
+                    </div>
+                    <div className="flex items-center gap-1 text-zinc-500">
+                        <FolderSimple size={12} />
+                        <small className="text-xs">Categoria: <strong>{item.category.name}</strong></small>
                     </div>
                 </div>
                 {

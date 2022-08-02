@@ -52,7 +52,7 @@ export default function ExpensesListItem(props: ExpensesListItemProps) {
                             <strong className="text-xs">{moment(item.dateItWasPaid).format("DD/MM/YYYY")}</strong>
                         </div> :
                         showPaymentButton &&
-                        <button className="bg-zinc-100 text-zinc-700 text-sm font-bold rounded-lg p-2" onClick={() => onPay(item.id)}>
+                        <button className="bg-zinc-800 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-700 text-sm font-bold rounded-lg p-2" onClick={() => onPay(item.id)}>
                             PAGAR
                         </button>
                 }

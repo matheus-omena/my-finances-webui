@@ -1,5 +1,6 @@
 import moment from "moment";
 import { ArrowSquareOut, CalendarBlank, FolderSimple, Repeat, UserCircle } from "phosphor-react";
+import BackgroundListItemDefault from "../../../components/General/BackgroundListItemDefault";
 import { ExpenseModel } from "../../../models/ExpenseModel";
 
 type ExpensesListItemProps = {
@@ -13,7 +14,7 @@ export default function ExpensesListItem(props: ExpensesListItemProps) {
     const { item, showPaymentButton, onEdit, onPay } = props;
 
     return (
-        <div key={item.id} className="bg-[#181818] p-3 rounded-2xl w-full relative">
+        <BackgroundListItemDefault key={item.id} className="relative">
             {
                 item.fixedExpenseId &&
                 <div className="text-zinc-500 absolute -right-0 -top-1">
@@ -56,6 +57,6 @@ export default function ExpensesListItem(props: ExpensesListItemProps) {
                         </button>
                 }
             </div>
-        </div>
+        </BackgroundListItemDefault>
     )
 }

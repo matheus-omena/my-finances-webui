@@ -1,6 +1,5 @@
-import { ArrowLeft, ArrowRight, DotsThreeVertical, UserCircle } from "phosphor-react";
+import { ArrowLeft, ArrowRight, UserCircle } from "phosphor-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
 import { ResponsiblesApi } from "../../apis/ResponsiblesApi";
 import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
 import DefaultTransition from "../../components/General/DefaultTransition";
@@ -37,7 +36,7 @@ export function ResponsiblesPreview() {
             <div className="flex justify-between align-top mb-4">
                 <div className="flex flex-col gap-1">
                     <span className="text-xs text-emerald-600">Premissas</span>
-                    <span className="font-medium text-white">Responsáveis</span>
+                    <span className="font-medium text-zinc-900 dark:text-white">Responsáveis</span>
                 </div>
 
                 {

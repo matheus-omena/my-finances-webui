@@ -27,6 +27,6 @@
   }
 
 body {
-    @apply bg-[#181818] text-zinc-100;
+    @apply bg-slate-100 text-zinc-900 dark:bg-[#181818] dark:text-zinc-100;
     font-family: 'Open Sans', sans-serif;
 }

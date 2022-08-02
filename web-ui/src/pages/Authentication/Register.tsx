@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "../../components/Form/Input";
 import { useAuth } from "../../contexts/AuthContext";
 import { RegisterModel } from "../../models/Auth/RegisterModel";
+import BackgroundAreaDefault from "../../components/General/BackgroundAreaDefault";
 
 export default function Register() {
     const schema = yup.object({
@@ -23,7 +24,7 @@ export default function Register() {
 
     return (
         <div className="h-screen flex justify-center items-center">
-            <div className="bg-[rgb(31,31,31)] p-5 rounded-2xl w-full max-w-xs">
+            <BackgroundAreaDefault className="w-full max-w-xs">
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <Input type="text" name="name" form={form} label="Nome" />
                     <Input type="email" name="email" form={form} label="E-mail" />
@@ -31,7 +32,7 @@ export default function Register() {
 
                     <button type="submit" className="bg-emerald-600 w-full p-2 rounded-md mt-4 font-bold">Cadastrar</button>
                 </form>
-            </div>
+            </BackgroundAreaDefault>
         </div>
     );
 }

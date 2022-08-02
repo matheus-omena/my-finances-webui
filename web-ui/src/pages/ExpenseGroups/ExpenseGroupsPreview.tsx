@@ -51,7 +51,7 @@ export function ExpenseGroupsPreview() {
             <div className="flex justify-between align-top mb-4">
                 <div className="flex flex-col gap-1">
                     <span className="text-xs text-emerald-600">Balanço</span>
-                    <span className="font-medium text-white">
+                    <span className="font-medium text-zinc-900 dark:text-white">
                         {
                             viewType === ViewType.EXPENSES ? "Despesas" : "Grupos de despesa"
                         }

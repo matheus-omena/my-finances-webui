@@ -126,7 +126,7 @@ export default function ExpensesByGroupList(props: ExpensesByGroupProps) {
                                 <>
                                     {
                                         expenseGroup?.type === 1 &&
-                                        <button className="bg-zinc-100 text-zinc-700 text-sm font-bold rounded-lg p-2" onClick={() => handlePayExpenseGroup(expenseGroup.id)}>
+                                        <button className="bg-zinc-800 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-700 text-sm font-bold rounded-lg p-2" onClick={() => handlePayExpenseGroup(expenseGroup.id)}>
                                             PAGAR GRUPO
                                         </button>
                                     }

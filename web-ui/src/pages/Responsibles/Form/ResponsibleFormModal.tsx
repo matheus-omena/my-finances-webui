@@ -22,7 +22,7 @@ export default function ResponsibleFormModal(props: ResponsibleFormModalProps) {
             onClose={onClose}
             color="#0f172a"
         >
-            <div className="bg-zinc-800 rounded-md">
+            <div className="bg-slate-100 dark:bg-zinc-800 rounded-md">
                 <Modal.Header />
                 <Modal.Body>
                     {

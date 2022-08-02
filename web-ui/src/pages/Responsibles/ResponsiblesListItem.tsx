@@ -1,4 +1,5 @@
 import { ArrowSquareOut, Circle, Trash } from "phosphor-react";
+import BackgroundListItemDefault from "../../components/General/BackgroundListItemDefault";
 import { ResponsibleModel } from "../../models/ResponsibleModel";
 
 type ResponsiblesListItemProps = {
@@ -11,7 +12,7 @@ export default function ResponsiblesListItem(props: ResponsiblesListItemProps) {
     const { item, onEdit, onDelete } = props;
 
     return (
-        <div className="bg-[#181818] p-3 rounded-2xl w-full">
+        <BackgroundListItemDefault>
             <div className="flex justify-between items-center">
                 <div className="flex flex-col">
                     <div className="group flex items-center gap-1 text-sm cursor-pointer hover:font-bold" onClick={() => onEdit(item.id)}>
@@ -24,6 +25,6 @@ export default function ResponsiblesListItem(props: ResponsiblesListItemProps) {
                     <Trash weight="bold" size={18} />
                 </button>
             </div>
-        </div>
+        </BackgroundListItemDefault>
     )
 }

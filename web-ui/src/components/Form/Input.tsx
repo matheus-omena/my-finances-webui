@@ -22,8 +22,8 @@ export function Input(props: InputProps) {
             </label>
             <input
                 {...props.form.register(props.name)}
-                className={`bg-transparent rounded-md w-full p-3 text-white text-sm leading-tight border focus:ring-0 read-only:text-gray-700
-                    ${props.form.formState.errors[props.name] ? "border-red-500 focus:border-red-500" : "border-gray-700 focus:border-gray-700"}`}
+                className={`bg-transparent rounded-md w-full p-3 text-zinc-900 dark:text-white text-sm leading-tight border focus:ring-0 read-only:text-gray-700
+                    ${props.form.formState.errors[props.name] ? "border-red-500 focus:border-red-500" : "border-slate-300 dark:border-gray-700 focus:border-slate-400 dark:focus:border-gray-700"}`}
                 type={defaultType}
                 id={props.name}
                 placeholder={props.placeholder}

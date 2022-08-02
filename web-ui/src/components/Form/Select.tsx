@@ -30,8 +30,8 @@ export function Select(props: Props) {
                      {props.label}
                   </label>
                   <select
-                     className={`bg-transparent rounded-md w-full p-3 text-white text-sm leading-tight border focus:ring-0
-                        ${props.form.formState.errors[props.name] ? "border-red-500 focus:border-red-500" : "border-gray-700 focus:border-gray-700"}`}                     
+                     className={`bg-transparent rounded-md w-full p-3 text-zinc-900 dark:text-white text-sm leading-tight border focus:ring-0
+                        ${props.form.formState.errors[props.name] ? "border-red-500 focus:border-red-500" : "border-slate-300 dark:border-gray-700 focus:border-slate-400 dark:focus:border-gray-700"}`}
                      onChange={onChange}
                      value={value}
                      onBlur={props.onBlur}
@@ -39,7 +39,7 @@ export function Select(props: Props) {
                   >                     
                      {props.options?.map((item) => {
                         return (
-                           <option value={item.value} key={item.value}>
+                           <option value={item.value} key={item.value} className="text-zinc-900">
                               {item.label}
                            </option>
                         );

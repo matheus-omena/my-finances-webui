@@ -27,10 +27,10 @@ export function RadioButton(props: Props) {
                checked={props.checked}
                defaultChecked={props.defaultChecked}               
                value={props.value}
-               className="border-none focus:ring-0 focus:outline-none"
+               className="border-none focus:ring-0 focus:outline-none bg-slate-300 dark:bg-white"
             />
             <label
-               className="text-white text-sm"
+               className="text-zinc-900 dark:text-white text-sm"
                htmlFor={radioId}
             >
                {props.label}

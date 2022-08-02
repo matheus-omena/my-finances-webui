@@ -51,7 +51,7 @@ export default function SelectMonth(props: SelectMonthProps) {
         <div className="flex items-center justify-between my-5">
             <button
                 type="button"
-                className="bg-[#181818] hover:bg-zinc-50 transition-colors hover:text-[#181818] px-4 py-2 rounded-lg disabled:bg-[rgb(31,31,31)] disabled:text-[rgb(31,31,31)]"
+                className="bg-slate-100 dark:bg-[#181818] hover:bg-zinc-50 transition-colors hover:text-[#181818] px-4 py-2 rounded-lg disabled:bg-[rgb(31,31,31)] disabled:text-[rgb(31,31,31)]"
                 disabled={monthsExpenses?.findIndex(x => x.value === selectedMonth?.value)! === 0}
                 onClick={lastMonth}
             >
@@ -60,7 +60,7 @@ export default function SelectMonth(props: SelectMonthProps) {
             <strong>{selectedMonth?.name}</strong>
             <button
                 type="button"
-                className="bg-[#181818] hover:bg-zinc-50 transition-colors hover:text-[#181818] px-4 py-2 rounded-lg disabled:bg-[rgb(31,31,31)] disabled:text-[rgb(31,31,31)]"
+                className="bg-slate-100 dark:bg-[#181818] hover:bg-zinc-50 transition-colors hover:text-[#181818] px-4 py-2 rounded-lg disabled:bg-[rgb(31,31,31)] disabled:text-[rgb(31,31,31)]"
                 disabled={monthsExpenses?.findIndex(x => x.value === selectedMonth?.value)! === 2}
                 onClick={nextMonth}
             >

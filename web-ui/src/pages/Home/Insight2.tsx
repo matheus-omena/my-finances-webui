@@ -83,7 +83,7 @@ export default function Insight2() {
             <div className="flex justify-between align-top mb-4">
                 <div className="flex flex-col gap-1">
                     <span className="text-xs text-emerald-600">Insights</span>
-                    <span className="font-medium text-white">Gastos por Responsável</span>
+                    <span className="font-medium text-zinc-900 dark:text-white">Gastos por Responsável</span>
                 </div>
             </div>
             {/* Header */}

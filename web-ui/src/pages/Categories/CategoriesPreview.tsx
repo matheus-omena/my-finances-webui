@@ -36,7 +36,7 @@ export function CategoriesPreview() {
             <div className="flex justify-between align-top mb-4">
                 <div className="flex flex-col gap-1">
                     <span className="text-xs text-emerald-600">Premissas</span>
-                    <span className="font-medium text-white">Categorias</span>
+                    <span className="font-medium text-zinc-900 dark:text-white">Categorias</span>
                 </div>
                 {
                     viewMode === ViewMode.PREVIEW ?

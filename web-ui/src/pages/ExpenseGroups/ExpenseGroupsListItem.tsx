@@ -1,4 +1,5 @@
 import { ArrowSquareOut, CalendarBlank, Circle, FolderSimple, Strategy, Tag, Trash } from "phosphor-react";
+import BackgroundListItemDefault from "../../components/General/BackgroundListItemDefault";
 import { ExpenseGroupModel } from "../../models/ExpenseGroupModel";
 
 type ExpenseGroupsListItemProps = {
@@ -11,7 +12,7 @@ export default function ExpenseGroupsListItem(props: ExpenseGroupsListItemProps)
     const { item, onEdit, onDelete } = props;
 
     return (
-        <div className="bg-[#181818] p-3 rounded-2xl w-full">
+        <BackgroundListItemDefault>
             <div className="flex justify-between items-center">
                 <div className="flex flex-col">
                     <div className="group flex items-center gap-1 text-sm mb-1 cursor-pointer hover:font-bold" onClick={() => onEdit(item.id)}>
@@ -35,6 +36,6 @@ export default function ExpenseGroupsListItem(props: ExpenseGroupsListItemProps)
                     <Trash weight="bold" size={18} />
                 </button>
             </div>
-        </div>
+        </BackgroundListItemDefault>
     )
 }

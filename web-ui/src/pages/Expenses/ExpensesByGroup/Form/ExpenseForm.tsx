@@ -55,7 +55,7 @@ export default function ExpenseForm(props: ExpenseFormProps) {
 
     if (props.obj) {
         form.setValue("responsibleId", props.obj.responsible.id);
-        form.setValue("categoryId", props.obj.category.id);
+        form.setValue("categoryId", props.obj.category?.id);
         form.setValue("paymentDay", props.obj.paymentDay);
     } else (props.expenseGroup)
         form.setValue("paymentDay", props.expenseGroup?.paymentDay);

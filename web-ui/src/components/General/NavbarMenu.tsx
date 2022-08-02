@@ -11,8 +11,10 @@ export default function NavbarMenu() {
     <nav className="py-3">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
         <div className="flex items-center gap-2 text-green-600">
-          <span className=" self-center text-xl font-semibold whitespace-nowrap tracking-widest">WHERE'S THE MONEY?</span>
-          <Receipt size={20} weight="fill" />
+          <div className="flex flex-col text-xl font-semibold whitespace-nowrap tracking-widest">
+            <span>WHERE'S THE</span>
+            <span className="flex items-center gap-3 font-thin">MONEY? <Receipt size={20} weight="fill" /></span>
+          </div>          
         </div>
         <div className="flex gap-10 z-10">
           {

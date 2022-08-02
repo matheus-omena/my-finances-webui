@@ -51,7 +51,10 @@ export default function CategoriesList(props: CategoriesListProps) {
                         toast.success("Registro excluído com sucesso");
                         onReload();
                     })
-                    .catch((e) => console.log("Erro ao excluir registro", e))
+                    .catch((e) => {
+                        toast.error("Não foi possível excluir o registro");
+                        console.log("Erro ao excluir registro", e);
+                    })
                     .finally();
             }
         })

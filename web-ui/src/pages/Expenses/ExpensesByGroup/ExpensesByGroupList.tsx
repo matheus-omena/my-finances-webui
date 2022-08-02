@@ -7,6 +7,7 @@ import { ExpenseGroupsApi } from "../../../apis/ExpenseGroupsApi";
 import { ExpensesApi } from "../../../apis/ExpensesApi";
 import GoBackButton from "../../../components/Form/GoBackButton";
 import DefaultTransition from "../../../components/General/DefaultTransition";
+import ScrollYArea from "../../../components/General/ScrollYArea";
 import Spinner from "../../../components/General/Spinner";
 import { ExpenseGroupModel } from "../../../models/ExpenseGroupModel";
 import { ExpenseModel } from "../../../models/ExpenseModel";
@@ -116,7 +117,7 @@ export default function ExpensesByGroupList(props: ExpensesByGroupProps) {
                         }
                     </div>
             }
-            <Scrollbars style={{ height: 483 }}>
+            <ScrollYArea maxWidthWindow={1280} scrollbarHeight={483}>
                 <div className="flex flex-col gap-4">
                     {
                         loadingExpenses ?
@@ -146,7 +147,7 @@ export default function ExpensesByGroupList(props: ExpensesByGroupProps) {
                                 </>
                     }
                 </div>
-            </Scrollbars>
+            </ScrollYArea>
             <div className="flex items-center gap-2 text-zinc-500 mt-3">
                 <Repeat size={18} weight="bold" />
                 <span className="text-xs">Despesas recorrentes</span>

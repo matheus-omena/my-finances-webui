@@ -13,6 +13,7 @@ import { OperationType } from "../../models/RegistersEnums";
 import EditExpenseGroup from "./Form/EditExpenseGroup";
 import ExpenseGroupsListItem from "./ExpenseGroupsListItem";
 import ExpenseGroupFormModal from "./Form/ExpenseGroupFormModal";
+import ScrollYArea from "../../components/General/ScrollYArea";
 
 type ExpenseGroupsListProps = {
     onReload: () => void;
@@ -68,10 +69,12 @@ export default function ExpenseGroupsList(props: ExpenseGroupsListProps) {
                     .delete(id)
                     .then((r) => {
                         toast.success("Registro excluído com sucesso");
-
                         loadRegisters();
                     })
-                    .catch((e) => console.log("Erro ao excluir registro", e))
+                    .catch((e) => {
+                        toast.error("Não foi possível excluir o registro");
+                        console.log("Erro ao excluir registro", e);
+                    })
                     .finally(() => setLoading(false));
             }
         })
@@ -94,25 +97,27 @@ export default function ExpenseGroupsList(props: ExpenseGroupsListProps) {
                         </button>
                     </div>
 
-                    <div className="flex flex-col gap-4">
-                        {
-                            groups?.length === 0 ?
-                                <div className="flex flex-col items-center">
-                                    <Wallet size={25} weight="fill" color="#71717a" />
-                                    <span className="font-medium text-[#71717a] text-sm mt-2">Sem grupos cadastrados</span>
-                                </div> :
-                                groups?.map((item) => {
-                                    return (
-                                        <ExpenseGroupsListItem
-                                            key={item.id}
-                                            item={item}
-                                            onEdit={handleEdit}
-                                            onDelete={onDelete}
-                                        />
-                                    );
-                                })
-                        }
-                    </div>
+                    <ScrollYArea maxWidthWindow={1280} scrollbarHeight={613}>
+                        <div className="flex flex-col gap-4">
+                            {
+                                groups?.length === 0 ?
+                                    <div className="flex flex-col items-center">
+                                        <Wallet size={25} weight="fill" color="#71717a" />
+                                        <span className="font-medium text-[#71717a] text-sm mt-2">Sem grupos cadastrados</span>
+                                    </div> :
+                                    groups?.map((item) => {
+                                        return (
+                                            <ExpenseGroupsListItem
+                                                key={item.id}
+                                                item={item}
+                                                onEdit={handleEdit}
+                                                onDelete={onDelete}
+                                            />
+                                        );
+                                    })
+                            }
+                        </div>
+                    </ScrollYArea>
                     <ExpenseGroupFormModal
                         id={actualGroupId}
                         operationType={operationType}

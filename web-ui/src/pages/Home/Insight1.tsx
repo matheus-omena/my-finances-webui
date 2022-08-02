@@ -34,7 +34,7 @@ export default function Insight1() {
             {/* Header */}
             <>
                 <SelectMonth setMonth={setSelectedMonth} />
-                <div className="flex flex-wrap -mx-2">
+                <div className="flex flex-wrap justify-center -mx-2">
                     {
                         balance?.map((item, idx) => {
                             return (

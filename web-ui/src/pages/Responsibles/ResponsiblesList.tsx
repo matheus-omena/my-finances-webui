@@ -51,10 +51,12 @@ export default function ResponsiblesList(props: ResponsiblesListProps) {
                     .delete(id)
                     .then((r) => {
                         toast.success("Registro excluído com sucesso");
-
                         onReload();
                     })
-                    .catch((e) => console.log("Erro ao excluir registro", e))
+                    .catch((e) => {
+                        toast.error("Não foi possível excluir o registro");
+                        console.log("Erro ao excluir registro", e);
+                    })
                     .finally();
             }
         })

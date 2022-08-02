@@ -1,8 +1,8 @@
 import { Receipt, Wallet } from "phosphor-react";
 import { useMemo, useState, useEffect } from "react";
-import Scrollbars from "react-custom-scrollbars-2";
 import { ExpenseGroupsApi } from "../../apis/ExpenseGroupsApi";
 import DefaultTransition from "../../components/General/DefaultTransition";
+import ScrollYArea from "../../components/General/ScrollYArea";
 import Spinner from "../../components/General/Spinner";
 import { ExpenseGroupBalanceModel } from "../../models/ExpenseGroupModel";
 import ExpenseGroupBalanceItem from "./ExpenseGroupBalanceItem";
@@ -16,24 +16,6 @@ export default function ExpenseGroupsBalance(props: ExpenseGroupsBalanceProps) {
     const _api = useMemo(() => new ExpenseGroupsApi(), []);
     const [loading, setLoading] = useState(false);
     const [expenseGroups, setExpenseGroups] = useState<ExpenseGroupBalanceModel[]>();
-    const [windowSize, setWindowSize] = useState(getWindowSize());
-
-    function getWindowSize() {
-        const { innerWidth } = window;
-        return { innerWidth };
-    }
-
-    useEffect(() => {
-        function handleWindowResize() {
-            setWindowSize(getWindowSize());
-        }
-
-        window.addEventListener('resize', handleWindowResize);
-
-        return () => {
-            window.removeEventListener('resize', handleWindowResize);
-        };
-    }, []);
 
     useEffect(() => {
         setLoading(true);
@@ -83,11 +65,9 @@ export default function ExpenseGroupsBalance(props: ExpenseGroupsBalanceProps) {
 
     return (
         <DefaultTransition>
-            {
-                windowSize.innerWidth > 1280 ?
-                    <Scrollbars style={{ height: 560 }}>{Balance()}</Scrollbars> :
-                    Balance()
-            }            
+            <ScrollYArea maxWidthWindow={1280} scrollbarHeight={560}>
+                {Balance()}
+            </ScrollYArea>
             <div className="mt-3">
                 {sumBalance()}
             </div>

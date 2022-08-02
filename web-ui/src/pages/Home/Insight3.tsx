@@ -5,6 +5,7 @@ import SelectMonth from "../../components/General/SelectMonth";
 import { useEffect, useMemo, useState } from "react";
 import moment from "moment";
 import { ExpensesApi } from "../../apis/ExpensesApi";
+import { useTheme } from "../../contexts/ThemeContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -15,6 +16,7 @@ type Balance = {
 }
 
 export default function Insight3() {
+    const { theme } = useTheme();
     const [selectedMonth, setSelectedMonth] = useState<number>(Number(moment().format("MM")));
     const _api = useMemo(() => new ExpensesApi(), []);
     const [labels, setLabels] = useState<string[]>(['']);
@@ -55,7 +57,7 @@ export default function Insight3() {
                 backgroundColor: colors,
                 borderWidth: 0,
             },
-        ]
+        ]        
     };
 
     return (
@@ -79,10 +81,16 @@ export default function Insight3() {
                             plugins: {
                                 legend: {
                                     display: true,
-                                    position: 'right',                                                                      
+                                    position: 'right',   
+                                    labels: {
+                                        usePointStyle: true,
+                                        pointStyle: 'circle',
+                                        boxWidth: 10,
+                                        color: theme === "light" ? "#18181b" : "#f1f5f9",
+                                    }                                                                                                                                       
                                 },
                                 datalabels: {
-                                    display: false,                                    
+                                    display: false                                    
                                 }
                             }
                         }}

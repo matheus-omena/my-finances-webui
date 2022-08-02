@@ -12,7 +12,7 @@ export const useTheme = () => {
 };
 
 export default function ThemeContextProvider(props: any) {
-    const [theme, setTheme] = useState(localStorage.getItem("@MyFinances:theme") !== "dark" ? "light" : "dark");
+    const [theme, setTheme] = useState(localStorage.getItem("@MyFinances:theme") || "dark");
 
     useEffect(() => {
         const root = window.document.documentElement;

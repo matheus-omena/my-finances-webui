@@ -27,7 +27,7 @@ export default function ExpensesListItem(props: ExpensesListItemProps) {
                         <div className="flex gap-1 text-sm" onClick={() => onEdit(item.id)}>
                             <span>
                                 {`${item.name} ${item.totalInstallments ? `(${item.currentInstallment}/${item.totalInstallments}) ` : ' '}`}
-                                <strong>R${Number(item.value).toFixed(2)}</strong>
+                                <strong>{Number(item.value).toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}</strong>
                             </span>
                         </div>
                         <ArrowSquareOut size={15} weight="bold" className="hidden group-hover:block group-hover:transition" />

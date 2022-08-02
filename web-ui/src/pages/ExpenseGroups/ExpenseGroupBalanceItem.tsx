@@ -22,8 +22,8 @@ export default function ExpenseGroupBalanceItem(data: ExpenseGroupData) {
                     </span>
                     <div className="flex gap-3 items-center">
                         <div className="flex flex-col">
-                            <span className="font-bold text-right">R${totalValue.toFixed(2)}</span>
-                            <small className="text-xs text-right">Pago: R${totalPaid.toFixed(2)}</small>
+                            <span className="font-bold text-right">{totalValue.toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}</span>
+                            <small className="text-xs text-right">Pago: {totalPaid.toLocaleString("pt-BR", {style:"currency", currency:"BRL"})}</small>
                         </div>
                         <div className="w-12 h-12">
                             <CircularProgress

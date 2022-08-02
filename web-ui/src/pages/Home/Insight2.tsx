@@ -15,7 +15,6 @@ import { useEffect, useMemo, useState } from "react";
 import moment from "moment";
 import { ExpensesApi } from "../../apis/ExpensesApi";
 
-// ChartJS.register(ArcElement, Tooltip, Legend);
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -102,6 +101,9 @@ export default function Insight2() {
                                 datalabels: {
                                     anchor: 'end',
                                     align: 'start',
+                                    color: '#ffffff',
+                                    backgroundColor: 'rgba(255,255,255,0.3)',
+                                    borderRadius: 5
                                 }
                             },
                             scales: {

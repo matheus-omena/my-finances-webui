@@ -9,7 +9,13 @@ type MonthsProps = {
 }
 
 type SelectMonthProps = {
-   setMonth: (month: number) => void;
+    setMonth: (month: number) => void;
+}
+
+type ArrowButtonProps = {
+    onClick: () => void;
+    disabled: boolean;
+    children: any;
 }
 
 export default function SelectMonth(props: SelectMonthProps) {
@@ -36,7 +42,7 @@ export default function SelectMonth(props: SelectMonthProps) {
         if (idx > 0) {
             setSelectedMonth(monthsExpenses![idx - 1]);
             setMonth(monthsExpenses![idx - 1].value);
-        }            
+        }
     }
 
     const nextMonth = () => {
@@ -44,28 +50,35 @@ export default function SelectMonth(props: SelectMonthProps) {
         if (idx <= 2) {
             setSelectedMonth(monthsExpenses![idx + 1]);
             setMonth(monthsExpenses![idx + 1].value);
-        }            
+        }
+    }
+
+    const ArrowButton = ({ onClick, disabled, children }: ArrowButtonProps) => {
+        return (
+            <button
+                type="button"
+                className="bg-slate-100 dark:bg-[#181818] hover:bg-zinc-100 transition-colors hover:text-[#181818] px-4 py-2 rounded-lg disabled:bg-white dark:disabled:bg-[rgb(31,31,31)] disabled:text-white dark:disabled:text-[rgb(31,31,31)]"
+                disabled={disabled}
+                onClick={onClick}
+            >
+                {children}
+            </button>
+        )
     }
 
     return (
         <div className="flex items-center justify-between my-5">
-            <button
-                type="button"
-                className="bg-slate-100 dark:bg-[#181818] hover:bg-zinc-50 transition-colors hover:text-[#181818] px-4 py-2 rounded-lg disabled:bg-[rgb(31,31,31)] disabled:text-[rgb(31,31,31)]"
-                disabled={monthsExpenses?.findIndex(x => x.value === selectedMonth?.value)! === 0}
+            <ArrowButton 
                 onClick={lastMonth}
-            >
-                <CaretLeft size={15} weight="bold" />
-            </button>
+                disabled={monthsExpenses?.findIndex(x => x.value === selectedMonth?.value)! === 0}
+                children={<CaretLeft size={15} weight="bold" />}
+            />
             <strong>{selectedMonth?.name}</strong>
-            <button
-                type="button"
-                className="bg-slate-100 dark:bg-[#181818] hover:bg-zinc-50 transition-colors hover:text-[#181818] px-4 py-2 rounded-lg disabled:bg-[rgb(31,31,31)] disabled:text-[rgb(31,31,31)]"
-                disabled={monthsExpenses?.findIndex(x => x.value === selectedMonth?.value)! === 2}
+            <ArrowButton 
                 onClick={nextMonth}
-            >
-                <CaretRight size={15} weight="bold" />
-            </button>
+                disabled={monthsExpenses?.findIndex(x => x.value === selectedMonth?.value)! === 2}                
+                children={<CaretRight size={15} weight="bold" />}
+            />
         </div>
     );
 }

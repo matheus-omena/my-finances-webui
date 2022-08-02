@@ -1,5 +1,5 @@
-import { Dropdown, ToggleSwitch } from "flowbite-react";
-import { Gear, Receipt } from "phosphor-react";
+import { Dropdown } from "flowbite-react";
+import { Gear, Moon, Receipt, SunDim } from "phosphor-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
 
@@ -14,7 +14,16 @@ export default function NavbarMenu() {
           <span className=" self-center text-xl font-semibold whitespace-nowrap tracking-widest">WHERE'S THE MONEY?</span>
           <Receipt size={20} weight="fill" />
         </div>
-        <div className="flex z-10">
+        <div className="flex gap-10 z-10">
+          {
+            theme === "light" ?
+              <button className="text-[#52525b] hover:text-blue-500 transition-colors" onClick={() => setTheme("dark")}>
+                <Moon size={25} weight="bold" />
+              </button> :
+              <button className="text-[#52525b] hover:text-yellow-400 transition-colors" onClick={() => setTheme("light")}>
+                <SunDim size={25} weight="bold" />
+              </button>
+          }
           <Dropdown
             arrowIcon={false}
             inline={true}
@@ -24,30 +33,10 @@ export default function NavbarMenu() {
               <span className="block text-sm">
                 {auth.user?.name}
               </span>
-              <span className="block truncate text-sm font-medium">
+              <span className="block truncate text-xs font-thin">
                 {auth.user?.email}
               </span>
             </Dropdown.Header>
-            <Dropdown.Item>
-              <div className="w-full flex justify-between items-center">
-                
-                <ToggleSwitch
-                  checked={theme === "dark"}
-                  label=""
-                  onChange={(e) => setTheme(e === true ? "dark" : "light")}
-                />
-                <span>Modo escuro</span>
-                {/* {
-                  theme === "light" ?
-                    <button className="hover:text-slate-400 transition-colors" onClick={() => setTheme("dark")}>
-                      <SunDim size={25} />
-                    </button> :
-                    <button className="hover:text-slate-400 transition-colors" onClick={() => setTheme("light")}>
-                      <Moon size={25} />
-                    </button>
-                } */}
-              </div>
-            </Dropdown.Item>
             {/* <Dropdown.Item>
               Alterar senha
             </Dropdown.Item> 
